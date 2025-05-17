@@ -3,7 +3,7 @@ require "rails_helper"
 
 describe "Migration sanity" do
   it "Migrations have a sane timestamp" do
-    Dir.open(File.join(Rails.root, "db", "migrate")) do |dir|
+    Dir.open(Rails.root.join("db/migrate").to_s) do |dir|
       # should be a hash but we don't have in Ruby 2.3
       migration_names = []
 

@@ -29,7 +29,7 @@ module ExportRecurringDonations
       user_id: {required: true, is_integer: true},
       export_id: {required: true, is_integer: true})
 
-    params = JSON.parse(params, object_class: HashWithIndifferentAccess)
+    params = JSON.parse(params, object_class: ActiveSupport::HashWithIndifferentAccess)
     # verify that it's also a hash since we can't do that at once
     ParamValidation.new({params: params},
       params: {is_hash: true})

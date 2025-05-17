@@ -52,7 +52,7 @@ describe QueryPayments do
 
       it "works with a date provided" do
         result = QueryPayments.ids_for_payout(nonprofit.id, {
-          date: Time.current - 1.day + 1.hour # the payments are all at 1AM
+          date: 1.day.ago + 1.hour # the payments are all at 1AM
         })
         expect(result).to match_array(expected_payments.map { |i| i.id })
       end

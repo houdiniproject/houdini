@@ -2,7 +2,7 @@
 
 exports[`LegacyStripeFeeStructure constructor returns the expected structure when passing both 1`] = `
 LegacyStripeFeeStructure {
-  "props": Object {
+  "props": {
     "flatFee": 30,
     "percentageFee": 0.02,
   },
@@ -11,7 +11,7 @@ LegacyStripeFeeStructure {
 
 exports[`LegacyStripeFeeStructure constructor returns the expected structure when passing flatFee 1`] = `
 LegacyStripeFeeStructure {
-  "props": Object {
+  "props": {
     "flatFee": 30,
     "percentageFee": 0,
   },
@@ -20,7 +20,7 @@ LegacyStripeFeeStructure {
 
 exports[`LegacyStripeFeeStructure constructor returns the expected structure when passing percentFee 1`] = `
 LegacyStripeFeeStructure {
-  "props": Object {
+  "props": {
     "flatFee": 0,
     "percentageFee": 0.02,
   },

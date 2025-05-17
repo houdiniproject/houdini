@@ -8,7 +8,7 @@ class Transaction < ApplicationRecord
 
   setup_houid :trx, :houid
 
-  belongs_to :supporter, required: true
+  belongs_to :supporter, optional: false
   has_one :nonprofit, through: :supporter
 
   has_many :transaction_assignments, -> { extending ModelExtensions::TransactionAssignment::RefundExtension }, inverse_of: "trx"

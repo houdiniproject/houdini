@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`customFields with index sets the the field correctly 1`] = `
-Object {
-  "children": Array [
-    Object {
+{
+  "children": [
+    {
       "children": undefined,
-      "data": Object {
-        "props": Object {
+      "data": {
+        "props": {
           "name": "customFields[Name of Field]",
           "placeholder": "Field Label",
         },
@@ -16,10 +16,10 @@ Object {
       "sel": "input",
       "text": undefined,
     },
-    Object {
+    {
       "children": undefined,
-      "data": Object {
-        "props": Object {
+      "data": {
+        "props": {
           "name": "customFields[Another Field Name]",
           "placeholder": "Label2",
         },
@@ -30,7 +30,7 @@ Object {
       "text": undefined,
     },
   ],
-  "data": Object {},
+  "data": {},
   "elm": undefined,
   "key": undefined,
   "sel": "div",

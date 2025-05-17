@@ -6,7 +6,7 @@ class PeriodicReport < ApplicationRecord
   # users,
   # nonprofit_id
 
-  belongs_to :nonprofit, required: true
+  belongs_to :nonprofit, optional: false
   has_and_belongs_to_many :users
   belongs_to :nonprofit_s3_key
 

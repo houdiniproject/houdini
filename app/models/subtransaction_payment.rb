@@ -14,7 +14,7 @@ class SubtransactionPayment < ApplicationRecord
   has_one :trx, class_name: "Transaction", foreign_key: "transaction_id", through: :subtransaction
   has_one :supporter, through: :subtransaction
   has_one :nonprofit, through: :subtransaction
-  belongs_to :legacy_payment, class_name: "Payment", required: true
+  belongs_to :legacy_payment, class_name: "Payment", optional: false
 
   delegated_type :paymentable, types: %w[
     OfflineTransactionCharge
@@ -28,5 +28,5 @@ class SubtransactionPayment < ApplicationRecord
 
   delegate :gross_amount, :fee_total, :net_amount, :publish_created, :publish_updated, :publish_deleted, :to_houid, to: :paymentable
 
-  validates_presence_of :paymentable
+  validates :paymentable, presence: true
 end

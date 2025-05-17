@@ -22,7 +22,7 @@ module QueryPayments
   #
   # In effect, we're getting the list of payments which haven't been paid out in a some fashion. This is not a great design but it works mostly.
   def self.ids_for_payout(npo_id, options = {})
-    end_of_day = (Time.current + 1.day).beginning_of_day
+    end_of_day = 1.day.from_now.beginning_of_day
     Qx.select("DISTINCT payments.id")
       .from(:payments)
       .left_join(:charges, "charges.payment_id=payments.id")
@@ -431,7 +431,7 @@ module QueryPayments
     if id
       pay = pay.where("id = ?", id)
     end
-    pay = pay.where("date IS NOT NULL").order("id ASC")
+    pay = pay.where.not(date: nil).order("id ASC")
     pay.all.each { |p|
       next if !p.offsite_payment.nil?
       lowest_charge_for_payment = Charge.where("payment_id = ?", p.id).order("created_at ASC").limit(1).first

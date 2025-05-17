@@ -7,7 +7,7 @@ exports[`Spinner has custom color  1`] = `
 >
   <VelocityComponent
     animation={
-      Object {
+      {
         "rotateZ": 360,
       }
     }
@@ -21,7 +21,7 @@ exports[`Spinner has custom color  1`] = `
     <div
       role="status"
       style={
-        Object {
+        {
           "border": "3px solid #ffffff",
           "borderRadius": "50%",
           "borderRightColor": "transparent",
@@ -35,7 +35,7 @@ exports[`Spinner has custom color  1`] = `
       <ScreenReaderOnlyText>
         <span
           style={
-            Object {
+            {
               "border": 0,
               "clip": "rect(0,0,0,0)",
               "height": "1px",
@@ -62,7 +62,7 @@ exports[`Spinner is large 1`] = `
 >
   <VelocityComponent
     animation={
-      Object {
+      {
         "rotateZ": 360,
       }
     }
@@ -76,7 +76,7 @@ exports[`Spinner is large 1`] = `
     <div
       role="status"
       style={
-        Object {
+        {
           "border": "3px solid currentcolor",
           "borderRadius": "50%",
           "borderRightColor": "transparent",
@@ -90,7 +90,7 @@ exports[`Spinner is large 1`] = `
       <ScreenReaderOnlyText>
         <span
           style={
-            Object {
+            {
               "border": 0,
               "clip": "rect(0,0,0,0)",
               "height": "1px",
@@ -117,7 +117,7 @@ exports[`Spinner is normal 1`] = `
 >
   <VelocityComponent
     animation={
-      Object {
+      {
         "rotateZ": 360,
       }
     }
@@ -131,7 +131,7 @@ exports[`Spinner is normal 1`] = `
     <div
       role="status"
       style={
-        Object {
+        {
           "border": "3px solid currentcolor",
           "borderRadius": "50%",
           "borderRightColor": "transparent",
@@ -145,7 +145,7 @@ exports[`Spinner is normal 1`] = `
       <ScreenReaderOnlyText>
         <span
           style={
-            Object {
+            {
               "border": 0,
               "clip": "rect(0,0,0,0)",
               "height": "1px",
@@ -172,7 +172,7 @@ exports[`Spinner is small 1`] = `
 >
   <VelocityComponent
     animation={
-      Object {
+      {
         "rotateZ": 360,
       }
     }
@@ -186,7 +186,7 @@ exports[`Spinner is small 1`] = `
     <div
       role="status"
       style={
-        Object {
+        {
           "border": "3px solid currentcolor",
           "borderRadius": "50%",
           "borderRightColor": "transparent",
@@ -200,7 +200,7 @@ exports[`Spinner is small 1`] = `
       <ScreenReaderOnlyText>
         <span
           style={
-            Object {
+            {
               "border": 0,
               "clip": "rect(0,0,0,0)",
               "height": "1px",

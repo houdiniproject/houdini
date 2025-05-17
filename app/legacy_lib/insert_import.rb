@@ -105,7 +105,7 @@ module InsertImport
       # Create donation record
       if table_data["donation"] && table_data["donation"]["amount"] # must have amount. donation.date without donation.amount is no good
         amount_string = table_data["donation"]["amount"].gsub(/[^\d\.]/, "")
-        table_data["donation"]["amount"] = (BigDecimal(amount_string.blank? ? 0 : amount_string) * 100).to_i
+        table_data["donation"]["amount"] = (BigDecimal(amount_string.presence || 0) * 100).to_i
         table_data["donation"]["supporter_id"] = table_data["supporter"]["id"]
         table_data["donation"]["nonprofit_id"] = data[:nonprofit_id]
         table_data["donation"]["date"] = Chronic.parse(table_data["donation"]["date"]) if table_data["donation"]["date"].present?

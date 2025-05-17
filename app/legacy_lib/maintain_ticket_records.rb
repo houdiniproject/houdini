@@ -4,7 +4,7 @@ module MaintainTicketRecords
   # if the event was in the last two weeks
   def self.tokenize_cards_already_on_tickets
     Qx.transaction do
-      event_ids = Event.where("end_datetime >= ?", Time.current - 2.weeks).pluck(:id)
+      event_ids = Event.where("end_datetime >= ?", 2.weeks.ago).pluck(:id)
 
       t = Ticket.includes(:card).includes(:event).where("card_id IS NOT NULL and event_id IN (?)", event_ids)
       t.each { |i|

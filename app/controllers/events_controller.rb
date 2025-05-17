@@ -15,7 +15,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = params[:event_slug] ? Event.find_by_slug!(params[:event_slug]) : Event.find_by_id!(params[:id])
+    @event = params[:event_slug] ? Event.find_by_slug!(params[:event_slug]) : Event.find(params[:id])
     @event_background_image = FetchBackgroundImage.with_model(@event)
     @nonprofit = @event.nonprofit
     if @event.deleted && !current_event_editor?

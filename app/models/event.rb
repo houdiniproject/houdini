@@ -71,7 +71,7 @@ class Event < ApplicationRecord
   scope :published, -> { where(published: true) }
   scope :upcoming, -> { where("start_datetime >= ?", Date.today).published }
   scope :past, -> { where("end_datetime < ?", Date.today).published }
-  scope :unpublished, -> { where("published != ?", true) }
+  scope :unpublished, -> { where.not(published: true) }
 
   validates :slug, uniqueness: {scope: :nonprofit_id, message: "You already have a campaign with that name."}
 

@@ -99,6 +99,7 @@ const init = params$ => {
   const dedicationParams$ = flyd.zip([state.infoStep.savedDedicatee$, state.infoStep.savedSupp$, state.paymentStep.paid$])
   const savedDedication$ = flyd.flatMap(R.apply(postDedication), dedicationParams$)
 
+  // handle when the wizard is marked completed, i.e. the finish button hasn't been clicked but charge is completed
   flyd.lift(
     (_completedEv, params) => {
       if (params['skipFinish']) {

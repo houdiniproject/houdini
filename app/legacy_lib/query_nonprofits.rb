@@ -110,17 +110,4 @@ module QueryNonprofits
       i
     end
   end
-
-  def self.find_nonprofits_with_no_payments
-    Nonprofit.includes(:payments).where("payments.nonprofit_id IS NULL")
-  end
-
-  def self.find_nonprofits_with_payments_in_last_n_days(days)
-    Payment.where("date >= ?", Time.now - days.days).pluck("nonprofit_id").to_a.uniq
-  end
-
-  def self.find_nonprofits_with_payments_but_not_in_last_n_days(days)
-    recent_nonprofits = find_nonprofits_with_payments_in_last_n_days(days)
-    Payment.where("date < ?", Time.now - days.days).pluck("nonprofit_id").to_a.uniq.select { |i| !recent_nonprofits.include?(i) }
-  end
 end

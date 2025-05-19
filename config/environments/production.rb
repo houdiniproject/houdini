@@ -80,8 +80,7 @@ Rails.application.configure do
 
   cdn_url = URI(Settings.cdn.url)
   cdn_url = cdn_url.to_s
-  config.action_controller.asset_host = cdn_url
-  config.action_mailer.asset_host = cdn_url
+  config.asset_host = cdn_url
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   creds = Aws::Credentials.new(ENV["AWS_ACCESS_KEY"], ENV["AWS_SECRET_ACCESS_KEY"])

@@ -81,6 +81,6 @@ module CalculateSuggestedAmounts
   end
 
   def self.get_bracket_by_amount(amount)
-    BRACKETS.select { |i| i[:range].cover?(amount) }.first
+    BRACKETS.find { |i| i[:range].cover?(amount) }
   end
 end

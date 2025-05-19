@@ -16,6 +16,7 @@ const request = require('../../common/request')
 
 const activities = require('../../components/public-activities')
 
+const { parseDonateParams } = require('../../nonprofits/donate/wizard/utils');
 
 // Viewscript legacy side effect stuff
 require('../../components/branded_fundraising')
@@ -44,7 +45,6 @@ function init() {
     timeRemaining$: timeRemaining(app.end_date_time, app.timezone),
   }
 
-  console.error(window.navigator.userAgent)
   state.giftOptions = giftOptions.init(flyd.stream(), state)
 
   const metricsResp$ = flyd.map(r => r.body, request({
@@ -87,16 +87,15 @@ function init() {
     flyd.map(() => 'chooseGiftOptionsModal', clickContributeGifts$),
     flyd.map(() => 'donationModal', startWiz$)
   );
+  const params = parseDonateParams(document.location, app);
+  params.campaign_id = app.campaign.id
 
   // Stream of which gift option you have selected
   const giftOption$ = flyd.map(setGiftParams, state.giftOptions.clickOption$)
   const donateParam$ = flyd.scanMerge([
     [state.metrics.clickContribute$, resetDonateForm]
   , [giftOption$, setGiftOption]
-  ], {campaign_id: app.campaign.id, 
-    manual_cover_fees: app && app.manual_cover_fees,
-    hide_cover_fees_option: app && app.hide_cover_fees_option
-  } )
+  ], params )
 
   state.donateWiz = donateWiz.init(donateParam$)
 

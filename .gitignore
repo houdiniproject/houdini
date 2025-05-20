@@ -73,8 +73,8 @@ config/environments/*.local.yml
 
 # Data files you wouldn't want to push
 *.csv
-
-app/javascript/routes.js
-app/javascript/routes.d.ts
+# Ignore automatically generated js-routes files.
+/app/javascript/routes.js
+/app/javascript/routes.d.ts
 
 vendor

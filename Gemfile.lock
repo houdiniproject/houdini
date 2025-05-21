@@ -153,7 +153,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    css_parser (1.9.0)
+    css_parser (1.21.1)
       addressable
     dalli (3.2.3)
     dante (0.2.0)
@@ -237,8 +237,8 @@ GEM
       activerecord (>= 7.0)
       railties (>= 7.0)
     geocoder (1.6.1)
-    globalid (1.1.0)
-      activesupport (>= 5.0)
+    globalid (1.2.1)
+      activesupport (>= 6.1)
     has_scope (0.7.2)
       actionpack (>= 4.1)
       activesupport (>= 4.1)
@@ -301,8 +301,11 @@ GEM
     loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    mail (2.7.1)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
     marcel (1.0.4)
     method_source (1.1.0)
     mime-types (3.4.1)
@@ -323,7 +326,7 @@ GEM
       andand
       kdtree
       require_all
-    net-imap (0.4.20)
+    net-imap (0.5.8)
       date
       net-protocol
     net-pop (0.1.2)
@@ -350,12 +353,13 @@ GEM
       racc
     pg (1.5.9)
     power_assert (1.1.1)
-    premailer (1.12.1)
+    premailer (1.27.0)
       addressable
-      css_parser (>= 1.6.0)
+      css_parser (>= 1.19.0)
       htmlentities (>= 4.0.0)
-    premailer-rails (1.11.1)
+    premailer-rails (1.12.0)
       actionmailer (>= 3)
+      net-smtp
       premailer (~> 1.7, >= 1.7.9)
     prism (1.4.0)
     protected_attributes_continued (1.9.0)
@@ -366,7 +370,7 @@ GEM
     pry-byebug (3.11.0)
       byebug (~> 12.0)
       pry (>= 0.13, < 0.16)
-    public_suffix (6.0.1)
+    public_suffix (6.0.2)
     puma (5.6.9)
       nio4r (~> 2.0)
     rabl (0.17.0)
@@ -675,7 +679,7 @@ DEPENDENCIES
   yard
 
 RUBY VERSION
-   ruby 3.2.8p263
+   ruby 3.3.8p144
 
 BUNDLED WITH
    2.4.20

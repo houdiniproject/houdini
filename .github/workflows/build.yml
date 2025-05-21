@@ -21,7 +21,7 @@ jobs:
         matrix:
           os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-latest] # macos-13 is the last Intel mac version
           node: [16]
-          ruby: ['3.2.8']
+          ruby: ['3.3.8']
           postgres: ['16']
         fail-fast: false
       steps:

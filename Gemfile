@@ -6,7 +6,7 @@ gem "rake"
 gem "rails", "~> 7.1.5.1"
 gem "sprockets", "~> 3.7" # Sprockets 4.0 stops allowing us to add a proc to the config.assets.precompile array, which we currently use
 
-gem "rack", "~> 2.2.14"
+gem "rack", "~> 2.2.15"
 
 # https://stripe.com/docs/api
 gem "stripe", "~> 5.0"
@@ -71,9 +71,6 @@ gem "airbrake"
 
 # http://www.rubygeocoder.com/
 gem "geocoder" # for adding latitude and longitude to location-based tables
-
-# https://github.com/buytruckload/nearest_time_zone
-gem "nearest_time_zone" # for detecting timezone from lat/lng
 
 gem "rest-client" # recommended for fullcontact
 

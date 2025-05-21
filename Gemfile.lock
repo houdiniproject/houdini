@@ -236,7 +236,7 @@ GEM
     fx (0.9.0)
       activerecord (>= 7.0)
       railties (>= 7.0)
-    geocoder (1.2.11)
+    geocoder (1.6.1)
     globalid (1.1.0)
       activesupport (>= 5.0)
     has_scope (0.7.2)

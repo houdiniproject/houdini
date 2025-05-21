@@ -37,9 +37,6 @@ gem "yaaf" # form objects
 # for blocking ip addressses
 gem "rack-attack"
 
-# to find middleware thread safety bugs
-gem "rack-freeze"
-
 # Database (postgres)
 gem "pg", "~> 1.5.9"
 gem "qx", path: "gems/ruby-qx"

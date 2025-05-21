@@ -377,7 +377,6 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (1.0.6)
       rack (>= 1.6.0)
-    rack-freeze (1.0.0)
     rack-session (1.0.2)
       rack (< 3)
     rack-test (2.2.0)
@@ -644,7 +643,6 @@ DEPENDENCIES
   rack (~> 2.2.14)
   rack-attack
   rack-cors
-  rack-freeze
   rack-timeout
   rails (~> 7.0.8.7)
   rails-i18n

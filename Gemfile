@@ -58,7 +58,7 @@ gem "chronic"
 
 # Images
 # https://github.com/carrierwaveuploader/carrierwave
-gem "carrierwave", "~> 3.1"
+gem "carrierwave", "~> 3.0"
 gem "carrierwave-aws" # for uploading images to amazon s3
 gem "mini_magick"
 
@@ -144,7 +144,7 @@ group :production, :staging do
   gem "redis-actionpack"
 end
 
-gem "recaptcha", "~> 5.19.0"
+gem "recaptcha", "~> 5.8.1"
 
 gem "hashie"
 

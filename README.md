@@ -130,11 +130,11 @@ Set your Ruby version with `rbenv`.
 ```bash
 brew install rbenv
 rbenv versions # see which ruby versions are already installed
-rbenv install  # the app currently uses version 3.2.8
+rbenv install  # the app currently uses version 3.3.8
 rbenv local # rbenv local --unset reverses the action
 
 # To switch between rbenv versions installed locally, use the following command:
-rbenv shell 3.2.8
+rbenv shell 3.3.8
 
 ```
 

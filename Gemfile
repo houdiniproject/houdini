@@ -6,7 +6,7 @@ gem "rake"
 gem "rails", "~> 7.1.5.1"
 gem "sprockets", "~> 3.7" # Sprockets 4.0 stops allowing us to add a proc to the config.assets.precompile array, which we currently use
 
-gem "rack", "~> 2.2.13"
+gem "rack", "~> 2.2.14"
 
 # https://stripe.com/docs/api
 gem "stripe", "~> 5.0"
@@ -36,9 +36,6 @@ gem "yaaf" # form objects
 
 # for blocking ip addressses
 gem "rack-attack"
-
-# to find middleware thread safety bugs
-gem "rack-freeze"
 
 # Database (postgres)
 gem "pg", "~> 1.5.9"
@@ -95,6 +92,7 @@ gem "rexml" # needed on Ruby 3
 
 group :development, :ci, :test do
   gem "standard"
+  gem "standard-rails"
   gem "listen"
   gem "letter_opener"
   gem "timecop"

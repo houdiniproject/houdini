@@ -12,6 +12,7 @@ module.exports = {
   setupFiles: ["<rootDir>/setupTests.js", "jest-date-mock"],
   setupFilesAfterEnv: ['jest-extended/all'],
   snapshotSerializers: ["enzyme-to-json/serializer"],
+  testEnvironment: "jsdom",
   testEnvironmentOptions: {
     enzymeAdapter: "react16",
   },

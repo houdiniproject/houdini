@@ -1,27 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 
 module QueryNonprofits
-  # def self.all_that_need_payouts
-  #   Psql.execute_vectors(
-  #     Qexpr.new.select(
-  #       "nonprofits.id",
-  #       "nonprofits.stripe_account_id",
-  #       "'support@commitchange.com' AS email",
-  #       "'192.168.0.1' AS user_ip",
-  #       "bank_accounts.name"
-  #     ).from(:nonprofits)
-  #     .join(:stripe_accounts, "stripe_accounts.stripe_account_id= nonprofits.stripe_account_id")
-  #     .join(:bank_accounts, "bank_accounts.nonprofit_id=nonprofits.id")
-  #     .where("bank_accounts.pending_verification='f'")
-  #     .join(
-  #       Qexpr.new.select("nonprofit_id")
-  #       .from(:charges).group_by("nonprofit_id")
-  #       .where("status='available'").as("charges"),
-  #         "charges.nonprofit_id=nonprofits.id"
-  #     )
-  #   )[1..-1].select{|i| i.stripe_account&.verification_status == :verified}
-  # end
-
   def self.by_search_string(string)
     results = Psql.execute_vectors(
       Qexpr.new.select(
@@ -109,18 +88,5 @@ module QueryNonprofits
       end
       i
     end
-  end
-
-  def self.find_nonprofits_with_no_payments
-    Nonprofit.includes(:payments).where("payments.nonprofit_id IS NULL")
-  end
-
-  def self.find_nonprofits_with_payments_in_last_n_days(days)
-    Payment.where("date >= ?", Time.now - days.days).pluck("nonprofit_id").to_a.uniq
-  end
-
-  def self.find_nonprofits_with_payments_but_not_in_last_n_days(days)
-    recent_nonprofits = find_nonprofits_with_payments_in_last_n_days(days)
-    Payment.where("date < ?", Time.now - days.days).pluck("nonprofit_id").to_a.uniq.select { |i| !recent_nonprofits.include?(i) }
   end
 end

@@ -7,5 +7,5 @@ class MiscellaneousNpInfo < ApplicationRecord
 
   belongs_to :nonprofit
 
-  validates_inclusion_of :fee_coverage_option_config, in: ["auto", "manual", "none", nil]
+  validates :fee_coverage_option_config, inclusion: {in: ["auto", "manual", "none", nil]}
 end

@@ -247,7 +247,7 @@ GEM
     fx (0.9.0)
       activerecord (>= 7.0)
       railties (>= 7.0)
-    geocoder (1.2.11)
+    geocoder (1.6.1)
     globalid (1.1.0)
       activesupport (>= 5.0)
     has_scope (0.7.2)
@@ -391,12 +391,11 @@ GEM
     rabl (0.17.0)
       activesupport (>= 2.3.14)
     racc (1.8.1)
-    rack (2.2.13)
+    rack (2.2.14)
     rack-attack (6.5.0)
       rack (>= 1.0, < 3)
     rack-cors (1.0.6)
       rack (>= 1.6.0)
-    rack-freeze (1.0.0)
     rack-session (1.0.2)
       rack (< 3)
     rack-test (2.2.0)
@@ -512,6 +511,12 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.38.0, < 2.0)
+    rubocop-rails (2.31.0)
+      activesupport (>= 4.2.0)
+      lint_roller (~> 1.1)
+      rack (>= 1.1)
+      rubocop (>= 1.75.0, < 2.0)
+      rubocop-ast (>= 1.38.0, < 2.0)
     ruby-progressbar (1.13.0)
     ruby-vips (2.2.3)
       ffi (~> 1.12)
@@ -559,6 +564,9 @@ GEM
     standard-performance (1.8.0)
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.25.0)
+    standard-rails (1.4.0)
+      lint_roller (~> 1.0)
+      rubocop-rails (~> 2.31.0)
     statsd-ruby (1.4.0)
     stringio (3.1.6)
     stripe (5.55.0)
@@ -661,10 +669,9 @@ DEPENDENCIES
   puma (~> 5.6)
   qx!
   rabl
-  rack (~> 2.2.13)
+  rack (~> 2.2.14)
   rack-attack
   rack-cors
-  rack-freeze
   rack-timeout
   rails (~> 7.1.5.1)
   rails-i18n
@@ -684,6 +691,7 @@ DEPENDENCIES
   simplecov (~> 0.22.0)
   sprockets (~> 3.7)
   standard
+  standard-rails
   stripe (~> 5.0)
   stripe-ruby-mock (~> 5.0)
   table_print

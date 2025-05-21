@@ -14,7 +14,7 @@ class DonationMailer < BaseMailer
       interpolation_dict.interpolate(@nonprofit.thank_you_note)
     end
     @charge = @payment.charge
-    @reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    @reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
     from = Format::Name.email_from_np(@nonprofit.name)
     I18n.with_locale(locale) do
       unless @donation.supporter.email.blank?
@@ -40,7 +40,7 @@ class DonationMailer < BaseMailer
       interpolation_dict.interpolate(@nonprofit.thank_you_note)
     end
 
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
     from = Format::Name.email_from_np(@nonprofit.name)
     I18n.with_locale(locale) do
       mail(
@@ -83,7 +83,7 @@ class DonationMailer < BaseMailer
     @donation = Donation.find(donation_id)
     @nonprofit = @donation.nonprofit
     @charge = @donation.charges.last
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
     from = Format::Name.email_from_np(@nonprofit.name)
     mail(to: @donation.supporter.email, from: from, reply_to: reply_to, subject: "Donation payment failure for #{@nonprofit.name}")
   end
@@ -111,7 +111,7 @@ class DonationMailer < BaseMailer
   def donor_recurring_donation_change_amount(donation_id, previous_amount = nil)
     @donation = RecurringDonation.find(donation_id).donation
     @nonprofit = @donation.nonprofit
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
 
     interpolation_dict.set_supporter(@donation.supporter)
 

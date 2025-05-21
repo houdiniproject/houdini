@@ -9,18 +9,18 @@ class MapsController < ApplicationController
   def all_npos
     respond_to do |format|
       format.html { redirect_to :root }
-      format.json { @map_data = Nonprofit.where("latitude IS NOT NULL").last(1000) }
+      format.json { @map_data = Nonprofit.where.not(latitude: nil).last(1000) }
     end
   end
 
   # used on admin/supporters_map
   def all_supporters
-    @map_data = Supporter.where("latitude IS NOT NULL").last(1000)
+    @map_data = Supporter.where.not(latitude: nil).last(1000)
   end
 
   # used on npo dashboard
   def all_npo_supporters
-    @map_data = Nonprofit.find(params["npo_id"]).supporters.where("latitude IS NOT NULL").last(100)
+    @map_data = Nonprofit.find(params["npo_id"]).supporters.where.not(latitude: nil).last(100)
   end
 
   # used on supporter dashboard

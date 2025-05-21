@@ -9,7 +9,7 @@ class StaticController < ApplicationController
   def ccs
     ccs_method = (!Settings.ccs) ? "local_tar_gz" : Settings.ccs.ccs_method
     if ccs_method == "local_tar_gz"
-      temp_file = "#{Rails.root}/tmp/#{Time.current.to_i}.tar.gz"
+      temp_file = "#{Rails.root.join("tmp/#{Time.current.to_i}.tar.gz")}"
       result = Kernel.system("git archive --format=tar.gz -o #{temp_file} HEAD")
       if result
         send_file(temp_file, type: "application/gzip")
@@ -17,7 +17,7 @@ class StaticController < ApplicationController
         head 500
       end
     elsif ccs_method == "github"
-      git_hash = File.read("#{Rails.root}/CCS_HASH")
+      git_hash = File.read("#{Rails.root.join("CCS_HASH")}")
       redirect_to "https://github.com/#{Settings.ccs.options.account}/#{Settings.ccs.options.repo}/tree/#{git_hash}",
         allow_other_host: true
     end

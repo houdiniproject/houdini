@@ -15,6 +15,8 @@ const amountStep = require('./amount-step')
 const infoStep = require('./info-step')
 const followupStep = require('./followup-step')
 
+const {handleWizardFinished} = require('./wizard/utils');
+
 const request = require('../../common/request')
 const format = require('../../common/format')
 
@@ -97,19 +99,22 @@ const init = params$ => {
   const dedicationParams$ = flyd.zip([state.infoStep.savedDedicatee$, state.infoStep.savedSupp$, state.paymentStep.paid$])
   const savedDedication$ = flyd.flatMap(R.apply(postDedication), dedicationParams$)
 
+  // handle when the wizard is marked completed, i.e. the finish button hasn't been clicked but charge is completed
+  flyd.lift(
+    (_completedEv, params) => {
+      if (params['skipFinish']) {
+        handleWizardFinished(params, window);
+      }
+    }
+  , state.wizard.isCompleted$, state.params$ )
+
   // Log people out
   flyd.map(ev => {request({method: 'get', path: '/users/sign_out'}); window.location.reload()}, state.clickLogout$)
 
   // Handle the Finish button from the followup step -- will close modal, redirect, or refresh
   flyd.lift(
     (ev, params) => {
-      if(!parent) return
-      if(params.redirect) parent.postMessage(`commitchange:redirect:${params.redirect}`, '*')
-      else if(params.mode !== 'embedded'){
-        parent.postMessage('commitchange:close', '*');
-      } else {
-        if (window.parent) {window.parent.postMessage('commitchange:close', '*');};
-      }
+      handleWizardFinished(params, window);
     }
   , state.clickFinish$, state.params$ )
 

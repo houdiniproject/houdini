@@ -77,7 +77,7 @@ class Profile < ApplicationRecord
   end
 
   def supporter_name
-    self.name.blank? ? "A Supporter" : self.name
+    self.name.presence || "A Supporter"
   end
 
   def get_profile_picture(size = :normal)

@@ -99,4 +99,21 @@ describe CalculateSuggestedAmounts do
       expect(result).to eq([99992500, 99997500])
     end
   end
+
+  describe "get_bracket_by_amount" do
+    it "gets the correct bracket for 100" do
+      result = CalculateSuggestedAmounts.get_bracket_by_amount(100)
+      expect(result).to eq(range: 25...1000, delta: 100)
+    end
+
+    it "gets the correct bracket for 1000" do
+      result = CalculateSuggestedAmounts.get_bracket_by_amount(1000)
+      expect(result).to eq(range: 1000...5000, delta: 500)
+    end
+
+    it "gets the correct bracket for 99995000" do
+      result = CalculateSuggestedAmounts.get_bracket_by_amount(99995000)
+      expect(result).to eq(range: 5000...100000000, delta: 2500)
+    end
+  end
 end

@@ -13,7 +13,7 @@ class AddDirectDebitDetail < ActiveRecord::Migration
     add_column :donations,
       :direct_debit_detail_id,
       :integer,
-      index: true,
       references: :direct_debit_details
+    add_index :donations, :direct_debit_detail_id
   end
 end

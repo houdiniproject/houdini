@@ -72,9 +72,6 @@ gem "airbrake"
 # http://www.rubygeocoder.com/
 gem "geocoder" # for adding latitude and longitude to location-based tables
 
-# https://github.com/buytruckload/nearest_time_zone
-gem "nearest_time_zone" # for detecting timezone from lat/lng
-
 gem "rest-client" # recommended for fullcontact
 
 # https://github.com/fphilipe/premailer-rails

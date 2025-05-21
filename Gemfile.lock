@@ -143,7 +143,7 @@ GEM
     config (2.2.3)
       deep_merge (~> 1.2, >= 1.2.1)
       dry-validation (~> 1.0, >= 1.0.0)
-    connection_pool (2.2.2)
+    connection_pool (2.5.3)
     countries (2.1.2)
       i18n_data (~> 0.8.0)
       money (~> 6.9)

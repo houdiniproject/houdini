@@ -117,8 +117,4 @@ Rails.application.configure do
   ActiveSupport::Notifications.subscribe("factory_bot.run_factory") do |name, start, finish, id, payload|
     Rails.logger.debug(payload)
   end
-
-  # Automatically update js-routes file
-  # when routes.rb is changed
-  config.middleware.use(JsRoutes::Middleware)
 end

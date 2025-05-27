@@ -154,6 +154,7 @@ GEM
     crass (1.0.6)
     css_parser (1.21.1)
       addressable
+    csv (3.3.4)
     dalli (3.2.3)
     dante (0.2.0)
     database_cleaner (2.1.0)
@@ -603,6 +604,7 @@ DEPENDENCIES
   config (~> 2.0)
   connection_pool
   countries
+  csv
   dalli
   database_cleaner
   delayed_job_active_record

@@ -86,6 +86,7 @@ gem "i18n-js", "~> 3.8" # i18n-js 4 is very different and doesn't work without s
 gem "countries"
 
 gem "rexml" # needed on Ruby 3
+gem "csv" # needed on Ruby 3.4
 
 group :development, :ci, :test do
   gem "standard"

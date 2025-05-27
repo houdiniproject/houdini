@@ -72,8 +72,6 @@ gem "airbrake"
 # http://www.rubygeocoder.com/
 gem "geocoder" # for adding latitude and longitude to location-based tables
 
-gem "rest-client" # recommended for fullcontact
-
 # https://github.com/fphilipe/premailer-rails
 # for stylizing emails
 gem "premailer-rails"

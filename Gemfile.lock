@@ -179,8 +179,6 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
     docile (1.4.1)
-    domain_name (0.5.20190701)
-      unf (>= 0.0.5, < 1.0.0)
     dotenv (3.1.8)
     dotenv-rails (3.1.8)
       dotenv (= 3.1.8)
@@ -247,9 +245,6 @@ GEM
     hashie (4.0.0)
     hiredis (0.6.3)
     htmlentities (4.3.4)
-    http-accept (1.7.0)
-    http-cookie (1.0.3)
-      domain_name (~> 0.5)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -309,9 +304,6 @@ GEM
       net-smtp
     marcel (1.0.4)
     method_source (1.1.0)
-    mime-types (3.4.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2025.0408)
     mini_magick (5.2.0)
       benchmark
       logger
@@ -332,7 +324,6 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    netrc (0.11.0)
     nio4r (2.7.0)
     nokogiri (1.18.8)
       mini_portile2 (~> 2.8.2)
@@ -438,11 +429,6 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rest-client (2.1.0)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
     rexml (3.4.1)
     rspec (3.13.1)
       rspec-core (~> 3.13.0)
@@ -558,9 +544,6 @@ GEM
       concurrent-ruby (~> 1.0)
     uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.7)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
@@ -651,7 +634,6 @@ DEPENDENCIES
   recaptcha (~> 5.8.1)
   redis (>= 3.2.0)
   redis-actionpack
-  rest-client
   rexml
   rspec (~> 3)
   rspec-json_expectations

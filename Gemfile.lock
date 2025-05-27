@@ -270,6 +270,10 @@ GEM
     js-routes (2.2.7)
       railties (>= 4)
     json (2.12.2)
+    judoscale-rails (1.11.1)
+      judoscale-ruby (= 1.11.1)
+      railties
+    judoscale-ruby (1.11.1)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -396,6 +400,8 @@ GEM
       activesupport (= 7.0.8.7)
       bundler (>= 1.15.0)
       railties (= 7.0.8.7)
+    rails-autoscale-web (1.11.1)
+      judoscale-rails (= 1.11.1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -406,7 +412,6 @@ GEM
     rails-i18n (7.0.10)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
-    rails_autoscale_agent (0.9.1)
     railties (7.0.8.7)
       actionpack (= 7.0.8.7)
       activesupport (= 7.0.8.7)
@@ -643,8 +648,8 @@ DEPENDENCIES
   rack-cors
   rack-timeout
   rails (~> 7.0.8.7)
+  rails-autoscale-web
   rails-i18n
-  rails_autoscale_agent (>= 0.9.1)
   rake
   recaptcha (~> 5.8.1)
   redis (>= 3.2.0)

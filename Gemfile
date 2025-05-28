@@ -118,7 +118,7 @@ end
 # Gems used for asset compilation
 gem "sassc"
 gem "sassc-rails"
-gem "uglifier"
+gem "terser"
 
 # make logging less terrible in rails
 gem "lograge"

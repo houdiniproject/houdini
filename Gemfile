@@ -72,8 +72,6 @@ gem "airbrake"
 # http://www.rubygeocoder.com/
 gem "geocoder" # for adding latitude and longitude to location-based tables
 
-gem "rest-client" # recommended for fullcontact
-
 # https://github.com/fphilipe/premailer-rails
 # for stylizing emails
 gem "premailer-rails"
@@ -86,6 +84,7 @@ gem "i18n-js", "~> 3.8" # i18n-js 4 is very different and doesn't work without s
 gem "countries"
 
 gem "rexml" # needed on Ruby 3
+gem "csv" # needed on Ruby 3.4
 
 group :development, :ci, :test do
   gem "standard"
@@ -128,7 +127,7 @@ gem "config", "~> 2.0"
 gem "dry-validation" # used only for config validation
 
 group :production do
-  gem "rails_autoscale_agent", ">= 0.9.1"
+  gem "rails-autoscale-web"
   gem "tunemygc"
 end
 

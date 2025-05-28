@@ -166,6 +166,7 @@ GEM
     crass (1.0.6)
     css_parser (1.21.1)
       addressable
+    csv (3.3.4)
     dalli (3.2.3)
     dante (0.2.0)
     database_cleaner (2.1.0)
@@ -190,8 +191,6 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
     docile (1.4.1)
-    domain_name (0.5.20190701)
-      unf (>= 0.0.5, < 1.0.0)
     dotenv (3.1.8)
     dotenv-rails (3.1.8)
       dotenv (= 3.1.8)
@@ -259,9 +258,6 @@ GEM
     hashie (4.0.0)
     hiredis (0.6.3)
     htmlentities (4.3.4)
-    http-accept (1.7.0)
-    http-cookie (1.0.3)
-      domain_name (~> 0.5)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -288,6 +284,10 @@ GEM
     js-routes (2.2.7)
       railties (>= 4)
     json (2.12.2)
+    judoscale-rails (1.11.1)
+      judoscale-ruby (= 1.11.1)
+      railties
+    judoscale-ruby (1.11.1)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -326,9 +326,6 @@ GEM
       net-smtp
     marcel (1.0.4)
     method_source (1.1.0)
-    mime-types (3.4.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2025.0408)
     mini_magick (5.2.0)
       benchmark
       logger
@@ -350,7 +347,6 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    netrc (0.11.0)
     nio4r (2.7.0)
     nokogiri (1.18.8)
       mini_portile2 (~> 2.8.2)
@@ -424,6 +420,8 @@ GEM
       activesupport (= 7.1.5.1)
       bundler (>= 1.15.0)
       railties (= 7.1.5.1)
+    rails-autoscale-web (1.11.1)
+      judoscale-rails (= 1.11.1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -434,7 +432,6 @@ GEM
     rails-i18n (7.0.10)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
-    rails_autoscale_agent (0.9.1)
     railties (7.1.5.1)
       actionpack (= 7.1.5.1)
       activesupport (= 7.1.5.1)
@@ -471,11 +468,6 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rest-client (2.1.0)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
     rexml (3.4.1)
     rspec (3.13.1)
       rspec-core (~> 3.13.0)
@@ -593,9 +585,6 @@ GEM
       concurrent-ruby (~> 1.0)
     uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.7)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
@@ -640,6 +629,7 @@ DEPENDENCIES
   config (~> 2.0)
   connection_pool
   countries
+  csv
   dalli
   database_cleaner
   delayed_job_active_record
@@ -680,13 +670,12 @@ DEPENDENCIES
   rack-cors
   rack-timeout
   rails (~> 7.1.5.1)
+  rails-autoscale-web
   rails-i18n
-  rails_autoscale_agent (>= 0.9.1)
   rake
   recaptcha (~> 5.8.1)
   redis (>= 3.2.0)
   redis-actionpack
-  rest-client
   rexml
   rspec (~> 3)
   rspec-json_expectations

@@ -21,7 +21,7 @@ Rails.application.configure do
      socket_timeout: 1.5,
      socket_failure_delay: 0.2,
      down_retry_delay: 60,
-     expires_in: 5.hours, compress: true, pool_size: 10}
+     expires_in: 5.hours, compress: true, pool: {size: 10}}
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local = false
@@ -93,7 +93,7 @@ Rails.application.configure do
   config.asset_host = cdn_url
 
   config.action_mailer.perform_caching = false
-  
+
   creds = Aws::Credentials.new(ENV["AWS_ACCESS_KEY"], ENV["AWS_SECRET_ACCESS_KEY"])
   Aws::Rails.add_action_mailer_delivery_method(
     :ses,

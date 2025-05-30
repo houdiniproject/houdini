@@ -40,8 +40,6 @@ Rails.application.configure do
   config.log_level = :debug
 
   config.dependency_loading = true if $rails_rake_task
-  # Turn this on if you want to mess with code inside /node_modules
-  # config.browserify_rails.evaluate_node_modules = true
 
   config.middleware.use I18n::JS::Middleware
 

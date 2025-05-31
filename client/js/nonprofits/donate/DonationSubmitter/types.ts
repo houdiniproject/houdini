@@ -1,7 +1,5 @@
 
 // License: LGPL-3.0-or-later
-import 'whatwg-fetch';
-
 // we add CSRF to the window type
 
 type WindowAndCsrf = Window & {_csrf:string};

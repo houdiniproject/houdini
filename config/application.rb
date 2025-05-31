@@ -55,15 +55,6 @@ module Commitchange
       end
     end
 
-    # Version of your assets, change this If you want to expire all your assets
-    # config.assets.version = '1.0'
-
-    # For Rails 3.1 on Heroku:
-    # Forces the application to not access the DB
-    # or load models when precompiling your assets.
-    # from: devise gem installation instructions/suggestions
-    # config.assets.initialize_on_precompile = true
-
     config.i18n.enforce_available_locales = false
 
     # Add trailing slashes to all routes

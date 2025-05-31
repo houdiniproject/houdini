@@ -41,7 +41,6 @@
     "@types/uuid": "^9.0.3",
     "@types/validator": "^9.4.1",
     "@types/velocity-animate": "^1.2.33",
-    "@types/whatwg-fetch": "0.0.33",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -148,7 +147,6 @@
     "velocity-react": "^1.4.1",
     "view-script": "0.3.6",
     "virtual-dom": "2.1.1",
-    "vvvview": "0.4.3",
-    "whatwg-fetch": "^3.6.2"
+    "vvvview": "0.4.3"
   }
 }

@@ -68,8 +68,6 @@ module Commitchange
 
     # Add trailing slashes to all routes
     # config.action_controller.default_url_options = {:trailing_slash => true}
-    #
-    # config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
 
     # Require `belongs_to` associations by default. Previous versions had false.
     # it's a bunch of work to verify everything that should be marked optional actually is.

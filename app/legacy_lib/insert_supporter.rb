@@ -42,6 +42,7 @@ module InsertSupporter
   # The above will create a supporter with name/email, one tag with name 'xy',
   # and one field with name 'xy' and value 420
   def self.with_tags_and_fields(np_id, data)
+    data = data.to_deprecated_h
     tags = data.select { |key, val| key.match(/^tag_/) }.map { |key, val| key.gsub("tag_", "") }
     fields = data.select { |key, val| key.match(/^field_/) }.map { |key, val| [key.gsub("field_", ""), val] }
     supp_cols = data.select { |key, val| !key.match(/^field_/) && !key.match(/^tag_/) }

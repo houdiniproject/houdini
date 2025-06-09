@@ -191,6 +191,37 @@ CREATE ROLE postgres WITH SUPERUSER CREATEDB LOGIN PASSWORD 'password';
 
 You may need to disable AirPlay Receiver in your System Settings if it is hogging port 5000.
 
+#### In case you need to rebuild your local env using the Terminal (Mac) 
+Sometimes, if you are on a Mac machine, your browser and Terminal may print a 500 error after running the ```bin/dev`` command. This means that you may need to rebuild your local env on your machine. 
+Here are some troubleshooting steps to follow to remedy the error: 
+
+  ##### Check if you have the application's db on your machine: 
+  --Open a new Terminal window and inside that window, start a Rails console. In that console, type in ```Nonprofit.first``` and see the console result.  XC  
+  --If your Terminal prints ‘nil’, then that means the db exists. 
+  --If your Terminal prints any other type of error, then the db does not exist. 
+
+Stop the server running in one of your Terminal windows, wait 5 seconds, and then restart the server again using the ```bin/dev``` command. 
+
+##### Still receiving a 500 error in your browser and Terminal after server restart? 
+--You may need to pull down the db from the prod env. To do that, run the command, ```script/restore_from_heroku.sh```, and wait for Terminal to finish running. 
+
+##### Run into any errors when running the restore script command? 
+--This may be due to your machine using an older version of pg_restore. This application requires ppstgresql version 16. 
+To test your pg_restore version, open a new Terminal window, type in the command ```pg_restore —version``` and see what the Terminal prints. 
+
+  ##### Older pg_restore version? 
+  --You will need to update your pg_restore version for the required version in the application. 
+  --On a MAC, you can ‘unlink’ your current Postgres version and ‘link’ the preferred version with the following command: 
+  ```Brew unlink postgresql@[version#]```
+  After unlinking your postgresql versions, then run the proper command to start Postgres: ```brew start postgresql@16.``` 
+
+  ##### 'Rake aborted!' error after updating your postgres version *and* pulling the prod db?
+  --Stop your server in your Terminal, if it hasn't stopped already.
+  --Next, in your Terminal, run the following command to disable the PGGSSENCMODE: ```export PGGSSENCMODE= ‘disable’```
+  --Then, re-run the script command to restore the prod db to your local machine. ```script/restore_from_heroku.sh```
+
+After prod dumb completes, then run bin/dev in another Terminal window, and navigate to a browser to see the application. 
+In your browser, you should see the CommitChange users log in page. 
 
 #### System configuration (all)
 There are a number of steps for configuring your Houdini instance for startup

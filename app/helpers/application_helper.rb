@@ -72,10 +72,9 @@ module ApplicationHelper
       link_to(twitter_url, link_options) do
         tag.i(class: "fa fa-1x fa-twitter")
       end +
-      content_tag(:p, "Tweet")
+        content_tag(:p, "Tweet")
     end
   end
-
 
   def facebook_share(url)
     link_options = {
@@ -83,13 +82,17 @@ module ApplicationHelper
       target: "_blank"
     }
 
-    facebook_url = "https://www.facebook.com/sharer/sharer.php?#{ {  u: url }.to_param }"
-
     content_tag :div do
-      link_to(facebook_url, link_options) do
+      link_to(facebook_url(url), link_options) do
         tag.i(class: "fa fa-facebook")
       end +
-      content_tag(:p, "Share")
+        content_tag(:p, "Share")
     end
+  end
+
+  private
+
+  def facebook_url(url)
+    "https://www.facebook.com/dialog/share?app_id=#{ ENV.fetch('FACEBOOK_APP_ID') }&display=popup&href=#{ url }&redirect_uri=#{ url }"
   end
 end

@@ -16,7 +16,8 @@
 
 		<div class='layout--three u-marginTop--10'>
       <% if @nonprofit.facebook.present? %>
-        <%= facebook_share(render 'components/facebook_link') %>
+        <% url = request.base_url + request.fullpath %>
+        <%= facebook_share(url) %>
       <% end %>
 
 			<div class='u-marginBottom--0'>

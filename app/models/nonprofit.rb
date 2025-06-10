@@ -524,6 +524,14 @@ class Nonprofit < ApplicationRecord
     end
   end
 
+  def all_socials
+    [facebook, twitter, youtube, instagram, blog]
+  end
+
+  def has_any_social?
+    all_socials.compact_blank.any?
+  end
+
   private
 
   def timezone_is_valid

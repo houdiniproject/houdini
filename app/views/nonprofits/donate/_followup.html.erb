@@ -15,13 +15,9 @@
 		</fieldset>
 
 		<div class='layout--three u-marginTop--10'>
-
-			<div class='u-marginBottom--0'>
-				<a target="_blank" href="<%= render 'components/facebook_link' %>" class='button--small facebook u-width--full share-button'>
-					<i class='fa fa-facebook-square'></i>
-					Share
-				</a>
-			</div>
+      <% if @nonprofit.facebook.present? %>
+        <%= facebook_share(render 'components/facebook_link') %>
+      <% end %>
 
 			<div class='u-marginBottom--0'>
 				<button type='submit' class='button--small finish u-width--full'>
@@ -41,11 +37,9 @@
 				</button>
 			</div>
 
-			<div class='u-marginBottom--0'>
-				<a target='_blank' class='button--small twitter u-width--full'  href="<%= render 'components/twitter_link', text: 'I support ' + @nonprofit.name %>">
-					<i class='fa fa-twitter-square'></i> Tweet
-				</a>
-			</div>
+      <% if @nonprofit.twitter.present? %>
+        <%= twitter_share(@nonprofit.name) %>
+      <% end %>
 		</div>
 	</form>
 </div><!-- .followup -->

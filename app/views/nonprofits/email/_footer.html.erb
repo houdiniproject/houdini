@@ -2,27 +2,29 @@
 <% hide_unsubscribe = false if hide_unsubscribe.nil? %>
 
 <% if @nonprofit %>
-
 	<% if @nonprofit.facebook || @nonprofit.twitter || @nonprofit.youtube || @nonprofit.instagram || @nonprofit.blog %>
 		<table style='width: 100%; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 10px;'>
-
 			<tr>
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.facebook, text: 'Facebook' if @nonprofit.facebook %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.facebook,
+          text: 'Facebook' if @nonprofit.facebook %>
 
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.twitter, text: 'Twitter' if @nonprofit.twitter %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.twitter,
+          text: 'Twitter' if @nonprofit.twitter %>
 
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.youtube, text: 'YouTube' if @nonprofit.youtube %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.youtube,
+          text: 'YouTube' if @nonprofit.youtube %>
 
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.instagram, text: 'Instagram' if @nonprofit.instagram %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.instagram,
+          text: 'Instagram' if @nonprofit.instagram %>
 
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.blog, text: 'Blog' if @nonprofit.blog %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.blog,
+          text: 'Blog' if @nonprofit.blog %>
 			</tr>
-
 		</table>
 	<% end %>
 
@@ -64,5 +66,4 @@
 		</small>
 	</div>
   <% end %>
-
 <% end %>

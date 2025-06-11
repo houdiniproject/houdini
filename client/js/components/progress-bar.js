@@ -7,6 +7,11 @@ const h = require('snabbdom/h')
 //  - hidden: Boolean (whether to display the bar)
 //  - percentage: Integer (percentage complete for the bar)
 //  - status: String (status message to display)
+/**
+ * 
+ * @param {{hidden:boolean, percentage:number, status: string}} state 
+ * @returns 
+ */
 function view(state) {
   if(state.hidden) return ''
   return h('div.u-centered', [

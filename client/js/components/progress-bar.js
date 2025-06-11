@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const flyd = require('flyd')
 
 // A progress bar component
 // Only a view function

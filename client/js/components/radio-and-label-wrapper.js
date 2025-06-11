@@ -2,6 +2,15 @@
 var h = require("virtual-dom/h")
 
 // a constructor function for creating radio-label pairs
+/**
+ * 
+ * @param {string} id 
+ * @param {string} name 
+ * @param {Record<string, any>} customAttributes 
+ * @param {string} content 
+ * @param {() => any} stream 
+ * @returns 
+ */
 module.exports = function(id, name, customAttributes, content, stream){
 	var customAttributes = customAttributes ? customAttributes : {}
 	return [

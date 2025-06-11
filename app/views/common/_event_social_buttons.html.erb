@@ -1,26 +1,22 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
-<% url = slugged_event_url(
-				state_code:@event.nonprofit.state_code_slug, 
-				city: @event.nonprofit.city_slug,
-				name: @event.nonprofit.slug,
-				event_slug: @event.slug
-			)
+
+<%
+  nonprofit = @event.nonprofit
+  url = slugged_event_url(
+    state_code: nonprofit.state_code_slug,
+    city: nonprofit.city_slug,
+    name: nonprofit.slug,
+    event_slug: @event.slug
+  )
 %>
-<div class='layout--three shareButtons'>
-	<div>
-		<%= link_to(
-			"https://www.facebook.com/sharer/sharer.php?#{{u: url}.to_param}",
-			class: 'button--circle--large facebook',
-			target: '_blank'
-		) do %>
-			<i class='fa fa-facebook'></i>
-		<% end %>
-    <p>Share</p>
-	</div>
+<div class="shareButtons">
+  <% if nonprofit.facebook.present? %>
+    <%= facebook_share(url) %>
+  <% end %>
 
 	<div>
 		<%= mail_to('',
-			subject: "Check the #{@event.name} event from #{@nonprofit.name}!",
+			subject: "Check the #{@event.name} event from #{nonprofit.name}!",
 			body: "Hi,\n\n#{@event.summary.present? ? "#{@event.summary}\n\n" : ''}Follow this link for the event and participate: #{url}",
 			class: 'button--circle--large grey'
 			) do %>
@@ -29,20 +25,7 @@
 		<p>Email</p>
 	</div>
 
-	<div>
-		<%= link_to(
-			"https://twitter.com/intent/tweet?#{
-				{
-					url: url,
-						via: "CommitChange",
-						text: "I support #{@event.name}"
-				}.to_param
-			}",
-			class:'button--circle--large twitter',
-			target: '_blank'
-		) do %>
-		 <i class='fa fa-1x fa-twitter'></i>
-		<%end %>
-		<p>Tweet</p>
-	</div>
+  <% if nonprofit.twitter.present? %>
+    <%= twitter_share(@event.name) %>
+  <% end %>
 </div>

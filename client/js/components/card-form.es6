@@ -195,8 +195,6 @@ function feeCoverageField(state) {
           ]
         )
       ])
-
-
   ])
 }
 
@@ -204,7 +202,7 @@ const nameInput = (field, name) =>
   h('fieldset.name', [field(h('input', { props: { name: 'name', value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } }))])
 
 
-const zipInput = (field, zip) => 
+const zipInput = (field, zip) =>
   h('fieldset.zip', [
     field(h('input'
     , { props: {
@@ -212,7 +210,7 @@ const zipInput = (field, zip) =>
       , name: 'address_zip'
       , value: zip || ''
       , placeholder: I18n.t('nonprofits.donate.payment.card.postal_code')
-      }} 
+      }}
     ))
   ])
 

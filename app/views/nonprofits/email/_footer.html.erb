@@ -2,33 +2,35 @@
 <% hide_unsubscribe = false if hide_unsubscribe.nil? %>
 
 <% if @nonprofit %>
-
-	<% if @nonprofit.facebook || @nonprofit.twitter || @nonprofit.youtube || @nonprofit.instagram || @nonprofit.blog %>
+	<% if @nonprofit.has_any_social? %>
 		<table style='width: 100%; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 10px;'>
-
 			<tr>
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.facebook, text: 'Facebook' if @nonprofit.facebook %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.facebook,
+          text: 'Facebook' if @nonprofit.facebook.present? %>
 
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.twitter, text: 'Twitter' if @nonprofit.twitter %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.twitter,
+          text: 'Twitter' if @nonprofit.twitter.present? %>
 
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.youtube, text: 'YouTube' if @nonprofit.youtube %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.youtube,
+          text: 'YouTube' if @nonprofit.youtube.present? %>
 
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.instagram, text: 'Instagram' if @nonprofit.instagram %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.instagram,
+          text: 'Instagram' if @nonprofit.instagram.present? %>
 
-					<%= render 'nonprofits/email/footer_link_td', 
-					url: @nonprofit.blog, text: 'Blog' if @nonprofit.blog %>
+        <%= render 'nonprofits/email/footer_link_td',
+          url: @nonprofit.blog,
+          text: 'Blog' if @nonprofit.blog.present? %>
 			</tr>
-
 		</table>
 	<% end %>
 
 	<table class='table--blank' style='background: rgb(250, 250, 250)'>
 		<tr>
-			<% if @nonprofit.logo_url %>
+			<% if @nonprofit.logo_url.present? %>
 			<td style='width: 100px; padding: 10px;'>
 				<img style='border: 1px solid rgba(0,0,0,0.05);' src="<%= @nonprofit.logo_url(:normal).to_s %>">
 			</td>
@@ -36,17 +38,15 @@
 
 			<td style='padding: 10px;'>
 				<p style='margin: 0; font-size: 13px; line-height: 1.3;'><strong><%= @nonprofit.name %></strong></p>
-
-					<% if @nonprofit.website %>
-						<p style='margin: 0; font-size: 13px; line-height: 1.3;'>
-							<a href="<%= @nonprofit.website %>" target='_blank'><%= @nonprofit.website %></a>
-						</p>
-					<% end %>
-					<% if @nonprofit.address %>
-						<p style='margin: 0; font-size: 12px; line-height: 1.3;'><%= @nonprofit.address %></p>
-					<% end %>
-						<p style='margin: 0; font-size: 12px; line-height: 1.3;'><%= "#{@nonprofit.city}, #{@nonprofit.state_code} #{@nonprofit.zip_code}" %></p>
-				</small>
+        <% if @nonprofit.website.present? %>
+          <p style='margin: 0; font-size: 13px; line-height: 1.3;'>
+            <a href="<%= @nonprofit.website %>" target='_blank'><%= @nonprofit.website %></a>
+          </p>
+        <% end %>
+        <% if @nonprofit.address.present? %>
+          <p style='margin: 0; font-size: 12px; line-height: 1.3;'><%= @nonprofit.address %></p>
+        <% end %>
+        <p style='margin: 0; font-size: 12px; line-height: 1.3;'><%= "#{@nonprofit.city}, #{@nonprofit.state_code} #{@nonprofit.zip_code}" %></p>
 			</td>
 		</tr>
 	</table>
@@ -55,7 +55,7 @@
 	<div style='text-align: center; padding: 10px;'>
 		<small style='text-decoration: underline; color: grey; font-size: 11px;'>
 		<% if @uuid %>
-			<a href='<%= root_url %>/nonprofits/<%=@nonprofit.id%>/unsubscribe?SUUID=<%= @uuid %>' target='_blank'>
+			<a href='<%= root_url %>/nonprofits/<%= @nonprofit.id %>/unsubscribe?SUUID=<%= @uuid %>' target='_blank'>
 				Unsubscribe
 			</a>
 		<% else %>
@@ -64,5 +64,4 @@
 		</small>
 	</div>
   <% end %>
-
 <% end %>

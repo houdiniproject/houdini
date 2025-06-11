@@ -49,9 +49,9 @@ const init = _ => {
 
 const view = state => {
   const mixin = content => h('section', content)
-  if(!state.resp$()) 
+  if(!state.resp$())
     return mixin([h('p.u-padding--15.u-centered', 'Loading...')])
-  if(!state.resp$().body.length) 
+  if(!state.resp$().body.length)
     return mixin([h('p.u-padding--15.u-centered', `None currently`)])
   return mixin(state.resp$().body.map(listing));
 }

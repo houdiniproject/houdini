@@ -277,6 +277,12 @@ button[data-ff-confirm='false'] {
 // for other social buttons, just use a default button with
 // either .twitter, of .facebook classes to set the background color
 
+.shareButtons {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
 .shareButtons div {
 	text-align: center;
 }

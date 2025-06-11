@@ -13,6 +13,11 @@ const init = (type, path) => {
 }
 
 
+/**
+ * 
+ * @param {{name: string, action?:string, date:string}} data 
+ * @returns 
+ */
 const activities = data => {
     return h('tr', [
         h('td.u-padding--10.u-fontSize--13', [h('strong', data.name),  data.action? h('div.u-marginTop--3', data.action) : ''])

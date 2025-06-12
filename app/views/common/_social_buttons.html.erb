@@ -5,6 +5,26 @@
     <%= facebook_share(request.original_url) %>
   <% end %>
 
+  <% if @nonprofit.website.present? %>
+    <div>
+      <% body = "Hi," +
+                 "\n\nFollow this link to help support #{@nonprofit.name}, a great nonprofit that means a lot to me: " +
+                 "\n\n#{@nonprofit.website}" +
+                 "\n\n\n\nCheers," +
+                 "\n#{current_user.name}"
+      %>
+
+      <%= mail_to('',
+        subject: "Check out #{@nonprofit.name}!",
+        body:,
+        class: 'button--circle--large grey'
+        ) do %>
+        <i class='fa fa-1x fa-envelope-o'></i>
+      <% end %>
+      <p>Email</p>
+    </div>
+  <% end %>
+
   <% if @nonprofit.twitter.present? %>
     <%= twitter_share(@nonprofit.name) %>
   <% end %>

@@ -10,8 +10,8 @@ function view(state) {
   , supp ? h('p', `${I18n.t('nonprofits.donate.followup.receipt_info')} ${supp.email}`) : ''
   , h('hr')
   , h('p', state.thankyou_msg || `${app.nonprofit.name} ${I18n.t('nonprofits.donate.followup.message')}`)
-  , h(`div.u-inlineBlock.u-marginRight--10${app.uses_fb ? '' : '.u-hide'}`, [
-      h('a.button--small.facebook.u-width--full.share-button', {
+  , h(`div.u-inlineBlock.u-marginBottom--20${app.uses_fb ? '' : '.u-hide'}`, [
+      h('a.button--small.facebook.u-width--full.u-paddingRight--10.share-button', {
         props: {
           target: '_blank'
         , href: 'https://www.facebook.com/dialog/feed?app_id=' +
@@ -23,8 +23,8 @@ function view(state) {
         }
       }, [h('i.fa.fa-facebook-square'), ` ${I18n.t('nonprofits.donate.followup.share.facebook')}`] )
     ])
-  , h(`div.u-inlineBlock.u-marginLeft--10.u-marginBottom--20${app.uses_x ? '' : '.u-hide'}`, [
-      h('a.button--small.twitter.u-width--full', {
+  , h(`div.u-inlineBlock.u-marginBottom--20${app.uses_x ? '' : '.u-hide'}`, [
+      h('a.button--small.twitter.u-width--full.u-paddingLeft--10', {
         props: {
           target: '_blank'
         , href: "https://twitter.com/intent/tweet?url=" +

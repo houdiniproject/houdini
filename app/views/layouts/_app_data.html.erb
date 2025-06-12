@@ -19,12 +19,12 @@ var app = {
 , facebook_app_id: "<%= ENV['FACEBOOK_APP_ID'] %>"
 , map_provider: "<%= Settings.maps&.provider %>"
 , map_provider_options: <%= Settings.maps&.options ? raw(Settings.maps.options.to_json) : {} %>
-, editor: "<%= Settings.page_editor.editor%>"
-, uses_x: "<% @nonprofit&.twitter.present? %>"
-, uses_fb: "<% @nonprofit&.facebook.present? %>"
-, uses_ig: "<% @nonprofit&.instagram.present? %>"
-, uses_yt: "<% @nonprofit&.youtube.present? %>"
-, uses_blog: "<% @nonprofit&.blog.present? %>"
+, editor: "<%= Settings.page_editor.editor %>"
+, uses_x: <%= @nonprofit&.twitter.present? %>
+, uses_fb: <%= @nonprofit&.facebook.present? %>
+, uses_ig: <%= @nonprofit&.instagram.present? %>
+, uses_yt: <%= @nonprofit&.youtube.present? %>
+, uses_blog: <%= @nonprofit&.blog.present? %>
 <% if Settings&.page_editor&.editor == 'froala' and Settings&.page_editor&.editor_options&.froala_key %>, froala_key: "<%= Settings.page_editor.editor_options.froala_key %>"<% end %>
   <%if @nonprofit&.currency_symbol %>, currency_symbol: "<%= @nonprofit.currency_symbol%>"<% end %>
   , recaptcha_site_key: "<%= ENV['RECAPTCHA_SITE_KEY'] %>"

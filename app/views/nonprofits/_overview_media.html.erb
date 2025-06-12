@@ -2,11 +2,9 @@
 <!-- partial start: nonprofits/_overview_media -->
 <% if @nonprofit.main_image.file %>
 <div class='overview-media'>
-    <div>
-			<div style='overflow: hidden; height: initial;'>
-        <%= image_tag @nonprofit.main_image_url(:nonprofit_carousel).to_s %>
-			</div>
-		</div>
+  <div style='overflow: hidden; height: initial;'>
+    <%= image_tag @nonprofit.main_image_url(:nonprofit_carousel).to_s %>
+  </div>
 </div>
 <% end %>
 <!-- partial end: nonprofits/_overview_media -->

@@ -1,6 +1,11 @@
 // License: LGPL-3.0-or-later
 var h = require("virtual-dom/h")
 
+/**
+ * 
+ * @param {{hide?:boolean, text:?:string}} savingState 
+ * @returns ReturnType<typeof h>;
+ */
 module.exports = function(savingState) {
   return h('div.savingIndicator.pastelBox--yellow'
     , {style: {

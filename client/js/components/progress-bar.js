@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const flyd = require('flyd')
 
 // A progress bar component
 // Only a view function
@@ -8,6 +7,11 @@ const flyd = require('flyd')
 //  - hidden: Boolean (whether to display the bar)
 //  - percentage: Integer (percentage complete for the bar)
 //  - status: String (status message to display)
+/**
+ * 
+ * @param {{hidden:boolean, percentage:number, status: string}} state 
+ * @returns 
+ */
 function view(state) {
   if(state.hidden) return ''
   return h('div.u-centered', [

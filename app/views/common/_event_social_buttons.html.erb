@@ -14,16 +14,16 @@
     <%= facebook_share(url) %>
   <% end %>
 
-	<div>
-		<%= mail_to('',
-			subject: "Check the #{@event.name} event from #{nonprofit.name}!",
-			body: "Hi,\n\n#{@event.summary.present? ? "#{@event.summary}\n\n" : ''}Follow this link for the event and participate: #{url}",
-			class: 'button--circle--large grey'
-			) do %>
-			<i class='fa fa-1x fa-envelope-o'></i>
-		<% end %>
-		<p>Email</p>
-	</div>
+  <div>
+    <%= mail_to('',
+      subject: "Check the #{@event.name} event from #{nonprofit.name}!",
+      body: "Hi,\n\n#{@event.summary.present? ? "#{@event.summary}\n\n" : ''}Follow this link for the event and participate: #{url}",
+      class: 'button--circle--large grey'
+      ) do %>
+      <i class='fa fa-1x fa-envelope-o'></i>
+    <% end %>
+    <p>Email</p>
+  </div>
 
   <% if nonprofit.twitter.present? %>
     <%= twitter_share(@event.name) %>

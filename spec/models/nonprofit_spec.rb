@@ -5,25 +5,18 @@ RSpec.describe Nonprofit, type: :model do
   it_behaves_like "an houidable entity", :np
 
   it { is_expected.to validate_presence_of(:name) }
-
   it { is_expected.to validate_presence_of(:city) }
   it { is_expected.to validate_presence_of(:state_code) }
-
   it { is_expected.to validate_presence_of(:slug) }
 
   it { expect(create(:nonprofit)).to validate_uniqueness_of(:slug).scoped_to(:city_slug, :state_code_slug) }
 
   it { is_expected.to have_one(:billing_plan).through(:billing_subscription) }
-
   it { is_expected.to have_many(:supporter_cards).class_name("Card").through(:supporters).source(:cards) }
-
   it { is_expected.to have_many(:disputes).through(:charges) }
-
   it { is_expected.to have_many(:email_lists) }
   it { is_expected.to have_one(:nonprofit_key) }
-
   it { is_expected.to have_many(:email_customizations) }
-
   it { is_expected.to have_many(:associated_object_events).class_name("ObjectEvent") }
 
   describe "with cards" do

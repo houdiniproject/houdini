@@ -42,6 +42,7 @@ class Nonprofit < ApplicationRecord
     :brand_font, # string (lowercase key eg. 'helvetica')
     :brand_color, # string (hex color value)
     :hide_activity_feed, # bool
+    :hide_main_image, # bool
     :tracking_script,
     :facebook, # string (url)
     :twitter, # string (url)

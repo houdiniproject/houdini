@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_29_192209) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_12_221922) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -727,6 +727,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_29_192209) do
     t.string "houid"
     t.jsonb "achievements"
     t.jsonb "categories"
+    t.boolean "hide_main_image", default: false, null: false
   end
 
   create_table "object_events", id: :serial, force: :cascade do |t|

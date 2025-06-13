@@ -28,7 +28,23 @@
 					<input type='file' name='nonprofit[main_image]'>
 				</div>
 			</div>
-      <hr>
+
+      <hr />
+
+      <div class='u-flex u-gap-1 u-justify-center'>
+        <div class="u-paddingY--10">
+          <input type="hidden" name="nonprofit[hide_main_image]" value="false">
+          <input id="hide_main_image" class="u-block" type="checkbox" name="nonprofit[hide_main_image]"
+                 <%= @nonprofit.hide_main_image? ? 'checked=checked' : '' %>>
+        </div>
+        <label for="hide_main_image">
+          Hide this image on the main profile page?
+        </label>
+      </div>
+      <p class="u-small"><strong>Note:</strong> It is a good practice to set a Main Image because it is also used in social sharing and other places.</p>
+
+      <hr />
+
 			<button type='submit' class='button u-marginTop--10 ' data-loading='Uploading...'>Upload</button>
 		</form>
 	</div>

@@ -89,6 +89,7 @@
 	<section class='box-r'>
 		<!--= add_class_if (eq todos.percent_done 100) 'u-padding--0' -->
 		<%= render 'components/todos', title: 'profile' if current_nonprofit_user? %>
+
 		<div class='hideWhenCollapsed'>
 			<%= render 'actions' %>
 		</div>

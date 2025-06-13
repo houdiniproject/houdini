@@ -13,13 +13,19 @@ class Users::SessionsController < Devise::SessionsController
 
   def create
     @theme = "minimal"
-
     respond_to do |format|
-      format.json {
-        self.resource = warden.authenticate!(scope: resource_name, recall: "#{controller_path}#new")
-        sign_in(resource_name, resource)
-        render status: 200, json: {status: "Success"}
-      }
+      format.json do
+        return auth_failed unless params[:user].present?
+
+        email, password, otp_attempt = params[:user].values_at(:email, :password, :otp_attempt)
+
+        user = User.find_for_authentication(email: email)
+
+        return auth_failed unless user&.valid_password?(password)
+        return sign_in_user(user) unless user.otp_required_for_login?
+
+        return handle_otp_flow(user, otp_attempt)
+      end
     end
   end
 
@@ -34,5 +40,41 @@ class Users::SessionsController < Devise::SessionsController
     else
       render json: ["Incorrect password. Please enter your #{Settings.general.name} password."], status: :unprocessable_entity
     end
+  end
+
+  def send_otp
+    respond_to do |format|
+      format.json do
+        email = params[:email]
+        password = params[:password]
+        user = User.find_for_authentication(email: email)
+
+        return auth_failed unless user&.valid_password?(password)
+        return render status: 422, json: ["OTP not required"] unless user.otp_required_for_login?
+
+        UserMailer.otp_requested(user).deliver_later
+        render status: 200, json: {status: "success"}
+      end
+    end
+  end
+
+  private
+
+  def auth_failed
+    render status: 401, json: ["Authentication failed"]
+  end
+
+  def sign_in_user(user)
+    user.remember_me!
+    sign_in(user)
+    render status: 200, json: {status: "Success"}
+  end
+
+  def handle_otp_flow(user, otp_attempt)
+    return render status: 200, json: {status: "otp_required"} if otp_attempt.blank?
+
+    return auth_failed unless user.validate_and_consume_otp!(otp_attempt)
+
+    sign_in_user(user)
   end
 end

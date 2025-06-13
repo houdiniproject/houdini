@@ -46,6 +46,8 @@ interface FieldProps extends ClassNameable {
   inputClassNames?: string,
   style?: React.CSSProperties
   inputStyle?: React.CSSProperties
+  inputMode?: string
+  pattern?: string
 }
 
 interface BasicFieldProps extends FieldProps {
@@ -55,12 +57,34 @@ interface BasicFieldProps extends FieldProps {
 
 export const BasicField = observer((props: BasicFieldProps) => {
   let field = props.field as HoudiniField
-  return <LabeledFieldComponent
-    inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
-    inStickyError={field.hasServerError} stickyError={field.serverError}
-    className={props.className} style={props.style}>
-    {wrapInInputGroupWhenNeeded({ input: <ReactInput field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames || ''}`} style={props.inputStyle}/>, prefixInputAddon: props.prefixInputAddon, postfixInputAddon: props.postfixInputAddon })}
-  </LabeledFieldComponent>
+  return (
+    <LabeledFieldComponent
+      inputId={props.field.id}
+      labelText={field.label}
+      inError={field.hasError}
+      error={field.error}
+      inStickyError={field.hasServerError}
+      stickyError={field.serverError}
+      className={props.className}
+      style={props.style}
+    >
+      {wrapInInputGroupWhenNeeded({
+        input: (
+          <ReactInput
+            field={field}
+            label={props.label}
+            placeholder={props.placeholder}
+            className={`form-control ${props.inputClassNames || ""}`}
+            style={props.inputStyle}
+            inputMode={props.inputMode}
+            pattern={props.pattern}
+          />
+        ),
+        prefixInputAddon: props.prefixInputAddon,
+        postfixInputAddon: props.postfixInputAddon,
+      })}
+    </LabeledFieldComponent>
+  );
 })
 
 interface SelectFieldProps extends FieldProps {

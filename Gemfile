@@ -65,6 +65,7 @@ gem "httparty"
 # User authentication
 # https://github.com/plataformatec/devise
 gem "devise", "~> 4.1"
+gem "devise-two-factor"
 
 # https://github.com/airbrake/airbrake
 gem "airbrake"

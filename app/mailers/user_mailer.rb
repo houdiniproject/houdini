@@ -21,4 +21,9 @@ class UserMailer < BaseMailer
     mail(to: @recurring_donation.email,
       subject: "Your recurring donation towards #{@recurring_donation.nonprofit.name} was successfully cancelled.")
   end
+
+  def otp_requested(user)
+    @otp = user.current_otp
+    mail(to: user.email, subject: "Your one-time password")
+  end
 end

@@ -51,6 +51,11 @@ export class HoudiniForm extends Form {
     this.invalidate()
     this.$serverError = message
   }
+
+  @action
+  clearServerErrors() {
+    this.$serverError = null
+  }
 }
 
 

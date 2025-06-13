@@ -93,6 +93,6 @@ module ApplicationHelper
   private
 
   def facebook_url(url)
-    "https://www.facebook.com/dialog/share?app_id=#{ ENV.fetch('FACEBOOK_APP_ID') }&display=popup&href=#{ url }&redirect_uri=#{ url }"
+    "https://www.facebook.com/dialog/share?app_id=#{ENV.fetch("FACEBOOK_APP_ID")}&display=popup&href=#{url}&redirect_uri=#{url}"
   end
 end

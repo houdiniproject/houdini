@@ -203,6 +203,11 @@ en:
     logging_in: "Logging you in..."
     forgot_password: "Forgot Password?"
     get_started: "Get Started"
+    otp_sending: "Sending one-time code..."
+    otp_help: "A one-time code was sent to your email."
+    otp_label: "Authentication Code"
+    otp_placeholder: "XXXXXX"
+    otp_resend: "Resend code"
   dispute_mailer:
     created:
       subject: "New dispute %{dispute_id} for %{nonprofit_name}, evidence due on %{evidence_due_date}"

@@ -10,8 +10,7 @@
       <% body = "Hi," +
                  "\n\nFollow this link to help support #{@nonprofit.name}, a great nonprofit that means a lot to me: " +
                  "\n\n#{@nonprofit.website}" +
-                 "\n\n\n\nCheers," +
-                 "\n#{current_user.name}"
+                 "\n\nThanks!"
       %>
 
       <%= mail_to('',

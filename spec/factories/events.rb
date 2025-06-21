@@ -1,6 +1,9 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 FactoryBot.define do
   factory :event do
+    transient do
+      perform_geocode { false }
+    end
     name { "The event of Wonders" }
     start_datetime { DateTime.new(2025, 5, 11, 4, 5, 6) }
     end_datetime { DateTime.new(2025, 5, 11, 5, 1, 7) }
@@ -10,6 +13,10 @@ FactoryBot.define do
     slug { "event-of-wonders" }
     nonprofit
     profile
+
+    before(:create) do |event, context|
+      allow(event).to receive(:geocode).and_return(nil) unless context.perform_geocode
+    end
   end
 
   factory :event_base, class: "Event" do

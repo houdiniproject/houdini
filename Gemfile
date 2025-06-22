@@ -137,7 +137,7 @@ group :production, :staging do
   gem "redis-actionpack"
 end
 
-gem "recaptcha", "~> 5.8.1"
+gem "recaptcha", "~> 5.19"
 
 gem "hashie"
 

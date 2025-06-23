@@ -51,7 +51,8 @@ class Nonprofit < ApplicationRecord
     :blog, # string (url)
     :card_failure_message_top, # text
     :card_failure_message_bottom, # text
-    :autocomplete_supporter_address # boolean
+    :autocomplete_supporter_address, # boolean
+    :require_two_factor # boolean
 
   has_many :payouts
   has_many :charges

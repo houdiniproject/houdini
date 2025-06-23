@@ -5,6 +5,8 @@ class User < ApplicationRecord
   attr_accessible \
     :email, # str: balidated with Devise
     :password, # str: hashed with bcrypt
+    :otp_required_for_login, # boolean
+    :otp_secret, # str
     :phone, # str
     :location,
     :city,
@@ -64,10 +66,17 @@ class User < ApplicationRecord
     u
   end
 
-  def self.find_or_create_with_email(em)
+  def self.find_or_create_with_email(em, require_two_factor)
     user = where("lower(email) = ?", em.downcase).first
     return user if user.present?
-    User.create!(email: em, auto_generated: true)
+
+    attrs = {email: em, auto_generated: true}
+    if require_two_factor
+      attrs[:otp_required_for_login] = true
+      attrs[:otp_secret] = User.generate_otp_secret
+    end
+
+    User.create!(attrs)
   end
 
   def profile_picture(size)
@@ -138,5 +147,9 @@ class User < ApplicationRecord
   def geocode!
     # self.geocode
     # self.save
+  end
+
+  def two_factor_required_by_nonprofit?
+    Nonprofit.joins(:roles).where(roles: {user_id: id}, require_two_factor: true).exists?
   end
 end

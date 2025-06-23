@@ -55,10 +55,18 @@ class NonprofitsController < ApplicationController
   end
 
   def update
-    flash[:notice] = "Update successful!"
-    current_nonprofit.update_attributes params[:nonprofit].except(:verification_status)
-    current_nonprofit.clear_cache
-    json_saved current_nonprofit
+    @form = NonprofitSettingsForm.new(
+      nonprofit: current_nonprofit,
+      attributes: params[:nonprofit].except(:verification_status)
+    )
+
+    if @form.save
+      flash[:notice] = "Update successful!"
+      current_nonprofit.clear_cache
+      json_saved current_nonprofit
+    else
+      json_saved current_nonprofit, 500
+    end
   end
 
   def destroy

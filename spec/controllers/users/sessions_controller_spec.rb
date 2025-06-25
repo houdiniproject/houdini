@@ -52,6 +52,19 @@ describe Users::SessionsController, type: :controller do
         expect(JSON.parse(response.body)).to eq({"status" => "Success"})
         expect(controller.current_user).to eq(user)
       end
+
+      it "returns auth failed when user is locked" do
+        user = create(:user, :confirmed, otp_required_for_login: false, locked_at: Time.current)
+
+        post :create, params: {user: {email: user.email, password: user.password}},
+          format: :json
+
+        expect(response).to have_http_status(401)
+        expect(JSON.parse(response.body)).to eq(
+          {"error" => "Your account has been locked due to too many sign in attempts."}
+        )
+        expect(controller.current_user).to be_nil
+      end
     end
 
     describe "OTP authentication" do

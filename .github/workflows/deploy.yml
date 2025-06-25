@@ -26,6 +26,10 @@ jobs:
         CUSTOM_RUBY_VERSION: ${{ matrix.ruby }}
         # normally, you'd want to use commitchange_development_legacy but that database hasn't been created
         BUILD_DATABASE_URL: postgres://admin:password@localhost/commitchange_development_legacy
+        # these keys are needed so the build will run. They're not actually used for anything in the build.
+        ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: kxXIp0zfP14ka2eKFaCPdH8LBPQQsRzw
+        ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: '9LtvuC9Y2ZT042yZXigt4MP4WAFbshMM'
+        ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: '6fdO8lAnWV11UiWu8VhyCFrnnN4I2eD9'
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:

@@ -244,6 +244,7 @@ Rails.application.routes.draw do
     match "/users/is_confirmed" => "users/confirmations#is_confirmed", :via => %i[get post]
     get "/users/exists" => "users/confirmations#exists"
     post "/users/confirm_auth", action: :confirm_auth, controller: "users/sessions", via: %i[get post]
+    post "/users/send_otp" => "users/sessions#send_otp"
   end
 
   # Super admin

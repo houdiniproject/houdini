@@ -96,6 +96,12 @@ if ENV["THROTTLE_SUPPORTER_LIMIT"] && ENV["THROTTLE_SUPPORTER_PERIOD"]
   end
 end
 
+Rack::Attack.throttle("/users/send_otp", limit: 5, period: 15.minutes) do |req|
+  if run_throttle? && req.path == "/users/send_otp" && req.post?
+    req.params["email"]&.downcase
+  end
+end
+
 Rack::Attack.throttled_response = lambda do |env|
   [429, {"Content-Type" => "application/json"}, [JSON.generate({error: "I'm sorry; something went wrong. Please contact support@commitchange.com for help."})]]
 end

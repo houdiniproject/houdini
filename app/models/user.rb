@@ -28,7 +28,7 @@ class User < ApplicationRecord
 
   geocoded_by :location
 
-  devise :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable,
+  devise :two_factor_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable,
     :lockable
 
   attr_accessor :offsite_donation_id, :current_password

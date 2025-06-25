@@ -83,4 +83,5 @@ export class WebUserSignInOut {
 export interface WebLoginModel {
   email:string
   password:string
+  otp_attempt?:string
 }

@@ -1,10 +1,13 @@
 mailer:
   host: "https://commitchange-test.herokuapp.com"
-
-mailer:
-  delivery_method: "sendmail"
-  address: "localhost"
-  port: 25
+  delivery_method: "smtp"
+  smtp_settings:
+    address: "sandbox.smtp.mailtrap.io"
+    port: 2525
+    user_name: <%= ENV['MAILTRAP_USERNAME'] %>
+    password: <%= ENV['MAILTRAP_PASSWORD'] %>
+    authentication:  "plain"
+    enable_starttls: true
 
 cdn:
   url: "https://d1kiu7z4pkqkyu.cloudfront.net"

@@ -5,8 +5,6 @@ class User < ApplicationRecord
   attr_accessible \
     :email, # str: balidated with Devise
     :password, # str: hashed with bcrypt
-    :otp_required_for_login, # boolean
-    :otp_secret, # str
     :phone, # str
     :location,
     :city,
@@ -70,13 +68,15 @@ class User < ApplicationRecord
     user = where("lower(email) = ?", em.downcase).first
     return user if user.present?
 
-    attrs = {email: em, auto_generated: true}
-    if require_two_factor
-      attrs[:otp_required_for_login] = true
-      attrs[:otp_secret] = User.generate_otp_secret
+    transaction do
+      user = User.create!(email: em, auto_generated: true)
+      if require_two_factor
+        user.otp_required_for_login = true
+        user.otp_secret = User.generate_otp_secret
+        user.save!
+      end
+      user
     end
-
-    User.create!(attrs)
   end
 
   def profile_picture(size)

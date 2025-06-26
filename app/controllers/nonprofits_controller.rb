@@ -49,11 +49,6 @@ class NonprofitsController < ApplicationController
     render json: FetchTodoStatus.for_dashboard(current_nonprofit)
   end
 
-  def create
-    current_user ||= User.find(params[:user_id])
-    json_saved Nonprofit.register(current_user, params[:nonprofit])
-  end
-
   def update
     flash[:notice] = "Update successful!"
     current_nonprofit.update_attributes params[:nonprofit].except(:verification_status)

@@ -55,11 +55,9 @@ class NonprofitsController < ApplicationController
   end
 
   def update
-    return render json: ["Not authorized"], status: 403 unless current_role?([:nonprofit_admin, :super_admin])
-
     @form = NonprofitSettingsForm.new(
       nonprofit: current_nonprofit,
-      attributes: params[:nonprofit].except(:verification_status)
+      attributes: update_params
     )
 
     if @form.save
@@ -134,6 +132,12 @@ class NonprofitsController < ApplicationController
   end
 
   private
+
+  def update_params
+    excluded = [:verification_status]
+    excluded << :require_two_factor unless current_role?([:nonprofit_admin, :super_admin])
+    params[:nonprofit].except(*excluded)
+  end
 
   def countries_list(locale)
     all_countries = ISO3166::Country.translations(locale)

@@ -1,18 +1,18 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <header class='pane-header'>
-  <h3>Two Factor Authentication</h3>
+  <h3>Two-Factor Authentication</h3>
 </header>
 <div class='pane-inner'>
   <% if @user.two_factor_required_by_nonprofit? %>
-    <p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>Two factor authentication is required by your organization. It adds an extra layer of security to your account by requiring a one-time password when you log in.</p>
+    <p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>Two-factor authentication is required by your organization. It adds an extra layer of security to your account by requiring a one-time password when you log in.</p>
   <% else %>
     <form autosubmit method='put' action='<%= registration_path(@user) %>' data-reload>
-      <p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>Two factor authentication adds an extra layer of security to your account by requiring a one-time password when you log in. To enable, check the option below.</p>
+      <p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>Two-factor authentication adds an extra layer of security to your account by requiring a one-time password when you log in. To enable, check the option below.</p>
 
       <div class='field'>
         <input type='hidden' name='user[otp_required_for_login]' value='false'>
         <input type='checkbox' name='user[otp_required_for_login]' value='true' <%= 'checked=checked' if @user.otp_required_for_login? %> id='two-factor-input'>
-        <label class='two-factor-label' for='two-factor-input'>Enable two factor authentication on my account.</label>
+        <label class='two-factor-label' for='two-factor-input'>Enable two-factor authentication on my account.</label>
       </div>
 
       <% if !@user.pending_password %>

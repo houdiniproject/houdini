@@ -133,7 +133,7 @@ describe Api::NonprofitsController, type: :request do
       expect(response.code).to eq "201"
       expect(MailchimpNonprofitUserAddJob).to have_been_enqueued
 
-      our_np = Nonprofit.all[1]
+      our_np = Nonprofit.all.order(:created_at)[1]
       expected_np = {
         name: "n",
         state_code: "WI",

@@ -39,7 +39,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       errs = current_user.errors.full_messages
     else
       success = false
-      errs = {password: :incorrect}
+      errs = {password: [:incorrect]}
     end
 
     if success

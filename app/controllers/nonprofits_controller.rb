@@ -55,6 +55,8 @@ class NonprofitsController < ApplicationController
   end
 
   def update
+    return render json: ["Not authorized"], status: 403 unless current_role?([:nonprofit_admin, :super_admin])
+
     @form = NonprofitSettingsForm.new(
       nonprofit: current_nonprofit,
       attributes: params[:nonprofit].except(:verification_status)
@@ -63,9 +65,9 @@ class NonprofitsController < ApplicationController
     if @form.save
       flash[:notice] = "Update successful!"
       current_nonprofit.clear_cache
-      json_saved current_nonprofit
+      render json: current_nonprofit, status: 200
     else
-      json_saved current_nonprofit, 500
+      render json: @form.errors.full_messages, status: 500
     end
   end
 

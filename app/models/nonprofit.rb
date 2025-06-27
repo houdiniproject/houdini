@@ -202,13 +202,6 @@ class Nonprofit < ApplicationRecord
     end
   end
 
-  # Register (create) a nonprofit with an initial admin
-  def self.register(user, params)
-    np = create ConstructNonprofit.construct(user, params)
-    Role.create(user: user, name: "nonprofit_admin", host: np) if np.valid?
-    np
-  end
-
   def nonprofit_personnel_emails
     roles.nonprofit_personnel.joins(:user).pluck("users.email")
   end

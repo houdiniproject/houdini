@@ -44,10 +44,6 @@ describe NonprofitsController, type: :controller do
         include_context :open_to_all, :get, :show, id: :__our_np, without_json_view: true
       end
 
-      describe "create" do
-        include_context :open_to_all, :post, :create, nonprofit_id: :__our_np
-      end
-
       describe "btn" do
         include_context :open_to_all, :get, :btn, id: :__our_np, without_json_view: true
       end

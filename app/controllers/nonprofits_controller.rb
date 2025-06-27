@@ -55,10 +55,18 @@ class NonprofitsController < ApplicationController
   end
 
   def update
-    flash[:notice] = "Update successful!"
-    current_nonprofit.update_attributes params[:nonprofit].except(:verification_status)
-    current_nonprofit.clear_cache
-    json_saved current_nonprofit
+    @form = NonprofitSettingsForm.new(
+      nonprofit: current_nonprofit,
+      attributes: update_params
+    )
+
+    if @form.save
+      flash[:notice] = "Update successful!"
+      current_nonprofit.clear_cache
+      render json: current_nonprofit, status: 200
+    else
+      render json: @form.errors.full_messages, status: 500
+    end
   end
 
   def destroy
@@ -124,6 +132,12 @@ class NonprofitsController < ApplicationController
   end
 
   private
+
+  def update_params
+    excluded = [:verification_status]
+    excluded << :require_two_factor unless current_role?([:nonprofit_admin, :super_admin])
+    params[:nonprofit].except(*excluded)
+  end
 
   def countries_list(locale)
     all_countries = ISO3166::Country.translations(locale)

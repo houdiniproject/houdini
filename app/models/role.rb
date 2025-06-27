@@ -41,7 +41,7 @@ class Role < ApplicationRecord
   end
 
   def self.create_for_nonprofit(role_name, email, nonprofit)
-    user = User.find_or_create_with_email(email)
+    user = User.find_or_create_with_email(email, nonprofit.require_two_factor?)
     role = Role.create(user: user, name: role_name, host: nonprofit)
     return role unless role.valid?
 

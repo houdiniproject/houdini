@@ -78,3 +78,5 @@ app/javascript/routes.js
 app/javascript/routes.d.ts
 
 vendor
+# dumpcar dumps
+/db/dumps

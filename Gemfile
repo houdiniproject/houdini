@@ -88,6 +88,7 @@ gem "rexml" # needed on Ruby 3
 gem "csv" # needed on Ruby 3.4
 
 group :development, :ci, :test do
+  gem "dumpcar"
   gem "standard"
   gem "standard-rails"
   gem "listen"

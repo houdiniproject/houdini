@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_15_004028) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_18_232735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -528,6 +528,27 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_15_004028) do
     t.integer "user_id"
   end
 
+  create_table "maintenance_tasks_runs", force: :cascade do |t|
+    t.string "task_name", null: false
+    t.datetime "started_at", precision: nil
+    t.datetime "ended_at", precision: nil
+    t.float "time_running", default: 0.0, null: false
+    t.bigint "tick_count", default: 0, null: false
+    t.bigint "tick_total"
+    t.string "job_id"
+    t.string "cursor"
+    t.string "status", default: "enqueued", null: false
+    t.string "error_class"
+    t.string "error_message"
+    t.text "backtrace"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "arguments"
+    t.integer "lock_version", default: 0, null: false
+    t.text "metadata"
+    t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
+  end
+
   create_table "manual_balance_adjustments", id: :serial, force: :cascade do |t|
     t.integer "gross_amount", default: 0
     t.integer "fee_total", default: 0
@@ -900,8 +921,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_15_004028) do
     t.boolean "disbursed"
     t.integer "user_id"
     t.integer "payment_id"
+    t.bigint "nonprofit_id"
+    t.bigint "supporter_id"
     t.index ["charge_id"], name: "index_refunds_on_charge_id"
+    t.index ["nonprofit_id"], name: "index_refunds_on_nonprofit_id"
     t.index ["payment_id"], name: "index_refunds_on_payment_id"
+    t.index ["supporter_id"], name: "index_refunds_on_supporter_id"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -1340,10 +1365,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_15_004028) do
   create_trigger :update_donations_fts, sql_definition: <<-SQL
       CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE ON public.donations FOR EACH ROW EXECUTE FUNCTION update_fts_on_donations()
   SQL
-  create_trigger :update_supporters_phone_index, sql_definition: <<-SQL
-      CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_phone_index_on_supporters()
-  SQL
   create_trigger :update_supporters_fts, sql_definition: <<-SQL
       CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
+  SQL
+  create_trigger :update_supporters_phone_index, sql_definition: <<-SQL
+      CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_phone_index_on_supporters()
   SQL
 end

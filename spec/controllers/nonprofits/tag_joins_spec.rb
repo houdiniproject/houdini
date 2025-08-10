@@ -41,6 +41,11 @@ describe Nonprofits::TagJoinsController, type: :controller do
           expect(supporter.tag_joins.count).to eq 1
         end
 
+        it "succeeds when tags are empty" do
+          post :modify, params: params.merge(tags: [])
+          expect(supporter.tag_joins).to be_empty
+        end
+
         # The line below raises the following error. I suspect it is due to the oldness of our Rails and Ruby.
         # We can turn this back on in newer versions and see if it works
         #     1) Nonprofits::TagJoinsController authorization modify permitting is expected to (for POST #modify) restrict parameters on :tags to :tag_master_id

@@ -34,7 +34,7 @@ module Nonprofits
     end
 
     def tag_modify_params
-      modify_params.require(:tags)
+      modify_params[:tags]
     end
   end
 end

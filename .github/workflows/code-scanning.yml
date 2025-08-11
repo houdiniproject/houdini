@@ -21,7 +21,7 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/install-packages
         with:
           node: ${{ env.tool_node_version }}
@@ -47,7 +47,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - uses: ./.github/actions/install-packages
         with:
           ruby: ${{ env.tool_ruby_version }}

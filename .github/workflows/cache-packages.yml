@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ inputs.os }}
     if: ${{ inputs.node && inputs.node != ''  && inputs.node != 'false'}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/install-packages
         with:
           node: ${{ inputs.node }}
@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ inputs.os }}
     if: ${{ inputs.ruby && inputs.ruby != '' && inputs.ruby != 'false' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/install-packages
         with:
           ruby: ${{ inputs.ruby }}

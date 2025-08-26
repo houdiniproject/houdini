@@ -32,17 +32,19 @@ class Event < ApplicationRecord
     :hide_title,  # bool
     :organizer_email, # string
     :receipt_message, # text
-    :nonprofit
+    :nonprofit,
+    :in_person_or_virtual
+
+  enum :in_person_or_virtual, in_person: "in_person", virtual: "virtual"
 
   validates :name, presence: true
   validates :end_datetime, presence: true
   validates :start_datetime, presence: true
-  validates :address, presence: true
-  validates :city, presence: true
-  validates :state_code, presence: true
   validates :slug, presence: true, uniqueness: {scope: :nonprofit_id, message: "You already have an event with that URL"}
   validates :nonprofit_id, presence: true
   validates :profile_id, presence: true
+
+  validate :virtual_or_valid_address
 
   belongs_to :nonprofit
   belongs_to :profile
@@ -114,5 +116,15 @@ class Event < ApplicationRecord
 
   def get_tickets_button_label
     misc_event_info&.custom_get_tickets_button_label || "Get Tickets"
+  end
+
+  private
+
+  def virtual_or_valid_address
+    unless virtual?
+      errors.add(:address, :blank) if address.blank?
+      errors.add(:city, :blank) if city.blank?
+      errors.add(:state_code, :blank) if state_code.blank?
+    end
   end
 end

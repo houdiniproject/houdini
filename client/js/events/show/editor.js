@@ -22,6 +22,15 @@ new Pikaday({
 	minDate: app.event_date || moment().toDate()
 })
 
+
+$('input[type=radio][name="event[in_person_or_virtual]"]').on('change', (event) => {
+	if (event.currentTarget.value === 'in_person')
+		$('#editEventInPersonFields').removeClass('u-hide')
+	else
+		$('#editEventInPersonFields').addClass('u-hide')
+})
+
+
 var editable = require('../../common/editable')
 
 editable($('#js-eventDescription'), {

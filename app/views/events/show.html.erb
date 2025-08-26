@@ -37,7 +37,9 @@
 	</script>
 
 	<%= render 'common/froala' if current_event_editor? %>
-  <%= render 'schema', event: @event, url: @url %>
+  <%= 
+		render('schema', event: @event, url: @url) if @event.in_person?  #the ld-json schema only works for in person events https://developers.google.com/search/docs/appearance/structured-data/event#content-guidelines
+	%>
 	<script>
 				var ticketPaymentCard = stripeV3.elements({
         fonts: [
@@ -124,7 +126,7 @@
     <% end %>
 
 		<%= render 'date_time' %>
-		<%= render 'location' %>
+		<%= render 'location', event: @event %>
 		<%= render 'event_metrics' if (@event.show_total_raised || @event.show_total_count) %>
 
     <div class='u-marginBottom--15'>

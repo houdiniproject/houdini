@@ -1,11 +1,11 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const flyd = require('flyd')
 const render = require('ff-core/render')
 const snabbdom = require('snabbdom')
 
 const request = require('../../common/request')
 const listing = require('../listing-item')
+const upperFirst = require('lodash/upperFirst');
 
 module.exports = pathPrefix => {
   const get = param => {
@@ -24,16 +24,16 @@ module.exports = pathPrefix => {
 
   const listings = (key, state) => {
     const resp$ = state[key]
-    const mixin = content =>
+    const sectionForEventType = content =>
       h('section.u-marginBottom--30', [
-        h('h5.u-centered.u-marginBottom--20', key.charAt(0).toUpperCase() + key.slice(1) + ' Events')
+        h('h5.u-centered.u-marginBottom--20', upperFirst(key) + ' Events')
       , h(`div.fundraiser--${key}`, content)
       ])
     if(!resp$()) 
-      return mixin([h('p.u-padding--15', 'Loading...')])
+      return sectionForEventType([h('p.u-padding--15', 'Loading...')])
     if(!resp$().body.length) 
-      return mixin([h('p.u-padding--15', `No ${key} events`)])
-    return mixin(resp$().body.map(listing));
+      return sectionForEventType([h('p.u-padding--15', `No ${key} events`)])
+    return sectionForEventType(resp$().body.map(listing));
   }
 
   const view = state => 

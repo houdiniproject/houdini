@@ -36,7 +36,6 @@ todos(function(data, url) {
 
 // the only ff component so far on this page is events listings
 const h = require('snabbdom/h')
-const flyd = require('flyd')
 const render = require('ff-core/render')
 
 const request = require('../../common/request')
@@ -48,12 +47,12 @@ const init = _ => {
 }
 
 const view = state => {
-  const mixin = content => h('section', content)
+  const section = content => h('section', content)
   if(!state.resp$())
-    return mixin([h('p.u-padding--15.u-centered', 'Loading...')])
+    return section([h('p.u-padding--15.u-centered', 'Loading...')])
   if(!state.resp$().body.length)
-    return mixin([h('p.u-padding--15.u-centered', `None currently`)])
-  return mixin(state.resp$().body.map(listing));
+    return section([h('p.u-padding--15.u-centered', `None currently`)])
+  return section(state.resp$().body.map(listing));
 }
 
 var container = document.querySelector('#js-eventsListing')

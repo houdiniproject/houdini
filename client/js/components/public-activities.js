@@ -27,13 +27,13 @@ const activities = data => {
 
 const view = state => {
   if(app.hide_activities) return ''
-  const mixin = content =>
+  const recentActivitiesSection = content =>
     h('section.pastelBox--grey', [h('header', 'Recent Activity'), content])
   if (!state.formattedResp$())
-    return mixin(h('div.u-padding--15.u-centered.u-color--grey', 'Loading...'))
+    return recentActivitiesSection(h('div.u-padding--15.u-centered.u-color--grey', 'Loading...'))
   if (!state.formattedResp$().length)
-    return mixin(h('div.u-padding--15.u-centered.u-color--grey', 'None yet'))
-  return mixin(h('table.u-margin--0.table--striped', [
+    return recentActivitiesSection(h('div.u-padding--15.u-centered.u-color--grey', 'None yet'))
+  return recentActivitiesSection(h('table.u-margin--0.table--striped', [
       h('tbody', state.formattedResp$().map(activities))
     ]))
 }

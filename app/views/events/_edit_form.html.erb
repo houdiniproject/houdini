@@ -43,17 +43,15 @@
 
   <section class='group'>
     <div class='col-left-8 u-paddingRight--30'>
+      <fieldset>
+        <%= form.radio_button('in_person_or_virtual', 'in_person')%>
+        <%= form.label('in_person_or_virtual', "In Person", value:'in_person')%>
+      </fieldset>
 
-        <fieldset class='col-left-6'>
-          <%= form.radio_button('in_person_or_virtual', 'in_person')%>
-          <%= form.label('in_person_or_virtual', "In Person", value:'in_person')%>
-        </fieldset>
-          
-
-        <fieldset class='col-left-6'>
-          <%= form.radio_button( 'in_person_or_virtual', 'virtual')%>
-          <%= form.label('in_person_or_virtual', "Virtual", value:'virtual') %>
-        </fieldset>
+      <fieldset>
+        <%= form.radio_button( 'in_person_or_virtual', 'virtual')%>
+        <%= form.label('in_person_or_virtual', "Virtual", value:'virtual') %>
+      </fieldset>
 
       <%= content_tag :div, id: "editEventInPersonFields", class: @event.virtual? ? "u-hide" : "" do %>
       <fieldset>

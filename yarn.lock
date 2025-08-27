@@ -4631,11 +4631,6 @@ form-serialize@^0.7.1:
   resolved "https://registry.yarnpkg.com/form-serialize/-/form-serialize-0.7.2.tgz#b0a2ff0c22026fb6d3d15c9d33f6de6a432e4732"
   integrity sha512-ohEA4Crzd/+hSREjGf4kSsy73WhAtQ7H+blGEz2DVd+JCi0TV5nZBSn9PaPlvrl9m29fa6xclAfpRkqZ57b1bw==
 
-format-number@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/format-number/-/format-number-2.0.2.tgz#8be2aa6fa6ef5ec43830892b1daee72705f9b462"
-  integrity sha512-ibyz0JpwyGjdb/7iOAzo6YeZuA5Z6vYFGGiw+5a11qduwHG669BrNIXm6BDqe5SideoPAi9PRXqGTcderFjNxQ==
-
 formidable@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-2.0.1.tgz#4310bc7965d185536f9565184dee74fbb75557ff"

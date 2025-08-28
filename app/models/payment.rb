@@ -35,7 +35,6 @@ class Payment < ApplicationRecord
   has_many :charges
   has_one :misc_payment_info
   has_one :journal_entries_to_item, as: :item
-  has_one :payment_dupe_status
   has_one :manual_balance_adjustment
 
   has_one :subtransaction_payment, foreign_key: "legacy_payment_id", inverse_of: :legacy_payment
@@ -80,7 +79,6 @@ class Payment < ApplicationRecord
 
   scope :anonymous, -> { includes(:donation, :supporter).where("donations.anonymous OR supporters.anonymous").references(:supporters, :donations) }
   scope :not_anonymous, -> { includes(:donation, :supporter).where("NOT(donations.anonymous OR supporters.anonymous)").references(:supporters, :donations) }
-  scope :not_matched, -> { joins("LEFT JOIN payment_dupe_statuses ON payment_dupe_statuses.payment_id = payments.id").where("payment_dupe_statuses.id IS NULL OR NOT payment_dupe_statuses.matched") }
 
   def consider_anonymous?
     !!(supporter&.anonymous || donation&.anonymous)

@@ -460,10 +460,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_18_232735) do
     t.index ["supporter_id"], name: "index_full_contact_infos_on_supporter_id"
   end
 
-  create_table "full_contact_jobs", force: :cascade do |t|
-    t.integer "supporter_id"
-  end
-
   create_table "full_contact_orgs", id: :serial, force: :cascade do |t|
     t.boolean "is_primary"
     t.string "name", limit: 255
@@ -921,12 +917,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_18_232735) do
     t.boolean "disbursed"
     t.integer "user_id"
     t.integer "payment_id"
-    t.bigint "nonprofit_id"
-    t.bigint "supporter_id"
     t.index ["charge_id"], name: "index_refunds_on_charge_id"
-    t.index ["nonprofit_id"], name: "index_refunds_on_nonprofit_id"
     t.index ["payment_id"], name: "index_refunds_on_payment_id"
-    t.index ["supporter_id"], name: "index_refunds_on_supporter_id"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -1365,10 +1357,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_18_232735) do
   create_trigger :update_donations_fts, sql_definition: <<-SQL
       CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE ON public.donations FOR EACH ROW EXECUTE FUNCTION update_fts_on_donations()
   SQL
-  create_trigger :update_supporters_fts, sql_definition: <<-SQL
-      CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
-  SQL
   create_trigger :update_supporters_phone_index, sql_definition: <<-SQL
       CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_phone_index_on_supporters()
+  SQL
+  create_trigger :update_supporters_fts, sql_definition: <<-SQL
+      CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
   SQL
 end

@@ -76,7 +76,7 @@
 				<%= form_with model: Event.new, 
 				url: false, # handled entirely by javascript
 				authenticity_token: false, # handled entirely by javascript so not needed
-				html: {"parsley-validate" => true} do |form| %>
+				html: { parsley_validate: true } do |form| %>
 					<!--= on 'submit' (advance_event_location_step form_data) -->
 
 					<fieldset>

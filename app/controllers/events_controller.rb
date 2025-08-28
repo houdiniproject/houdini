@@ -2,7 +2,9 @@
 class EventsController < ApplicationController
   include Controllers::EventHelper
 
+  helper :address
   helper_method :current_event_editor?
+
   before_action :authenticate_nonprofit_user!, only: :name_and_id
   before_action :authenticate_event_editor!, only: [:update, :soft_delete, :stats, :create, :duplicate]
 

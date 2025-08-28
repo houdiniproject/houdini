@@ -50,7 +50,7 @@
       <% if @event.in_person? %>
         <p><%= @event.address %></p>
         <p><%= @event.city %>, <%= @event.state_code %> <%= @event.zip_code %></p>
-        <p><a href='https://maps.google.com/?q=<%= Format::Address.full_address(@event.address, @event.city, @event.state_code) %>'>Map link</a></p>
+        <p><a href='<%= google_maps_url(@event) %>'>Map link</a></p>
       <% else %>
         <p>Virtual</p>
       <% end %>

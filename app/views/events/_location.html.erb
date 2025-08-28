@@ -6,13 +6,12 @@
 		<% if event.virtual? %>
 			<h6 class='u-marginTop--0'>Virtual</h6>
 		<% else %>
-			<% addr = Format::Address.full_address(event.address, event.city, event.state_code, event.zip_code) %>
 			<h6 class='u-marginTop--0'><%= event.venue_name %></h6>
 			<p class='strong u-marginBottom--20'>
 				<%= event.address %><br>
 				<%= event.city %>, <%= event.state_code %> <%= event.zip_code %>
 			</p>
-			<a class='strong' href="http://maps.google.com/?q=<%= addr %>" target='_blank' if-branded='color, darker'>
+			<a class='strong' href="<%= google_maps_url(event) %>" target='_blank' if-branded='color, darker'>
 				<i class='fa fa-map-marker'></i>&nbsp; View on Map
 			</a>
 		<% end %>

@@ -312,30 +312,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_26_154514) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
-  create_table "e_tap_import_contacts", id: :serial, force: :cascade do |t|
-    t.integer "e_tap_import_id"
-    t.jsonb "row"
-    t.integer "supporter_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["e_tap_import_id"], name: "index_e_tap_import_contacts_on_e_tap_import_id"
-    t.index ["supporter_id"], name: "index_e_tap_import_contacts_on_supporter_id"
-  end
-
-  create_table "e_tap_import_journal_entries", id: :serial, force: :cascade do |t|
-    t.integer "e_tap_import_id"
-    t.jsonb "row"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["e_tap_import_id"], name: "index_e_tap_import_journal_entries_on_e_tap_import_id"
-  end
-
-  create_table "e_tap_imports", id: :serial, force: :cascade do |t|
-    t.integer "nonprofit_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
   create_table "email_customizations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.text "contents"
@@ -554,11 +530,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_26_154514) do
     t.integer "user_id"
   end
 
-  create_table "journal_entries_to_items", id: :serial, force: :cascade do |t|
-    t.integer "e_tap_import_journal_entry_id"
-    t.integer "item_id"
-    t.string "item_type"
-  end
 
   create_table "manual_balance_adjustments", id: :serial, force: :cascade do |t|
     t.integer "gross_amount", default: 0
@@ -784,15 +755,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_26_154514) do
     t.index ["supporter_id"], name: "index_offsite_payments_on_supporter_id"
   end
 
-  create_table "payment_dupe_statuses", id: :serial, force: :cascade do |t|
-    t.integer "payment_id"
-    t.boolean "matched", default: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "matched_with_offline", default: [], array: true
-    t.index ["payment_id"], name: "index_payment_dupe_statuses_on_payment_id"
-  end
-
   create_table "payment_imports", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "nonprofit_id"
@@ -887,17 +849,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_26_154514) do
     t.string "last_name", limit: 255
     t.text "mini_bio"
     t.string "country", limit: 255, default: "US"
-  end
-
-  create_table "reassignments", id: :serial, force: :cascade do |t|
-    t.integer "item_id"
-    t.string "item_type"
-    t.integer "e_tap_import_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "source_supporter_id"
-    t.integer "target_supporter_id"
-    t.index ["e_tap_import_id"], name: "index_reassignments_on_e_tap_import_id"
   end
 
   create_table "recaptcha_rejections", id: :serial, force: :cascade do |t|

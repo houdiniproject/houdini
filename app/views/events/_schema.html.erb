@@ -15,7 +15,7 @@
       "streetAddress": "<%= event.address %>"
     },
     "name": "<%= event.venue_name %>",
-    "url": "http://maps.google.com/?q=<%= Format::Address.full_address(@event.address, @event.city, @event.state_code, @event.zip_code) %>"
+    "url": "<%=  google_maps_url(event) %>"
   },
   "startDate": "<%= 
   date = nil

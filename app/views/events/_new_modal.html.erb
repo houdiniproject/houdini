@@ -73,10 +73,22 @@
 			<div class='wizard-step location-step'>
 				<!--= wizard.set_step 'new_event_wiz' 'Location' -->
 
-				<form parsley-validate>
-					<!--= on 'submit' (def 'new_event' form_object) (wizard.advance 'new_event_wiz') -->
+				<%= form_with model: Event.new, 
+				url: false, # handled entirely by javascript
+				authenticity_token: false, # handled entirely by javascript so not needed
+				html: { parsley_validate: true } do |form| %>
+					<!--= on 'submit' (advance_event_location_step form_data) -->
 
-					<div class='layout--two'>
+					<fieldset>
+						 <%= form.radio_button('in_person_or_virtual', 'in_person') %>
+          	 <%= form.label('in_person_or_virtual', "In Person", value: 'in_person') %>
+        	</fieldset>
+          
+          <fieldset class='col-left-6'>
+            <%= form.radio_button( 'in_person_or_virtual', 'virtual') %>
+            <%= form.label('in_person_or_virtual', "Virtual", value: 'virtual') %>
+          </fieldset>
+					<div class='layout--two' id="newEventModalInPersonFields">
 
 						<fieldset>
 							<label>Venue Name</label>
@@ -107,7 +119,7 @@
 
 				<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_event_wiz', branded: true %>
 
-				</form>
+				<% end %>
 			</div><!-- .location-step -->
 
 			<div class='wizard-step images-step'>

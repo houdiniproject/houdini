@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_18_232735) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_26_154514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -382,6 +382,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_18_232735) do
     t.string "organizer_email", limit: 255
     t.datetime "start_datetime", precision: nil
     t.datetime "end_datetime", precision: nil
+    t.string "in_person_or_virtual", default: "in_person", comment: "whether or not this is a virtual event"
+    t.index ["in_person_or_virtual"], name: "index_events_on_in_person_or_virtual"
     t.index ["nonprofit_id", "deleted", "published", "end_datetime"], name: "events_nonprofit_id_not_deleted_and_published_endtime"
     t.index ["nonprofit_id", "deleted", "published"], name: "index_events_on_nonprofit_id_and_deleted_and_published"
     t.index ["nonprofit_id"], name: "index_events_on_nonprofit_id"

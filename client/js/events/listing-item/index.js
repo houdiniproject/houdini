@@ -28,12 +28,28 @@ const row = (icon, content) =>
   , h('td.u-padding--10', content)
   ])
 
+/**
+ * 
+ * @param {*} event an event for a location
+ * @returns {ReturnType<typeof h>[]}
+ */
+const locationElements = (event) => {
+  if (event.in_person_or_virtual === 'virtual') {
+    return [
+      h('p.strong.u-margin--0', 'Virtual')
+    ]
+  }
+  else {
+    return [
+      h('p.strong.u-margin--0', event.venue_name) 
+    , h('p.u-margin--0', commaJoin([event.address, event.city, event.state_code, event.zip_code]))
+    ]
+  }
+}
+
 module.exports = e => {
   const path = `/nonprofits/${app.nonprofit_id}/events/${e.id}`
-  const location = [
-    h('p.strong.u-margin--0', e.venue_name) 
-  , h('p.u-margin--0', commaJoin([e.address, e.city, e.state_code, e.zip_code]))
-  ]
+  const location = locationElements(e)
   const attendeesMetrics = [
     metric('Attendees', e.total_attendees) 
   , metric('Checked In', e.checked_in_count) 

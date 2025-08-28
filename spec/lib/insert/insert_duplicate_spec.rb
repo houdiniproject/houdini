@@ -236,8 +236,9 @@ describe InsertDuplicate do
         zip_code: nil,
         show_total_count: false,
 
-        show_total_raised: false
+        show_total_raised: false,
 
+        in_person_or_virtual: "in_person"
       }.with_indifferent_access
     }
 
@@ -327,6 +328,23 @@ describe InsertDuplicate do
       ).with_indifferent_access)
       validate_tls(result)
       validate_eds(result)
+    end
+
+    it "copies an event with virtual" do
+      event.in_person_or_virtual = "virtual"
+      event.address = nil
+      event.city = nil
+      event.state_code = nil
+
+      event.save!
+
+      result = InsertDuplicate.event(event.id, profile.id)
+
+      expect(result).to be_persisted
+      expect(result).to be_virtual
+      expect(result.address).to be_nil
+      expect(result.city).to be_nil
+      expect(result.state_code).to be_nil
     end
 
     context "when there are misc_event_infos to be copied" do

@@ -35,4 +35,11 @@ RSpec.describe Ticket, type: :model do
   it "has ticket4 getting no related tickets" do
     expect(ticket4.related_tickets).to be_empty
   end
+
+  it "has a valid ticket_base factory" do
+    ticket = build(:ticket_base)
+
+    ticket.valid?
+    expect(ticket.errors).to be_empty
+  end
 end

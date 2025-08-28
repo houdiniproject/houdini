@@ -32,14 +32,20 @@ class Event < ApplicationRecord
     :hide_title,  # bool
     :organizer_email, # string
     :receipt_message, # text
-    :nonprofit
+    :nonprofit,
+    :in_person_or_virtual
+
+  enum :in_person_or_virtual, %w[in_person virtual].index_by(&:itself), validate: true
 
   validates :name, presence: true
   validates :end_datetime, presence: true
   validates :start_datetime, presence: true
-  validates :address, presence: true
-  validates :city, presence: true
-  validates :state_code, presence: true
+  with_options unless: :virtual? do
+    validates :address, presence: true
+    validates :city, presence: true
+    validates :state_code, presence: true
+  end
+
   validates :slug, presence: true, uniqueness: {scope: :nonprofit_id, message: "You already have an event with that URL"}
   validates :nonprofit_id, presence: true
   validates :profile_id, presence: true

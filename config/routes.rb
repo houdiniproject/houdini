@@ -317,5 +317,7 @@ Rails.application.routes.draw do
   get "/static/ccs" => "static#ccs"
   get "/cloudflare_errors/under_attack" => "cloudflare_errors#under_attack"
 
+  mount MaintenanceTasks::Engine, at: "/maintenance_tasks"
+
   root to: "front#index"
 end

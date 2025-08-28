@@ -35,7 +35,7 @@ class Event < ApplicationRecord
     :nonprofit,
     :in_person_or_virtual
 
-  enum :in_person_or_virtual, {in_person: "in_person", virtual: "virtual"}, validate: true
+  enum :in_person_or_virtual, %w[in_person virtual].index_by(&:itself), validate: true
 
   validates :name, presence: true
   validates :end_datetime, presence: true

@@ -80,15 +80,14 @@
 					<!--= on 'submit' (advance_event_location_step form_data) -->
 
 					<fieldset>
-						 <%= form.radio_button('in_person_or_virtual', 'in_person')%>
-          	 <%= form.label('in_person_or_virtual', "In Person", value:'in_person')%>
+						 <%= form.radio_button('in_person_or_virtual', 'in_person') %>
+          	 <%= form.label('in_person_or_virtual', "In Person", value: 'in_person') %>
         	</fieldset>
           
-
-        <fieldset class='col-left-6'>
-          <%= form.radio_button( 'in_person_or_virtual', 'virtual')%>
-          <%= form.label('in_person_or_virtual', "Virtual", value:'virtual') %>
-        </fieldset>
+          <fieldset class='col-left-6'>
+            <%= form.radio_button( 'in_person_or_virtual', 'virtual') %>
+            <%= form.label('in_person_or_virtual', "Virtual", value: 'virtual') %>
+          </fieldset>
 					<div class='layout--two' id="newEventModalInPersonFields">
 
 						<fieldset>

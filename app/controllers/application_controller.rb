@@ -87,10 +87,10 @@ class ApplicationController < ActionController::Base
     store_location
     if current_user
       flash[:notice] = "It looks like you're not allowed to access that page. If this seems like a mistake, please contact #{Settings.mailer.email}"
-      redirect_to root_path
+      redirect_to Rails.application.routes.url_helpers.root_path # if an controller in an engine inherits this, we need to specify which url_helpers we're using
     else
       msg ||= "We need to sign you in before you can do that."
-      redirect_to new_user_session_path, flash: {error: msg}
+      redirect_to Rails.application.routes.url_helpers.new_user_session_path, flash: {error: msg} # if an controller in an engine inherits this, we need to specify which url_helpers we're using
     end
   end
 

@@ -6,7 +6,7 @@ ARG BASE=${BASE_IMAGE}:${BASE_TAG}
 
 FROM ${BASE} AS builder
 
-ENV LANG en_US.UTF-8
+ENV LANG=en_US.UTF-8
 
 RUN apt-get update -qq \
   && apt-get install -y \
@@ -40,7 +40,7 @@ COPY . ${RAILS_ROOT}
 
 FROM ${BASE}
 
-ENV LANG en_US.UTF-8
+ENV LANG=en_US.UTF-8
 RUN apt-get update -qq \
   && apt-get install -y libjemalloc2 tzdata libv8-dev curl git build-essential libpq-dev \
   && curl -sL https://deb.nodesource.com/setup_16.x | bash \
@@ -73,9 +73,9 @@ COPY --from=builder --chown=app:app /app /app
 
 ENV RAILS_ENV=development
 ENV IS_DOCKER=true
-ENV RAILS_LOG_TO_STDOUT true
-ENV RAILS_SERVE_STATIC_FILES true
-ENV PORT 3000
+ENV RAILS_LOG_TO_STDOUT=true
+ENV RAILS_SERVE_STATIC_FILES=true
+ENV PORT=3000
 ARG RAILS_ROOT=/app/
 
 WORKDIR $RAILS_ROOT

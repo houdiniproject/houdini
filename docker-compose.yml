@@ -12,7 +12,10 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=commitchange_development_legacy
   web:
-    build: .
+    build:
+      context: .
+      args:
+        BASE_RELEASE: ${BASE_RELEASE:-bullseye}
     volumes:
       - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc # for heroku credentials
       - ./vendor/bundle:/usr/local/bundle

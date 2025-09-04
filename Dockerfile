@@ -81,4 +81,4 @@ ARG RAILS_ROOT=/app/
 WORKDIR $RAILS_ROOT
 RUN touch /home/app/.netrc
 RUN mkdir -p tmp/pids
-CMD bundle check || (bundle update --bundler && bundle install -j4 --retry 3) && bin/dev start
+CMD bundle check || (bundle update --bundler && bundle install -j4 --retry 3) && bin/dev

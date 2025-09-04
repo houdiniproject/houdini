@@ -66,7 +66,7 @@ RUN curl https://cli-assets.heroku.com/install.sh | sh
 
 RUN groupadd --gid 1000 app && \
   useradd --uid 1000 --no-log-init --create-home --gid app app
-  
+
 USER app
 
 COPY --from=builder --chown=app:app /app /app

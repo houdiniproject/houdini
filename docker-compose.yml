@@ -32,3 +32,5 @@ services:
     depends_on:
       - db
     env_file: ".env"
+    tty: true
+    stdin_open: true

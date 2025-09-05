@@ -5,8 +5,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data:delegated
-      - ./tmp/shared:/tmp/shared:cached
+      - db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
@@ -39,3 +38,5 @@ services:
     stdin_open: true
     tmpfs:
       - /tmp/pids/
+volumes:
+  db_data:

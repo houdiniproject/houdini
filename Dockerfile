@@ -9,7 +9,7 @@ FROM ${BASE} AS builder
 ENV LANG=en_US.UTF-8
 
 RUN apt-get update -qq \
-  && apt-get install -y \
+  && apt-get install -y --no-install-recommends \
   build-essential \
   ca-certificates \
   curl \
@@ -22,7 +22,7 @@ RUN apt-get update -qq \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
   > /etc/apt/sources.list.d/yarn.list \
   && apt-get update -qq \
-  && apt-get install -y nodejs yarn \
+  && apt-get install -y --no-install-recommends nodejs yarn \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -42,13 +42,20 @@ FROM ${BASE}
 
 ENV LANG=en_US.UTF-8
 RUN apt-get update -qq \
-  && apt-get install -y libjemalloc2 tzdata libv8-dev curl git build-essential libpq-dev \
+  && apt-get install -y --no-install-recommends \
+  libjemalloc2 \
+  tzdata \
+  libv8-dev \
+  curl \
+  git \
+  build-essential \
+  libpq-dev \
   && curl -sL https://deb.nodesource.com/setup_16.x | bash \
   && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
   > /etc/apt/sources.list.d/yarn.list \
   && apt-get update -qq \
-  && apt-get install -y nodejs yarn \
+  && apt-get install -y --no-install-recommends nodejs yarn \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -58,7 +65,7 @@ RUN apt-get update -qq \
   > /etc/apt/sources.list.d/pgdg.list \
   && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg \
   && apt-get update -qq \
-  && apt-get install -y postgresql-client-16 \
+  && apt-get install -y --no-install-recommends postgresql-client-16 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 

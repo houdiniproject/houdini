@@ -72,10 +72,9 @@ jobs:
             username: admin
             password: password
             database: commitchange_test
-        - uses: actions/setup-node@v4
+        - uses: actions/setup-node@v5
           with:
             node-version: ${{ matrix.node }}
-            cache: 'yarn'
         - uses: ruby/setup-ruby@v1
           with:
             ruby-version: ${{ matrix.ruby }}

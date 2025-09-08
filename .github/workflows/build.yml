@@ -75,7 +75,6 @@ jobs:
         - uses: actions/setup-node@v5
           with:
             node-version: ${{ matrix.node }}
-            cache: 'yarn'
         - uses: ruby/setup-ruby@v1
           with:
             ruby-version: ${{ matrix.ruby }}

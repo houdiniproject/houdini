@@ -89,9 +89,9 @@ module Commitchange
     config.active_record.encryption.key_derivation_salt = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT")
 
     if ENV['RAILS_LOG_TO_STDOUT'].present?
-      logger           = ActiveSupport::Logger.new($stdout)
+      logger = ActiveSupport::Logger.new($stdout)
       logger.formatter = config.log_formatter
-      config.logger    = ActiveSupport::TaggedLogging.new(logger)
+      config.logger = ActiveSupport::TaggedLogging.new(logger)
     end
   end
 end

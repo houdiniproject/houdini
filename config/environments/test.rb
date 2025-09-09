@@ -85,11 +85,6 @@ Rails.application.configure do
   ENV["THROTTLE_SUPPORTER_LIMIT"] = "10"
   ENV["THROTTLE_SUPPORTER_PERIOD"] = "60"
 
-  config.after_initialize do
-    # ActiveRecord::Base.logger = nil
-    # ActionController::Base.logger =  nil
-    # ActionMailer::Base.logger = nil
-  end
   config.middleware.use Rack::Attack
 
   NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 2.hours

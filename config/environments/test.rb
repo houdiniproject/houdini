@@ -77,7 +77,7 @@ Rails.application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.log_level = :debug
+  config.log_level = :warn
 
   config.action_controller.allow_forgery_protection = false
   config.cache_store = :memory_store

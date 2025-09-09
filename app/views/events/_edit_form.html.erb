@@ -25,7 +25,7 @@
     <fieldset>
       <label>Start Date & Time</label>
       <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
-        <input class='u-width--200 u-bold u-inlineBlock' apply-pikaday-time='MM/DD/YYYY hh:mm a' type='text' name='event[start_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@event.start_datetime, @nonprofit.timezone || "UTC") %>'>
+        <input class='u-width--200 u-bold u-inlineBlock' apply-pikaday-time='MM/DD/YYYY hh:mm a' type='text' name='event[start_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@event.start_datetime, @event.nonprofit_timezone || "UTC") %>'>
         <a class='button edit u-inlineBlock'>Set</a>
       </div>
     </fieldset>
@@ -33,7 +33,7 @@
     <fieldset>
       <label>End Date & Time</label>
       <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
-        <input class='u-width--200 u-bold u-inlineBlock' type='text' name='event[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@event.end_datetime, @nonprofit.timezone || "UTC") %>'>
+        <input class='u-width--200 u-bold u-inlineBlock' type='text' name='event[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@event.end_datetime, @event.nonprofit_timezone || "UTC") %>'>
         <a class='button edit u-inlineBlock'>Set</a>
       </div>
     </fieldset>

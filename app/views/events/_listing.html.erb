@@ -2,7 +2,7 @@
 <% css = 'fundraiser--active' if css.nil? %>
 <section class='events <%= css %>'>
 	<div class='event-date'>
-    <p> <%= Format::Date.full_range(event.start_datetime, event.end_datetime, event.nonprofit.timezone) %> </p>
+    <p> <%= Format::Date.full_range(event.start_datetime, event.end_datetime, event.nonprofit_timezone) %> </p>
 	</div>
 	<a href='<%= event.url %>'>
 		<article class='event-text'>

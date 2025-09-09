@@ -8,7 +8,7 @@
 					<span class='fixedTopAction-metrics'>
 					<a if-branded='color, darker' href='<%= @nonprofit.url %>'><%= @nonprofit.name %></a>
 					<span class='u-capitalize'><%= @event.city %>, <%= @event.state_code %></span>
-          <span><%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @nonprofit.timezone) %></span>
+          <span><%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @event.nonprofit_timezone) %></span>
 				</td>
 
 				<td class='fixedTopAction-right'>

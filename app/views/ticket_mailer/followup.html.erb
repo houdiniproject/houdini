@@ -28,7 +28,7 @@
 	</tr>
 	<tr>
 		<td><strong>Date & Time</strong></td>
-    <td><%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @event.nonprofit.timezone) %></td>
+    <td><%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @event.nonprofit_timezone) %></td>
 	</tr>
   <% if @event.organizer_email %>
     <tr>

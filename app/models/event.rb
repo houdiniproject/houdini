@@ -99,6 +99,8 @@ class Event < ApplicationRecord
     self
   end
 
+  delegate :timezone, to: :nonprofit, prefix: true, allow_nil: true
+
   def url
     "#{nonprofit.url}/events/#{slug}"
   end

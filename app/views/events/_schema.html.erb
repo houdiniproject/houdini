@@ -20,7 +20,7 @@
   "startDate": "<%= 
   date = nil
   begin
-    date = Format::Date.full(@event.start_datetime, @event.nonprofit.timezone) 
+    date = Format::Date.full(@event.start_datetime, @event.nonprofit_timezone)
   rescue => e
     date = Format::Date.full(@event.start_datetime)
   end

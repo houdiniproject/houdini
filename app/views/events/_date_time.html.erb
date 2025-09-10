@@ -3,7 +3,7 @@
 	<header>Date &amp; Time</header>
 		<div class='pastelBox-body'>
 			<h5 class='strong u-marginBottom--0'>
-        <%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @nonprofit.timezone) %>
+        <%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @event.nonprofit_timezone) %>
 			</h5>
 
       <% if Time.now > @event.end_datetime %>

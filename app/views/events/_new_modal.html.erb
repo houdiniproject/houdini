@@ -55,12 +55,23 @@
             </div>
 					</fieldset>
 
-					<fieldset class='group u-marginBottom--15  u-relative'>
+					<fieldset class='group'>
 						<label class='u-floatL'>End Date & Time:</label>
             <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
               <input class='u-width--200 u-bold u-inlineBlock' type='text' name='event[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM'>
               <a class='button edit u-inlineBlock'>Set</a>
             </div>
+					</fieldset>
+
+					<fieldset class='group u-marginBottom--15 u-relative'>
+					  <label>Timezone</label>
+					  <div>
+					    <select class="u-bold" name='event[timezone]'>
+					      <% ActiveSupport::TimeZone.all.each do |tz| %>
+					        <option value='<%= tz.name %>' <%= "selected" if tz == @nonprofit.timezone %>><%= tz %></option>
+					      <% end %>
+					    </select>
+					  </div>
 					</fieldset>
 
 					<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_event_wiz', branded: true %>

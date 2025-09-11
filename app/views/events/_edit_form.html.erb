@@ -17,11 +17,12 @@
 
   <hr>
 
-  <section class='layout--four'>
+  <section class='layout--four u-padding--8'>
     <fieldset>
       <label>Organizer Contact Email</label>
       <input type='text' name='event[organizer_email]' value='<%= @event.organizer_email || @organizer['email'] %>'>
     </fieldset>
+
     <fieldset>
       <label>Start Date & Time</label>
       <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
@@ -35,6 +36,18 @@
       <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
         <input class='u-width--200 u-bold u-inlineBlock' type='text' name='event[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@event.end_datetime, @event.nonprofit_timezone || "UTC") %>'>
         <a class='button edit u-inlineBlock'>Set</a>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <label>Timezone</label>
+      <div>
+        <!--<input class='u-width--200 u-bold u-inlineBlock' type='text' name='event[timezone]' required parsley-trigger='change' value='<%= @event.timezone || @nonprofit.timezone || "UTC" %>'>-->
+        <select name='event[timezone]'>
+          <% ActiveSupport::TimeZone.all.each do |tz| %>
+            <option value='<%= tz.name %>' <% 'selected' if tz == @event.timezone || @nonprofit.timezone || "UTC" %>><%= tz %></option>
+          <% end %>
+        </select>
       </div>
     </fieldset>
   </section>

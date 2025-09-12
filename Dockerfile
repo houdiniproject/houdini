@@ -50,6 +50,7 @@ RUN apt-get update -qq \
   git \
   build-essential \
   libpq-dev \
+  libyaml-dev \
   && curl -sL https://deb.nodesource.com/setup_16.x | bash \
   && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
@@ -59,7 +60,7 @@ RUN apt-get update -qq \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-ARG BASE_RELEASE=bullseye
+ARG BASE_RELEASE=bookworm
 RUN apt-get update -qq \
   && echo "deb https://apt.postgresql.org/pub/repos/apt ${BASE_RELEASE}-pgdg main" \
   > /etc/apt/sources.list.d/pgdg.list \

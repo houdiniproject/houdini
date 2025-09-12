@@ -14,7 +14,7 @@ services:
     build:
       context: .
       args:
-        BASE_RELEASE: ${BASE_RELEASE:-bullseye}
+        BASE_RELEASE: ${BASE_RELEASE:-bookworm}
     volumes:
       - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc # for heroku credentials
       - ./vendor/bundle:/usr/local/bundle

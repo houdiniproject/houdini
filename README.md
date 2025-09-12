@@ -63,6 +63,46 @@ curl -o ./tmp/shared/latest.dump `heroku pg:backups:url -a commitchange`
 docker-compose exec db -e CC_PROD_DUMP_PATH="/tmp/shared/latest.dump" script/pg_restore_local_from_production.sh
 ```
 
+#### Docker Development Commands
+Use bin/cc-run for streamlined Docker commands:
+
+```bash
+# Generic commands - run any Rails/Bundle/Yarn command
+bin/cc-run rails db:migrate
+bin/cc-run rails db:setup
+bin/cc-run rails generate model User
+bin/cc-run rails routes | grep users
+bin/cc-run bundle install
+bin/cc-run bundle update
+bin/cc-run yarn install
+bin/cc-run yarn add react
+
+# Convenient shortcuts
+bin/cc-run console     # Rails console
+bin/cc-run test        # Run tests
+bin/cc-run bash        # Bash shell in web container
+bin/cc-run worker      # Bash shell in worker container
+```
+
+##### Optional: Create a Shell Alias
+For even faster commands, you can optionally create a shell alias:
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+alias ccr='bin/cc-run'
+
+# Then reload your shell
+source ~/.bashrc  # or source ~/.zshrc
+```
+
+Usage with alias:
+```bash
+ccr rails db:migrate
+ccr console
+ccr test
+ccr bash
+```
+
+
 #### One-time setup (Ubuntu)
 
 You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.

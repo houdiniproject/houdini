@@ -19,8 +19,7 @@ worker_timeout 3600 if env == "development"
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-tcp_port = ENV.fetch("PORT") { 5000 }
-port tcp_port
+port ENV.fetch("PORT") { 5000 }
 
 # Specifies the `environment` that Puma will run in.
 #

@@ -5,4 +5,12 @@ if gem list --no-installed --exact --silent foreman; then
   gem install foreman
 fi
 
-exec foreman start -f Procfile.dev --env /dev/null "$@"
+# exec foreman start -f Procfile.dev --env /dev/null "$@"
+
+
+# Use different Procfile based on environment
+if [ "$IS_DOCKER" = "true" ]; then
+  exec foreman start -f Procfile.docker.dev --env /dev/null "$@"
+else
+  exec foreman start -f Procfile.dev --env /dev/null "$@"
+fi

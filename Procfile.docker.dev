@@ -1,3 +1,2 @@
 web: bundle exec puma -p $PORT -C ./config/puma.rb
 webpack: yarn watch
-worker: bin/rails jobs:work

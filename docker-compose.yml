@@ -27,7 +27,7 @@ services:
       - ./script:/app/script
       - ./types:/app/types
     ports:
-      - "${PORT}:5000"
+      - "${PORT:-5000}:${PORT:-5000}"
     environment:
       - DATABASE_HOST=db
       - BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development_legacy

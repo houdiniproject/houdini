@@ -80,16 +80,18 @@ USER app
 COPY --from=builder --chown=app:app /app /app
 
 ENV RAILS_ENV=development
-ENV IS_DOCKER=true
+ENV RUBY_STDOUT_SYNC=true
 ENV RAILS_LOG_TO_STDOUT=true
 ENV RAILS_SERVE_STATIC_FILES=true
-ENV PORT=3000
 ENV LD_PRELOAD="libjemalloc.so.2"
 ENV RUBY_YJIT_ENABLE=1
 ENV MALLOC_CONF="dirty_decay_ms:1000,narenas:2,background_thread:true"
 ARG RAILS_ROOT=/app/
+ARG PORT=5000
 
 WORKDIR $RAILS_ROOT
 RUN touch /home/app/.netrc
 RUN mkdir -p tmp/pids
-CMD bundle check || (bundle update --bundler && bundle install -j4 --retry 3) && bin/dev
+RUN bundle check || (bundle update --bundler && bundle install -j4 --retry 3)
+
+CMD ["bin/dev"]

@@ -1,2 +1,2 @@
-port: 5000
+port: ${PORT:-5000}
 procfile: Procfile.dev

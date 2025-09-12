@@ -19,7 +19,8 @@ worker_timeout 3600 if env == "development"
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port ENV.fetch("PORT") { 5000 }
+tcp_port = ENV.fetch("PORT") { 5000 }
+port tcp_port
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -62,12 +63,16 @@ end
 # or connections that may have been created at application boot, as Ruby
 # cannot share connections between processes.
 #
-on_worker_boot do
-  ActiveRecord::Base.establish_connection
+if env != "development"
+  on_worker_boot do
+    ActiveRecord::Base.establish_connection
+  end
 end
 
-before_fork do
-  Barnes.start
+if env != "development"
+  before_fork do
+    Barnes.start
+  end
 end
 
 # Allow puma to be restarted by `rails restart` command.

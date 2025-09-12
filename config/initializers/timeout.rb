@@ -4,5 +4,8 @@
 # For staging and prod, you should set the RACK_TIMEOUT_SERVICE_TIMEOUT environment variable
 if Rails.env.development? || ENV["IDE_PROCESS_DISPATCHER"]
   ENV["RACK_TIMEOUT_SERVICE_TIMEOUT"] = 2.hours.to_s
+end
+
+if Rails.env.local?
   Rack::Timeout::Logger.disable # quiet logs in dev
 end

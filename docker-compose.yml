@@ -38,5 +38,31 @@ services:
     stdin_open: true
     tmpfs:
       - /tmp/pids/
+  worker:
+    build:
+      context: .
+      args:
+        BASE_RELEASE: ${BASE_RELEASE:-bookworm}
+    volumes:
+      - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc
+      - ./vendor/bundle:/usr/local/bundle
+      - ./app:/app/app
+      - ./bin:/app/bin
+      - ./config:/app/config
+      - ./db:/app/db
+      - ./javascripts:/app/javascripts
+      - ./lib:/app/lib
+      - ./script:/app/script
+      - ./types:/app/types
+    environment:
+      - DATABASE_HOST=db
+      - BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development_legacy
+    depends_on:
+      - db
+      - web
+    env_file: ".env"
+    command: ["bin/rails", "jobs:work"]
+    tty: true
+    stdin_open: true
 volumes:
   db_data:

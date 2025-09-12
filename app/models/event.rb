@@ -33,7 +33,8 @@ class Event < ApplicationRecord
     :organizer_email, # string
     :receipt_message, # text
     :nonprofit,
-    :in_person_or_virtual
+    :in_person_or_virtual,
+    :timezone # string (timezone): event time zone if different from nonprofit timezone
 
   enum :in_person_or_virtual, %w[in_person virtual].index_by(&:itself), validate: true
 

@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Rails.application.configure do
-  if !Rails.env.test?
+  if !Rails.env.local?
 
     config.lograge.enabled = true
     # add time to lograge

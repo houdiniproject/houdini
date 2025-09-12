@@ -124,9 +124,6 @@ gem "sassc"
 gem "sassc-rails"
 gem "terser"
 
-# make logging less terrible in rails
-gem "lograge"
-
 gem "config", "~> 2.0"
 gem "dry-validation" # used only for config validation
 
@@ -139,6 +136,9 @@ group :production, :staging do
   gem "hiredis", "~> 0.6.0"
   gem "redis", ">= 3.2.0"
   gem "redis-actionpack"
+
+  # structured logging for deployed environments
+  gem "lograge"
 end
 
 gem "recaptcha", "~> 5.19"

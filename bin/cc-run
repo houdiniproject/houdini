@@ -2,51 +2,87 @@
 
 set -e
 
+# Detect docker-compose vs docker compose
+detect_docker_compose() {
+  if command -v docker-compose >/dev/null 2>&1; then
+    echo "docker-compose"
+  elif docker compose version >/dev/null 2>&1; then
+    echo "docker compose"
+  else
+    echo "Error: Neither 'docker-compose' nor 'docker compose' found. Exiting..." >&2
+    exit 1
+  fi
+}
+
+DOCKER_COMPOSE=$(detect_docker_compose)
+
 case "$1" in
   rails)
-    shift  # Remove 'rails' from arguments
-    docker-compose run --rm web rails "$@"
+    shift
+    $DOCKER_COMPOSE run --rm web rails "$@"
     ;;
   bundle)
-    shift  # Remove 'bundle' from arguments
-    docker-compose run --rm web bundle "$@"
+    shift
+    $DOCKER_COMPOSE run --rm web bundle "$@"
     ;;
   yarn)
-    shift  # Remove 'yarn' from arguments
-    docker-compose run --rm web yarn "$@"
+    shift
+    $DOCKER_COMPOSE run --rm web yarn "$@"
+    ;;
+  standardrb)
+    shift
+    $DOCKER_COMPOSE run --rm web bundle exec standardrb "$@"
+    ;;
+  restart)
+    echo "Restarting all containers..."
+    $DOCKER_COMPOSE restart
+    ;;
+  rebuild)
+    echo "Rebuilding and restarting containers..."
+    $DOCKER_COMPOSE down
+    $DOCKER_COMPOSE up --build -d
+    echo "Containers rebuilt and started in detached mode"
     ;;
   console|c)
-    docker-compose run --rm web rails console
+    $DOCKER_COMPOSE run --rm web rails console
     ;;
-  test|rspec|spec|t)
-    docker-compose run --rm web bundle exec rspec "$@"
+  test|t)
+    $DOCKER_COMPOSE run --rm web bundle exec rspec
     ;;
   bash|sh)
-    docker-compose run --rm web bash
+    $DOCKER_COMPOSE run --rm web bash
+    ;;
+  setup)
+    $DOCKER_COMPOSE run --rm web bin/setup
     ;;
   worker)
-    docker-compose run --rm worker bash
+    $DOCKER_COMPOSE run --rm worker bash
     ;;
   *)
-    echo "Usage: bin/cc-run {rails|bundle|yarn|console|test|bash|worker} [args...]"
+    echo "Usage: bin/cc-run {rails|bundle|yarn|standardrb|restart|rebuild|console|test|bash|worker} [args...]"
     echo ""
     echo "Generic commands:"
-    echo "  rails [args]  - Run any rails command"
-    echo "  bundle [args] - Run any bundle command"
-    echo "  yarn [args]   - Run any yarn command"
-    echo "  rspec [args]  - Run any rspec command"
+    echo "  rails [args]     - Run any rails command"
+    echo "  bundle [args]    - Run any bundle command"
+    echo "  yarn [args]      - Run any yarn command"
+    echo "  standardrb [args] - Run standardrb linter"
+    echo ""
+    echo "Container management:"
+    echo "  restart          - Restart all containers"
+    echo "  rebuild          - Rebuild and restart containers"
     echo ""
     echo "Shortcuts:"
-    echo "  console       - Rails console"
-    echo "  test          - Run tests"
-    echo "  bash          - Bash shell in web container"
-    echo "  worker        - Bash shell in worker container"
+    echo "  console          - Rails console"
+    echo "  test             - Run tests"
+    echo "  bash             - Bash shell in web container"
+    echo "  worker           - Bash shell in worker container"
     echo ""
     echo "Examples:"
     echo "  bin/cc-run rails db:migrate"
-    echo "  bin/cc-run rails db:setup"
-    echo "  bin/cc-run bundle install"
-    echo "  bin/cc-run yarn install"
+    echo "  bin/cc-run bundle install --local"
+    echo "  bin/cc-run standardrb --fix"
+    echo "  bin/cc-run restart"
+    echo "  bin/cc-run rebuild"
     exit 1
     ;;
 esac

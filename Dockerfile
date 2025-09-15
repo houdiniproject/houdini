@@ -17,6 +17,7 @@ RUN apt-get update -qq \
   git \
   nodejs \
   yarn \
+  imagemagick \
   && curl -sL https://deb.nodesource.com/setup_16.x | bash \
   && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
@@ -51,6 +52,7 @@ RUN apt-get update -qq \
   build-essential \
   libpq-dev \
   libyaml-dev \
+  imagemagick \
   && curl -sL https://deb.nodesource.com/setup_16.x | bash \
   && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" \

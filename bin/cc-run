@@ -58,6 +58,16 @@ case "$1" in
   worker)
     $DOCKER_COMPOSE run --rm worker bash
     ;;
+  db-restore)
+    shift
+    DUMP_FILE=${1:-"db/dumps/latest.dump"}
+    echo "Restoring database from: $DUMP_FILE"
+    $DOCKER_COMPOSE run --rm \
+      -e "CC_PROD_DUMP_PATH=$DUMP_FILE" \
+      -e "LC_ALL=C" \
+      -e "PGPASSWORD=password" \
+      web script/pg_restore_local_from_production.sh
+    ;;
   *)
     echo "Usage: bin/cc-run {rails|bundle|yarn|standardrb|restart|rebuild|console|test|bash|worker} [args...]"
     echo ""
@@ -70,6 +80,9 @@ case "$1" in
     echo "Container management:"
     echo "  restart          - Restart all containers"
     echo "  rebuild          - Rebuild and restart containers"
+    echo ""
+    echo "Database management:"
+    echo "  db-restore [file]   - Restore database from dump file (default: db/dumps/latest.dump)"
     echo ""
     echo "Shortcuts:"
     echo "  console          - Rails console"

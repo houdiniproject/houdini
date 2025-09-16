@@ -8,13 +8,9 @@
 
 	<form action='<%= nonprofit_path(@nonprofit) %>' method='put'>
 	<!--= autosubmit (notify 'Successfully updated') -->
-		<select class='u-width--250' name='nonprofit[timezone]'>
-				<option value=''>Select Timezone</option>
-			<% Format::Date.us_timezones.each do |name, val| %>
-				<option value='<%= val %>' <%= @nonprofit.timezone == val && 'selected=selected' %>><%= name %></option>
-			<% end %>
-		</select>
-		<br>
+		<div class="u-width--two-thirds">
+			<%= time_zone_select(:nonprofit, :timezone, nil, include_blank: 'Select Timezone') %>
+		</div>
 		<button type='submit' class='button u-marginTop--5' data-loading='Saving..'>Save New Timezone</button>
 	</form>
 

@@ -7,11 +7,6 @@ describe "Event discounts", type: :routing do
 
   let(:event_discount) { create(:event_discount_base, event: event) }
 
-  before(:each) do
-    # this makes sure that our routes have a default host which is what they need for testing
-    allow(Rails.application.routes).to receive(:default_url_options).and_return(ApplicationMailer.default_url_options)
-  end
-
   it "create" do
     expect(post: nonprofit_event_event_discounts_path(nonprofit_id: nonprofit, event_id: event.id)).to route_to(
       controller: "event_discounts",

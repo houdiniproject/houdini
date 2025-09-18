@@ -530,6 +530,6 @@ class Nonprofit < ApplicationRecord
   private
 
   def timezone_is_valid
-    timezone.blank? || ActiveSupport::TimeZone.all.map { |t| t.name }.include?(timezone) || errors.add(:timezone, "is not a valid timezone")
+    timezone.blank? || ActiveSupport::TimeZone.all.map { |t| t.tzinfo.name }.include?(timezone) || errors.add(:timezone, "is not a valid timezone")
   end
 end

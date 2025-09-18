@@ -9,7 +9,7 @@
 	<form action='<%= nonprofit_path(@nonprofit) %>' method='put'>
 	<!--= autosubmit (notify 'Successfully updated') -->
 		<div class="u-width--two-thirds">
-			<%= time_zone_select(:nonprofit, :timezone, nil, include_blank: 'Select Timezone') %>
+			<%= select(:nonprofit, :timezone, time_zone_options_with_iana(@nonprofit.timezone), include_blank: 'Select Timezone') %>
 		</div>
 		<button type='submit' class='button u-marginTop--5' data-loading='Saving..'>Save New Timezone</button>
 	</form>

@@ -49,7 +49,7 @@ module ExportRecurringDonations
       raise ParamValidation::ValidationError.new("User #{user_id} doesn't exist!", key: :user_id)
     end
 
-    file_date = Time.now.getutc.strftime("%m-%d-%Y--%H-%M-%S")
+    file_date = Time.now.getutc.to_fs(:file_date)
     filename = "tmp/csv-exports/recurring_donations-#{export.id}-#{file_date}.csv"
 
     url = CHUNKED_UPLOADER.upload(filename, QueryRecurringDonations.for_export_enumerable(npo_id, params, 15000).map { |i| i.to_csv }, content_type: "text/csv", content_disposition: "attachment")
@@ -75,7 +75,7 @@ module ExportRecurringDonations
 
   def self.run_export_for_active_recurring_donations_to_csv(nonprofit_s3_key, filename, export)
     if filename.blank?
-      file_date = Time.now.getutc.strftime("%m-%d-%Y--%H-%M-%S")
+      file_date = Time.now.getutc.to_fs(:file_date)
       filename = "tmp/json-exports/recurring_donations-#{export.id}-#{file_date}.csv"
     end
 
@@ -90,7 +90,7 @@ module ExportRecurringDonations
 
   def self.run_export_for_started_recurring_donations_to_csv(nonprofit_s3_key, filename, export)
     if filename.blank?
-      file_date = Time.now.getutc.strftime("%m-%d-%Y--%H-%M-%S")
+      file_date = Time.now.getutc.to_fs(:file_date)
       filename = "tmp/json-exports/recurring_donations-#{export.id}-#{file_date}.csv"
     end
 

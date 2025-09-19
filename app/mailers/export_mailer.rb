@@ -54,24 +54,30 @@ class ExportMailer < BaseMailer
   def export_failed_recurring_donations_monthly_completed_notification(export)
     @export = export
 
-    mail(to: @export.user.email, subject: "Your report of failed recurring donations from #{Time.now.strftime("%B %Y")} is available!")
+    mail(to: @export.user.email, subject: "Your report of failed recurring donations from #{current_month_and_year} is available!")
   end
 
   def export_failed_recurring_donations_monthly_failed_notification(export)
     @export = export
 
-    mail(to: @export.user.email, subject: "Your report of failed recurring donations from #{Time.now.strftime("%B %Y")} has failed.")
+    mail(to: @export.user.email, subject: "Your report of failed recurring donations from #{current_month_and_year} has failed.")
   end
 
   def export_cancelled_recurring_donations_monthly_completed_notification(export)
     @export = export
 
-    mail(to: @export.user.email, subject: "Your report of cancelled recurring donations from #{Time.now.strftime("%B %Y")} is available!")
+    mail(to: @export.user.email, subject: "Your report of cancelled recurring donations from #{current_month_and_year} is available!")
   end
 
   def export_cancelled_recurring_donations_monthly_cancelled_notification(export)
     @export = export
 
-    mail(to: @export.user.email, subject: "Your report of cancelled recurring donations from #{Time.now.strftime("%B %Y")} has failed.")
+    mail(to: @export.user.email, subject: "Your report of cancelled recurring donations from #{current_month_and_year} has failed.")
+  end
+
+  private
+
+  def current_month_and_year
+    Time.zone.now.strftime("%B %Y")
   end
 end

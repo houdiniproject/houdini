@@ -19,7 +19,7 @@ module Nonprofits
         end
 
         format.csv do
-          file_date = Date.today.strftime("%m-%d-%Y")
+          file_date = Date.today.to_fs(:mdy)
           supporters = QuerySupporters.for_export(params[:nonprofit_id], params)
           send_data(Format::Csv.from_vectors(supporters), filename: "supporters-#{file_date}.csv")
         end

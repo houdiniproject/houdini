@@ -30,7 +30,7 @@ class TicketsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        file_date = Date.today.strftime("%m-%d-%Y")
+        file_date = Date.today.to_fs(:mdy)
         filename = "tickets-#{file_date}"
         @tickets = QueryTickets.for_export(@event.id, params)
         send_data(Format::Csv.from_vectors(@tickets), filename: "#{filename}.csv")

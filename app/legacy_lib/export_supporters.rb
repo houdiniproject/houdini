@@ -46,7 +46,7 @@ module ExportSupporters
       raise ParamValidation::ValidationError.new("User #{user_id} doesn't exist!", key: :user_id)
     end
 
-    file_date = Time.now.getutc.strftime("%m-%d-%Y--%H-%M-%S")
+    file_date = Time.now.getutc.to_fs(:file_date)
     filename = "tmp/csv-exports/supporters-#{export.id}-#{file_date}.csv"
     url = CHUNKED_UPLOADER.upload(filename, QuerySupporters.for_export_enumerable(npo_id, params, 15000).map { |i| i.to_csv }, content_type: "text/csv", content_disposition: "attachment")
     export.url = url

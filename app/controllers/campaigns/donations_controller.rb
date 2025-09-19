@@ -8,7 +8,7 @@ module Campaigns
     def index
       respond_to do |format|
         format.csv do
-          file_date = Date.today.strftime("%m-%d-%Y")
+          file_date = Date.today.to_fs(:mdy)
           donations = QueryDonations.campaign_export(current_campaign.id)
           send_data(Format::Csv.from_vectors(donations), filename: "campaign-donations-#{file_date}.csv")
         end

@@ -45,7 +45,7 @@ module Nonprofits
         format.json { render json: payout }
         format.csv do
           payments = QueryPayments.for_payout(params[:nonprofit_id], params[:id])
-          filename = "payout-#{payout.created_at.strftime("%m-%d-%Y")}"
+          filename = "payout-#{payout.created_at.to_fs(:mdy)}"
           send_data(Format::Csv.from_vectors(payments), filename: "#{filename}.csv")
         end
       end

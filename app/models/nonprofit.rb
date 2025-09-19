@@ -528,7 +528,7 @@ class Nonprofit < ApplicationRecord
   end
 
   def stripe_account_formatted_deadline
-    stripe_account&.deadline && stripe_account.deadline.in_time_zone(timezone).strftime("%B %e, %Y at %l:%M:%S %p")
+    stripe_account&.deadline && stripe_account.deadline.in_time_zone(timezone).to_fs(:full_long)
   end
 
   private

@@ -33,7 +33,7 @@ module Nonprofits
       @can_make_payouts = @nonprofit.can_make_payouts?
       @verification_status = @nonprofit&.stripe_account&.verification_status || :unverified
 
-      @deadline = @nonprofit&.stripe_account&.deadline && @nonprofit.stripe_account.deadline.in_time_zone(@nonprofit.timezone).strftime("%B %e, %Y at %l:%M:%S %p")
+      @deadline = @nonprofit&.stripe_account_formatted_deadline
 
       @steps_to_payout = @nonprofit.steps_to_payout
     end

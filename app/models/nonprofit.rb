@@ -527,6 +527,10 @@ class Nonprofit < ApplicationRecord
     all_socials.compact_blank.any?
   end
 
+  def stripe_account_formatted_deadline
+    stripe_account&.deadline && stripe_account.deadline.in_time_zone(timezone).strftime("%B %e, %Y at %l:%M:%S %p")
+  end
+
   private
 
   def timezone_is_valid

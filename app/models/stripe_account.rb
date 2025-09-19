@@ -81,7 +81,7 @@ class StripeAccount < ApplicationRecord
     when Stripe::Account
       self[:object] = input.to_hash
       object_json = object
-      puts object
+      Rails.logger.info object
     when String
       self[:object] = input
       object_json = object

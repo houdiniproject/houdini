@@ -41,13 +41,5 @@ module Format
       datetime = datetime.in_time_zone(timezone) if timezone
       datetime.strftime("%l:%M%P")
     end
-
-    def self.us_timezones
-      # zones=ActiveSupport::TimeZone.us_zones
-      zones = ActiveSupport::TimeZone.all
-      names = zones.map(&:name)
-      vals = zones.map { |t| t.tzinfo.name }
-      names.zip(vals).sort_by { |name, val| name }
-    end
   end
 end

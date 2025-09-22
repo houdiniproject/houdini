@@ -82,6 +82,11 @@ RSpec.configure do |config|
     Rails.cache.clear
   end
 
+  config.before(:each, type: :routing) do
+    # this makes sure that our routes have a default host which is what they need for testing
+    allow(Rails.application.routes).to receive(:default_url_options).and_return(ApplicationMailer.default_url_options)
+  end
+
   config.after(:each) do
     StripeMockHelper.stop
   end

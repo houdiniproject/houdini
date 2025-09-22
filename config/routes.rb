@@ -265,6 +265,8 @@ Rails.application.routes.draw do
     post "/webhooks/stripe/receive_connect" => "webhooks/stripe#receive_connect"
   end
 
+  mount MaintenanceTasks::Engine, at: "/maintenance_tasks"
+
   # Nonprofits
   get ":state_code/:city/:name" => "nonprofits#show", :as => :nonprofit_location
   get ":state_code/:city/:name/donate" => "nonprofits#donate", :as => :nonprofit_donation
@@ -316,8 +318,6 @@ Rails.application.routes.draw do
   get "/static/terms_and_privacy" => "static#terms_and_privacy"
   get "/static/ccs" => "static#ccs"
   get "/cloudflare_errors/under_attack" => "cloudflare_errors#under_attack"
-
-  mount MaintenanceTasks::Engine, at: "/maintenance_tasks"
 
   root to: "front#index"
 end

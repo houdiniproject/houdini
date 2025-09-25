@@ -31,6 +31,14 @@ class Donation < ApplicationRecord
   validates_associated :charges
   validates :payment_provider, inclusion: {in: ["credit_card", "sepa"]}, allow_blank: true
 
+  belongs_to :supporter
+  belongs_to :card
+  belongs_to :direct_debit_detail
+  belongs_to :profile
+  belongs_to :nonprofit
+  belongs_to :campaign
+  belongs_to :event
+
   has_many :charges
   has_many :campaign_gifts, dependent: :destroy
   has_many :campaign_gift_options, through: :campaign_gifts
@@ -41,13 +49,8 @@ class Donation < ApplicationRecord
   has_one :offsite_payment
   has_one :tracking
   has_many :modern_donations
-  belongs_to :supporter
-  belongs_to :card
-  belongs_to :direct_debit_detail
-  belongs_to :profile
-  belongs_to :nonprofit
-  belongs_to :campaign
-  belongs_to :event
+
+  delegate :timezone, to: :nonprofit, prefix: true, allow_nil: true
 
   scope :anonymous, -> { where(anonymous: true) }
 

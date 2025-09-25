@@ -126,6 +126,8 @@ class Campaign < ApplicationRecord
 
   after_update :send_campaign_updated
 
+  delegate :timezone, to: :nonprofit, prefix: true, allow_nil: true
+
   def set_defaults
     self.total_supporters = 1
     self.published = false if published.nil?

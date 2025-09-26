@@ -108,6 +108,7 @@ group :development, :ci, :test do
   gem "factory_bot_rails"
   gem "action_mailer_matchers", "~> 1.2.0"
   gem "simplecov", "~> 0.22.0", require: false
+  gem "simplecov-tailwindcss", require: false
   gem "byebug"
   gem "shoulda-matchers"
   gem "rspec-json_expectations"

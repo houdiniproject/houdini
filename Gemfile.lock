@@ -555,6 +555,8 @@ GEM
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.1)
+    simplecov-tailwindcss (2.2.0)
+      simplecov (~> 0.16)
     simplecov_json_formatter (0.1.4)
     sixarm_ruby_unaccent (1.2.0)
     sorted_set (1.0.3)
@@ -708,6 +710,7 @@ DEPENDENCIES
   sassc-rails
   shoulda-matchers
   simplecov (~> 0.22.0)
+  simplecov-tailwindcss
   sprockets (~> 3.7)
   standard
   standard-rails

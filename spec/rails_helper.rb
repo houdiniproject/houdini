@@ -1,6 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
+require 'simplecov-tailwindcss'
 SimpleCov.start 'rails' do
   add_group 'Forms', 'app/forms'
   add_group 'Gems', 'gems'
@@ -11,6 +12,7 @@ SimpleCov.start 'rails' do
   add_group 'Uploaders', 'app/uploaders'
   add_group 'Validators', 'app/validators'
 end
+SimpleCov.formatter = SimpleCov::Formatter::TailwindFormatter
 
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)

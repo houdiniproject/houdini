@@ -61,6 +61,8 @@ class Payment < ApplicationRecord
     each.map(&:from_donation?)
   end
 
+  delegate :timezone, to: :nonprofit, prefix: true, allow_nil: true
+
   def from_donation?
     if kind == "Refund"
       !!refund&.from_donation?

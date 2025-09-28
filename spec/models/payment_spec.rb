@@ -14,6 +14,8 @@ RSpec.describe Payment, type: :model do
 
   it { is_expected.to have_many(:campaign_gifts).through(:donation) }
 
+  it { is_expected.to delegate_method(:timezone).to(:nonprofit).with_prefix.allow_nil }
+
   describe "#staff_comment" do
     it "is nil if manual_balance_adjustment is unset" do
       payment = build(:payment)

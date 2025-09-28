@@ -24,7 +24,7 @@ Your invoice for the month of <%= @month_name %> has been paid and the receipt i
   </tr>
   <tr>
     <td><strong>Transaction Date</strong></td>
-    <td><%= date_and_time(@payment.date, @nonprofit.timezone) %></td>
+    <td><%= date_and_time(@payment.date, @payment.nonprofit_timezone) %></td>
   </tr>
 
   <tr>

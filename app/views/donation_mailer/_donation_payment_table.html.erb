@@ -22,7 +22,7 @@
 		</tr>
 		<tr>
 			<td><strong><%= t('donation.date') %></strong></td>
-			<td><%= date_and_time(@payment&.charge.try(:created_at) || donation.created_at, donation.nonprofit.timezone) %></td>
+			<td><%= date_and_time(@payment&.charge.try(:created_at) || donation.created_at, donation.nonprofit_timezone) %></td>
 		</tr>
 
 		<% if donation.campaign && donation.campaign.published %>

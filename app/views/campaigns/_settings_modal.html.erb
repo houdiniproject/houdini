@@ -4,7 +4,7 @@
 
 	<%= render 'common/modal_header', title: 'Campaign Settings' %>
 
-  <form class='form--flatFields' autosubmit action='/nonprofits/<%=@nonprofit.id%>/campaigns/<%=@campaign.id%>' method='put' data-reload-with-slug parsley-validate>
+  <form class='form--flatFields' autosubmit action='<%= campaigns_path(@campaign.nonprofit, @campaign) %>' method='put' data-reload-with-slug parsley-validate>
 
     <% if @campaign.child_campaign? %>
       <div class='modal-body'>
@@ -48,7 +48,7 @@
         <fieldset>
           <label>End Date & Time</label>
           <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
-            <input class='u-width--200 u-bold u-inlineBlock' type='text' name='campaign[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@campaign.end_datetime, @nonprofit.timezone) %>'>
+            <input class='u-width--200 u-bold u-inlineBlock' type='text' name='campaign[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@campaign.end_datetime, @campaign.nonprofit_timezone) %>'>
             <a class='button edit u-inlineBlock'>Set</a>
           </div>
         </fieldset>

@@ -8,13 +8,6 @@ class Charge < ApplicationRecord
     :stripe_charge_id,
     :status
 
-  has_one :campaign, through: :donation
-  has_one :recurring_donation, through: :donation
-  has_one :stripe_dispute, primary_key: :stripe_charge_id, foreign_key: :stripe_charge_id
-  has_many :tickets
-  has_many :events, through: :tickets
-  has_many :refunds
-  has_many :disputes
   belongs_to :supporter
   belongs_to :card
   belongs_to :direct_debit_detail
@@ -22,6 +15,14 @@ class Charge < ApplicationRecord
   belongs_to :donation
   belongs_to :payment
   belongs_to :stripe_charge_object, primary_key: "stripe_charge_id", foreign_key: "stripe_charge_id", class_name: "StripeCharge"
+  has_one :campaign, through: :donation
+  has_one :recurring_donation, through: :donation
+  has_one :stripe_dispute, primary_key: :stripe_charge_id, foreign_key: :stripe_charge_id
+  has_many :tickets
+  has_many :events, through: :tickets
+  has_many :refunds
+  has_many :disputes
+
 
   scope :paid, -> { where(status: ["available", "pending", "disbursed"]) }
   scope :not_paid, -> { where(status: [nil, "failed"]) }
@@ -30,6 +31,8 @@ class Charge < ApplicationRecord
   scope :disbursed, -> { where(status: "disbursed") }
 
   has_many :manual_balance_adjustments, as: :entity
+
+  delegate :timezone, to: :nonprofit, prefix: true, allow_nil: true
 
   def paid?
     status.in?(%w[available pending disbursed])

@@ -412,7 +412,7 @@ GEM
     rabl (0.17.0)
       activesupport (>= 2.3.14)
     racc (1.8.1)
-    rack (2.2.17)
+    rack (2.2.18)
     rack-attack (6.5.0)
       rack (>= 1.0, < 3)
     rack-cors (1.0.6)
@@ -555,6 +555,8 @@ GEM
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.1)
+    simplecov-tailwindcss (2.2.0)
+      simplecov (~> 0.16)
     simplecov_json_formatter (0.1.4)
     sixarm_ruby_unaccent (1.2.0)
     sorted_set (1.0.3)
@@ -689,7 +691,7 @@ DEPENDENCIES
   puma (~> 6.0)
   qx!
   rabl
-  rack (~> 2.2.15)
+  rack (~> 2.2.18)
   rack-attack
   rack-cors
   rack-timeout
@@ -708,6 +710,7 @@ DEPENDENCIES
   sassc-rails
   shoulda-matchers
   simplecov (~> 0.22.0)
+  simplecov-tailwindcss
   sprockets (~> 3.7)
   standard
   standard-rails

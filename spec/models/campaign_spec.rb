@@ -28,6 +28,8 @@ RSpec.describe Campaign, type: :model do
 
   it { is_expected.to belong_to :widget_description }
 
+  it { is_expected.to delegate_method(:timezone).to(:nonprofit).with_prefix.allow_nil }
+
   describe "goal_amount" do
     before(:each) do
       @nonprofit = create(:nonprofit)

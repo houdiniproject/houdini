@@ -10,7 +10,7 @@
       <td class='u-padding--10'>
         <% if campaign.end_datetime %>
           <p class='u-marginBottom--0'>
-            <small><strong>Until: <%= Format::Date.full(campaign.end_datetime, campaign.nonprofit.timezone) %> </strong></small>
+            <small><strong>Until: <%= Format::Date.full(campaign.end_datetime, campaign.nonprofit_timezone) %> </strong></small>
           </p>
         <% end %>
         <h6 class='u-marginTop--0 u-marginBottom--5'>

@@ -18,6 +18,7 @@ services:
         BASE_RELEASE: ${BASE_RELEASE:-bookworm}
     volumes:
       - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc # for heroku credentials
+      - bundle:/usr/local/bundle
       - ./app:/app/app
       - ./bin:/app/bin
       - ./config:/app/config
@@ -45,7 +46,7 @@ services:
         BASE_RELEASE: ${BASE_RELEASE:-bookworm}
     volumes:
       - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc
-      - ./vendor/bundle:/usr/local/bundle
+      - bundle:/usr/local/bundle
       - ./app:/app/app
       - ./bin:/app/bin
       - ./config:/app/config
@@ -66,3 +67,4 @@ services:
     stdin_open: true
 volumes:
   db_data:
+  bundle:

@@ -95,6 +95,7 @@ ARG PORT=5000
 WORKDIR $RAILS_ROOT
 RUN touch /home/app/.netrc
 RUN mkdir -p tmp/pids
-RUN bundle check || (bundle update --bundler && bundle install -j4 --retry 3)
+RUN bundle update --bundler
+RUN bundle install -j4 --retry 3
 
 CMD ["bin/dev"]

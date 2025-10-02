@@ -10,6 +10,7 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=commitchange_development_legacy
+      - shm_size: 1g
   web:
     build:
       context: .

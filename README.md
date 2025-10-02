@@ -41,18 +41,18 @@ One-time setup:
 ```bash
 touch ~/.netrc #prevents docker compose from creating it as a directory if you don't have it yet
 
-docker-compose run web bin/rails db:setup
+docker compose run web bin/rails db:setup
 ```
 
 Running:
 ```bash
-docker-compose up
+docker compose up
 ```
 
 Restoring the DB from Prod (Linux):
 ```bash
 # Enter `password` when prompted for a password after the download step.
-docker-compose exec web script/restore_from_heroku.sh
+docker compose exec web script/restore_from_heroku.sh
 ```
 
 Restoring the DB from Prod (Mac). The above command will work on Mac, but will take an hour or more due to differences in how docker handles storage. Use the below to reduce how long it takes (will still take a long time).
@@ -60,7 +60,7 @@ Restoring the DB from Prod (Mac). The above command will work on Mac, but will t
 curl -o ./tmp/shared/latest.dump `heroku pg:backups:url -a commitchange`
 
 # Enter `password` when prompted for a password.
-docker-compose exec db -e CC_PROD_DUMP_PATH="/tmp/shared/latest.dump" script/pg_restore_local_from_production.sh
+docker compose exec db -e CC_PROD_DUMP_PATH="/tmp/shared/latest.dump" script/pg_restore_local_from_production.sh
 ```
 
 #### Docker Development Commands

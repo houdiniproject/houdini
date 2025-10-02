@@ -10,7 +10,7 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=commitchange_development_legacy
-      - shm_size: 1g
+    shm_size: 1g
   web:
     build:
       context: .
@@ -18,7 +18,6 @@ services:
         BASE_RELEASE: ${BASE_RELEASE:-bookworm}
     volumes:
       - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc # for heroku credentials
-      - ./vendor/bundle:/usr/local/bundle
       - ./app:/app/app
       - ./bin:/app/bin
       - ./config:/app/config

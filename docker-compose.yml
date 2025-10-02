@@ -1,22 +1,22 @@
-version: "3.9"
 services:
   db:
     image: postgres:16
     restart: always
-    ports:
-      - "5432:5432"
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data:delegated
-      - ./tmp/shared:/tmp/shared:cached
+      - db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=commitchange_development_legacy
+    shm_size: 1g
   web:
-    build: .
+    build:
+      context: .
+      args:
+        BASE_RELEASE: ${BASE_RELEASE:-bookworm}
     volumes:
       - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc # for heroku credentials
-      - ./vendor/bundle:/usr/local/bundle
+      - bundle:/usr/local/bundle
       - ./app:/app/app
       - ./bin:/app/bin
       - ./config:/app/config
@@ -26,10 +26,43 @@ services:
       - ./script:/app/script
       - ./types:/app/types
     ports:
-      - "5000:5000"
+      - "${PORT:-5000}:${PORT:-5000}"
     environment:
       - DATABASE_HOST=db
       - BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development_legacy
     depends_on:
       - db
     env_file: ".env"
+    tty: true
+    stdin_open: true
+    tmpfs:
+      - /tmp/pids/
+  worker:
+    build:
+      context: .
+      args:
+        BASE_RELEASE: ${BASE_RELEASE:-bookworm}
+    volumes:
+      - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc
+      - bundle:/usr/local/bundle
+      - ./app:/app/app
+      - ./bin:/app/bin
+      - ./config:/app/config
+      - ./db:/app/db
+      - ./javascripts:/app/javascripts
+      - ./lib:/app/lib
+      - ./script:/app/script
+      - ./types:/app/types
+    environment:
+      - DATABASE_HOST=db
+      - BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development_legacy
+    depends_on:
+      - db
+      - web
+    env_file: ".env"
+    command: ["bin/rails", "jobs:work"]
+    tty: true
+    stdin_open: true
+volumes:
+  db_data:
+  bundle:

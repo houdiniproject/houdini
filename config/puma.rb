@@ -62,12 +62,16 @@ end
 # or connections that may have been created at application boot, as Ruby
 # cannot share connections between processes.
 #
-on_worker_boot do
-  ActiveRecord::Base.establish_connection
+if env != "development"
+  on_worker_boot do
+    ActiveRecord::Base.establish_connection
+  end
 end
 
-before_fork do
-  Barnes.start
+if env != "development"
+  before_fork do
+    Barnes.start
+  end
 end
 
 # Allow puma to be restarted by `rails restart` command.

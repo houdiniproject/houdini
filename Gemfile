@@ -6,7 +6,7 @@ gem "rake"
 gem "rails", "~> 7.1.5.1"
 gem "sprockets", "~> 3.7" # Sprockets 4.0 stops allowing us to add a proc to the config.assets.precompile array, which we currently use
 
-gem "rack", "~> 2.2.19"
+gem "rack", "~> 2.2.20"
 
 # https://stripe.com/docs/api
 gem "stripe", "~> 5.0"

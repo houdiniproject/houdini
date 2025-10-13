@@ -66,7 +66,7 @@ jobs:
                 - '.github/workflows/**'
 
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
-          uses: ikalnytskyi/action-setup-postgres@v7
+          uses: ikalnytskyi/action-setup-postgres@v8
           with:
             postgres-version: ${{ matrix.postgres }}
             username: admin

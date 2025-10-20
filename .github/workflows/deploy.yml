@@ -51,7 +51,7 @@ jobs:
             postgres_image_tag: ${{ matrix.postgres }}-alpine
             postgres_user: admin
             postgres_password: password
-        - uses: actions/setup-node@v5
+        - uses: actions/setup-node@v6
           with:
             node-version: ${{ matrix.node }}
         - uses: ruby/setup-ruby@v1

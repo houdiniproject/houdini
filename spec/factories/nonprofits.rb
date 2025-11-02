@@ -131,5 +131,9 @@ FactoryBot.define do
           billing_plan: create(:billing_plan_base, :with_associated_stripe_plan, amount: 133333, percentage_fee: 0.33, name: "fake plan")
       }
     end
+
+    trait :with_stripe_account do
+      stripe_account
+    end
   end
 end

@@ -53,6 +53,43 @@ RSpec.describe Payout, type: :model do
   }
 
   it { is_expected.to delegate_method(:currency).to(:nonprofit) }
+  it { is_expected.to delegate_method(:stripe_account_id).to(:nonprofit) }
+
+  describe "#transfer_type" do
+    it "returns :payout when starts with po_" do
+      expect(build(:payout).transfer_type).to eq :payout
+    end
+
+    it "returns :transfer when starts with tr_" do
+      expect(build(:payout, :old_transfer_type).transfer_type).to eq :transfer
+    end
+  end
+
+  describe "#sdk_class" do
+    it "returns Stripe::Payout when a payout object" do
+      expect(build(:payout).sdk_class).to eq Stripe::Payout
+    end
+
+    it "returns Stripe::Transfer when a transfer object" do
+      expect(build(:payout, :old_transfer_type).sdk_class).to eq Stripe::Transfer
+    end
+  end
+
+  describe "#sdk_object" do
+    it "retrieves the Stripe sdk object" do
+      payout = build(:payout)
+
+      # we don't care about getting the object graph, we'll just mock the stripe account id
+      expect(payout).to receive(:stripe_account_id).and_return("acct_1235")
+
+      # we don't about how sdk_class works, we just want a the class
+      expect(payout).to receive(:sdk_class).and_call_original
+
+      expect(Stripe::Payout).to receive(:retrieve).with(payout.stripe_transfer_id, {stripe_account: "acct_1235"})
+
+      payout.sdk_object
+    end
+  end
 
   it_behaves_like "an houidable entity", :pyout, :houid
 

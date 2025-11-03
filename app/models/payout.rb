@@ -38,7 +38,7 @@ class Payout < ApplicationRecord
   validate :nonprofit_must_have_identity_verified, on: :create
   validate :bank_account_must_be_confirmed, on: :create
 
-  delegate :currency, to: :nonprofit
+  delegate :currency, :stripe_account_id, to: :nonprofit
 
   as_money :net_amount
 
@@ -52,6 +52,22 @@ class Payout < ApplicationRecord
     elsif stripe_transfer_id.start_with?("po_", "test_po_")
       :payout
     end
+  end
+
+  # Older transfers use the Stripe::Transfer object, newer use Stripe::Payout object
+  def sdk_class
+    if transfer_type == :payout
+      Stripe::Payout
+    else
+      Stripe::Transfer
+    end
+  end
+
+  # Retrieves the associated Stripe::Payout and Stripe::Transfer object via Stripe API
+  def sdk_object
+    sdk_class.retrieve(stripe_transfer_id, {
+      stripe_account: stripe_account_id
+    })
   end
 
   def bank_account_must_be_confirmed

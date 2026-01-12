@@ -33,14 +33,14 @@ jobs:
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
-          os: [ubuntu-22.04]
+          os: [ubuntu-24.04]
           node: [16]
           ruby: ['3.3.10']
           postgres: ['16']
         fail-fast: false
       steps:
         - name: 'Checkout our repo'
-          uses: actions/checkout@v5
+          uses: actions/checkout@v6
           with:
             token: ${{ secrets.PAT_TO_RUN_AS_ERIC }}
               

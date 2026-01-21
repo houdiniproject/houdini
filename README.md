@@ -16,7 +16,7 @@ Houdini is designed and tested to run with the following:
 * Ruby 3.3
 * Node 16
 * PostgreSQL 16
-* run on Heroku-20
+* run on Heroku-24
 
 ## Dev Setup
 

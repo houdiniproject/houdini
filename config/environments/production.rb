@@ -1,5 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require "active_support/core_ext/integer/time"
+require "aws-actionmailer-ses"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -95,8 +96,9 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   creds = Aws::Credentials.new(ENV["AWS_ACCESS_KEY"], ENV["AWS_SECRET_ACCESS_KEY"])
-  Aws::Rails.add_action_mailer_delivery_method(
+  ActionMailer::Base.add_delivery_method(
     :ses,
+    Aws::ActionMailer::SES::Mailer,
     credentials: creds,
     region: "us-east-1"
   )

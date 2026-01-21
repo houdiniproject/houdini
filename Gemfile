@@ -29,6 +29,8 @@ gem "immutable-ruby" # used instead of hamster in a few legacy places
 
 gem "aws-sdk-s3"
 gem "aws-sdk-rails"
+gem "aws-actionmailer-ses", "~> 1"
+
 
 gem "json", ">= 2.3.0"
 

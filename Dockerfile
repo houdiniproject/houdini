@@ -15,13 +15,11 @@ RUN apt-get update -qq \
   curl \
   tzdata \
   git \
-  nodejs \
-  yarn \
   imagemagick \
   && curl -sL https://deb.nodesource.com/setup_16.x | bash \
-  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
-  > /etc/apt/sources.list.d/yarn.list \
+    > /etc/apt/sources.list.d/yarn.list \
+  && curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/yarn.gpg \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends nodejs yarn \
   && apt-get clean \
@@ -54,9 +52,9 @@ RUN apt-get update -qq \
   libyaml-dev \
   imagemagick \
   && curl -sL https://deb.nodesource.com/setup_16.x | bash \
-  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
-  > /etc/apt/sources.list.d/yarn.list \
+    > /etc/apt/sources.list.d/yarn.list \
+  && curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/yarn.gpg \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends nodejs yarn \
   && apt-get clean \

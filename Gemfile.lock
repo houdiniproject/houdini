@@ -412,7 +412,7 @@ GEM
     rabl (0.17.0)
       activesupport (>= 2.3.14)
     racc (1.8.1)
-    rack (2.2.20)
+    rack (2.2.22)
     rack-attack (6.5.0)
       rack (>= 1.0, < 3)
     rack-cors (1.0.6)
@@ -691,7 +691,7 @@ DEPENDENCIES
   puma (~> 6.0)
   qx!
   rabl
-  rack (~> 2.2.20)
+  rack (~> 2.2.22)
   rack-attack
   rack-cors
   rack-timeout

@@ -128,10 +128,6 @@ gem "terser"
 gem "config", "~> 2.0"
 gem "dry-validation" # used only for config validation
 
-group :production do
-  gem "tunemygc"
-end
-
 group :production, :staging do
   gem "hiredis", "~> 0.6.0"
   gem "redis", ">= 3.2.0"

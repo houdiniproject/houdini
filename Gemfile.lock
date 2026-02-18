@@ -599,7 +599,6 @@ GEM
     tilt (2.0.10)
     timecop (0.9.10)
     timeout (0.4.3)
-    tunemygc (1.0.71)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.2.0)
@@ -713,7 +712,6 @@ DEPENDENCIES
   terser
   test-unit
   timecop
-  tunemygc
   webmock
   yaaf
   yard

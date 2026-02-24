@@ -20,10 +20,11 @@ describe Nonprofits::DonationsController, type: :controller do
     describe "create" do
       include_context :open_to_all, :get, :create, nonprofit_id: :__our_np
     end
+  end
 
-    describe "follow up" do
-      include_context :open_to_all, :put, :followup, nonprofit_id: :__our_np, id: "1"
-    end
+  describe "followup" do
+    include_context :shared_user_context
+    include_context :open_to_np_associate, :put, :followup, nonprofit_id: :__our_np, id: "1"
   end
 end
 

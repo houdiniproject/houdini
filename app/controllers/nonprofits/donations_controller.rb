@@ -49,7 +49,8 @@ module Nonprofits
     end
 
     def update
-      render_json { UpdateDonation.update_payment(params[:id], params[:donation]) }
+      donation = current_nonprofit.donations.find(params[:id])
+      render_json { UpdateDonation.update_payment(donation.id, params[:donation]) }
     end
 
     # put /nonprofits/:nonprofit_id/donations/:id

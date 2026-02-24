@@ -53,11 +53,13 @@ module Nonprofits
     end
 
     def email_address
-      render json: Supporter.find(params[:id]).email
+      supporter = current_nonprofit.supporters.find(params[:id])
+      render json: supporter.email
     end
 
     def full_contact
-      fc = FullContactInfo.where("supporter_id= ?", params[:id]).first
+      supporter = current_nonprofit.supporters.find(params[:id])
+      fc = supporter.full_contact_infos.first
       if fc
         render json: {full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id)}
       else
@@ -66,7 +68,8 @@ module Nonprofits
     end
 
     def info_card
-      render json: QuerySupporters.for_info_card(params[:id])
+      supporter = current_nonprofit.supporters.find(params[:id])
+      render json: QuerySupporters.for_info_card(supporter.id)
     end
 
     # post /nonprofits/:nonprofit_id/supporters
@@ -92,7 +95,8 @@ module Nonprofits
     # get /nonprofits/:nonprofit_id/supporters/merge_data
     # returns the info required to merge two supporters
     def merge_data
-      render json: QuerySupporters.merge_data(params[:ids])
+      supporter_ids = current_nonprofit.supporters.where(id: params[:ids]).pluck(:id)
+      render json: QuerySupporters.merge_data(supporter_ids)
     end
 
     # post /nonprofits/:nonprofit_id/supporters/merge

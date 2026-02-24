@@ -295,10 +295,6 @@ GEM
     js-routes (2.2.7)
       railties (>= 4)
     json (2.12.2)
-    judoscale-rails (1.11.1)
-      judoscale-ruby (= 1.11.1)
-      railties
-    judoscale-ruby (1.11.1)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -439,8 +435,6 @@ GEM
       activesupport (= 7.1.5.2)
       bundler (>= 1.15.0)
       railties (= 7.1.5.2)
-    rails-autoscale-web (1.11.1)
-      judoscale-rails (= 1.11.1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -696,7 +690,6 @@ DEPENDENCIES
   rack-cors
   rack-timeout
   rails (~> 7.1.5.1)
-  rails-autoscale-web
   rails-i18n
   rake
   recaptcha (~> 5.19)

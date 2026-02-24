@@ -129,7 +129,6 @@ gem "config", "~> 2.0"
 gem "dry-validation" # used only for config validation
 
 group :production do
-  gem "rails-autoscale-web"
   gem "tunemygc"
 end
 

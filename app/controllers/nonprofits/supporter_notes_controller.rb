@@ -3,11 +3,12 @@ module Nonprofits
   class SupporterNotesController < ApplicationController
     include Controllers::NonprofitHelper
 
-    before_action :authenticate_nonprofit_user!, except: [:create]
+    before_action :authenticate_nonprofit_user!
 
     # post /nonprofits/:nonprofit_id/supporters/:supporter_id/supporter_notes
     def create
-      render json: [Supporter.find(params[:supporter_id]).supporter_notes.create!(create_params.merge(user: current_user))]
+      supporter = current_nonprofit.supporters.find(params[:supporter_id])
+      render json: [supporter.supporter_notes.create!(create_params.merge(user: current_user))]
     end
 
     # put /nonprofits/:nonprofit_id/supporters/:supporter_id/supporter_notes/:id

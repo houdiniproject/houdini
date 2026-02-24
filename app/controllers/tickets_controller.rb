@@ -5,13 +5,17 @@ class TicketsController < ApplicationController
   helper_method :current_event_admin?, :current_event_editor?
   before_action :authenticate_event_editor!, except: [:create, :add_note]
   before_action :authenticate_nonprofit_user!, only: [:delete_card_for_ticket]
+  before_action :authenticate_ticket_editor!, only: [:add_note]
 
   # post /nonprofits/:nonprofit_id/events/:event_id/tickets
   def create
     authenticate_event_editor! if params[:kind] == "offsite"
     render_json do
       params[:current_user] = current_user
-      InsertTickets.create(params)
+      result = InsertTickets.create(params)
+      session[:purchased_ticket_ids] ||= []
+      session[:purchased_ticket_ids] += result["tickets"].map(&:id)
+      result
     end
   end
 
@@ -58,5 +62,16 @@ class TicketsController < ApplicationController
   def delete_card_for_ticket
     @event = current_event
     render json: UpdateTickets.delete_card_for_ticket(@event.id, params[:id])
+  end
+
+  private
+
+  def authenticate_ticket_editor!
+    purchased_ids = session[:purchased_ticket_ids] || []
+    ticket_id = params[:id].to_i
+    return if purchased_ids.include?(ticket_id)
+    return if current_event_editor?
+
+    raise AuthenticationError
   end
 end

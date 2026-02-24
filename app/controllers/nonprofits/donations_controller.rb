@@ -3,7 +3,7 @@ module Nonprofits
   class DonationsController < ApplicationController
     include Controllers::NonprofitHelper
 
-    before_action :authenticate_nonprofit_user!, only: [:index, :update]
+    before_action :authenticate_nonprofit_user!, only: [:index, :update, :followup]
     before_action :authenticate_campaign_editor!, only: [:create_offsite]
     before_action :reject_for_deactivated_nonprofits, only: [:create]
 
@@ -55,8 +55,7 @@ module Nonprofits
     # put /nonprofits/:nonprofit_id/donations/:id
     # update designation, dedication, or comment on a donation in the followup
     def followup
-      nonprofit = Nonprofit.find(params[:nonprofit_id])
-      donation = nonprofit.donations.find(params[:id])
+      donation = current_nonprofit.donations.find(params[:id])
       json_saved UpdateDonation.from_followup(donation, params[:donation])
     end
 

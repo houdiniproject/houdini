@@ -3,7 +3,7 @@ module Nonprofits
   class SupportersController < ApplicationController
     include Controllers::NonprofitHelper
 
-    before_action :authenticate_nonprofit_user!, except: [:new, :create]
+    before_action :authenticate_nonprofit_user!, except: [:create]
 
     before_action :validate_allowed!, only: [:create]
     rescue_from ::TempBlockError, with: :handle_temp_block_error
@@ -19,7 +19,7 @@ module Nonprofits
         end
 
         format.csv do
-          file_date = Date.today.to_fs(:mdy)
+          file_date = Time.zone.today.to_fs(:mdy)
           supporters = QuerySupporters.for_export(params[:nonprofit_id], params)
           send_data(Format::Csv.from_vectors(supporters), filename: "supporters-#{file_date}.csv")
         end
@@ -85,7 +85,7 @@ module Nonprofits
 
     def bulk_delete
       supporter_ids = if params[:selecting_all]
-        QuerySupporters.full_filter_expr(current_nonprofit.id, params[:query]).select("supporters.id").execute.map { |h| h["id"] }
+        QuerySupporters.full_filter_expr(current_nonprofit.id, params[:query]).select("supporters.id").execute.map { |h| h["id"] } # rubocop:disable Rails/Pluck
       else
         params[:supporter_ids].map(&:to_i)
       end

@@ -21,7 +21,7 @@ jobs:
     outputs:
       filters: ${{ steps.filter.outputs.changes }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: dorny/paths-filter@v3
       id: filter
       with:
@@ -43,7 +43,7 @@ jobs:
     if: ${{ contains(needs.changes.outputs.filters, 'markdown')}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run markdownlint
         run: yarn markdownlint
 
@@ -55,7 +55,7 @@ jobs:
     runs-on: ${{ inputs.os }}
     if: ${{ contains(needs.changes.outputs.filters, 'build-ruby') }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/after-checkout-prep
         with:
           node: ${{ inputs.node }}
@@ -82,7 +82,7 @@ jobs:
     if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
     runs-on: ${{ inputs.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/after-checkout-prep
         with:
           node: ${{ inputs.node }}
@@ -102,7 +102,7 @@ jobs:
     if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
     runs-on: ${{ inputs.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/after-checkout-prep
         with:
           node: ${{ inputs.node }}

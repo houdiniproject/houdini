@@ -290,6 +290,13 @@ Rails.application.routes.draw do
   get '/css/donate-button.css' => 'widget#v1_css'
   get '/css/donate-button.v2.css' => 'widget#v2_css'
 
+  # Error Routes
+
+  get '/404', to: 'errors#not_found'
+  get '/422', to: 'errors#unprocessable'
+  get '/500', to: 'errors#internal_server'
+
+
   scope ActiveStorage.routes_prefix do
     get "/blobs/redirect/:signed_id/*filename" => "active_storage/blobs/redirect#show", as: :rails_service_blob
     get "/blobs/proxy/:signed_id/*filename" => "active_storage/blobs/proxy#show", as: :rails_service_blob_proxy

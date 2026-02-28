@@ -14,7 +14,7 @@ function view(state) {
       h('a.button--small.facebook.u-width--full.share-button', {
         props: {
           target: '_blank'
-        , href: 'https://www.facebook.com/dialog/feed?app_id='+app.facebook_app_id +"&display=popup&caption=" + encodeURIComponent(app.campaign.name || app.nonprofit.name) + "&link="+window.location.href
+        , href: 'https://www.facebook.com/dialog/feed?app_id='+app.facebook_app_id +"&display=popup&caption=" + encodeURIComponent(app.campaign.name || app.nonprofit.name) + "&link="+window.location.href 
         }
       }, [h('i.fa.fa-facebook-square'), ` ${I18n.t('nonprofits.donate.followup.share.facebook')}`] )
     ])

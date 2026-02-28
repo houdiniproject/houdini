@@ -8,32 +8,32 @@ module HealthReport
   # Returns a hash of metrics data
   def self.query_data
     # Transaction metrics
-    charges = Qx.select('COUNT(charges.id), SUM(charges.amount), SUM(charges.fee) as fees')
-                .from('charges')
-                .where('created_at > $d', d: 24.hours.ago)
-                .and_where("charges.status != 'failed'")
-                .ex.last
+    charges = Qx.select("COUNT(charges.id), SUM(charges.amount), SUM(charges.fee) as fees")
+      .from("charges")
+      .where("created_at > $d", d: 24.hours.ago)
+      .and_where("charges.status != 'failed'")
+      .ex.last
 
     # Recurring donation metrics
-    rec_dons = Qx.select('COUNT(id), SUM(amount)')
-                 .from('recurring_donations')
-                 .where('active=TRUE')
-                 .ex.last
+    rec_dons = Qx.select("COUNT(id), SUM(amount)")
+      .from("recurring_donations")
+      .where("active=TRUE")
+      .ex.last
 
     # Info about disabled nonprofit accounts due to ident verification
-    disabled_nps = Qx.select('nonprofits.id', 'nonprofits.name', 'nonprofits.stripe_account_id')
-                     .from('nonprofits')
-                     .where("verification_status != 'verified'")
-                     .and_where('created_at > $d', d: 3.months.ago)
-                     .ex(format: 'csv')
+    disabled_nps = Qx.select("nonprofits.id", "nonprofits.name", "nonprofits.stripe_account_id")
+      .from("nonprofits")
+      .where("verification_status != 'verified'")
+      .and_where("created_at > $d", d: 3.months.ago)
+      .ex(format: "csv")
 
     {
-      charges_count: charges['count'],
-      charges_sum: charges['sum'],
-      charges_fees: charges['fees'],
+      charges_count: charges["count"],
+      charges_sum: charges["sum"],
+      charges_fees: charges["fees"],
       recently_disabled_nps: disabled_nps,
-      active_rec_don_count: rec_dons['count'],
-      active_rec_don_amount: rec_dons['sum']
+      active_rec_don_count: rec_dons["count"],
+      active_rec_don_amount: rec_dons["sum"]
     }
   end
 

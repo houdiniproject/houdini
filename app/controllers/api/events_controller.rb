@@ -5,14 +5,14 @@
 
 # A controller for interacting with a nonprofit's supporters
 class Api::EventsController < Api::ApiController
-	include Controllers::Event::Current
-	include Controllers::Event::Authorization
+  include Controllers::Event::Current
+  include Controllers::Event::Authorization
 
-	before_action :authenticate_event_editor!, only: :show
+  before_action :authenticate_event_editor!, only: :show
 
-	# Gets the a single nonprofit campaign
-	# If not logged in, causes a 401 error
-	def show
-		@event = current_event
-	end
+  # Gets the a single nonprofit campaign
+  # If not logged in, causes a 401 error
+  def show
+    @event = current_event
+  end
 end

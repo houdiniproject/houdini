@@ -5,14 +5,14 @@
 
 # A controller for interacting with a nonprofit's supporters
 class Api::CampaignsController < Api::ApiController
-	include Controllers::Campaign::Current
-	include Controllers::Campaign::Authorization
+  include Controllers::Campaign::Current
+  include Controllers::Campaign::Authorization
 
-	before_action :authenticate_campaign_editor!, only: :show
+  before_action :authenticate_campaign_editor!, only: :show
 
-	# Gets the a single nonprofit campaign
-	# If not logged in, causes a 401 error
-	def show
-		@campaign = current_campaign
-	end
+  # Gets the a single nonprofit campaign
+  # If not logged in, causes a 401 error
+  def show
+    @campaign = current_campaign
+  end
 end

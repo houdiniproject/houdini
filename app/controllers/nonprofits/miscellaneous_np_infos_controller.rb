@@ -5,7 +5,7 @@
 module Nonprofits
   class MiscellaneousNpInfosController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
 
     helper_method :current_nonprofit_user?
     before_action :authenticate_nonprofit_user!

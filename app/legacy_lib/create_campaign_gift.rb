@@ -8,21 +8,21 @@ module CreateCampaignGift
   #      * donation_id
   def self.create(params)
     ParamValidation.new(params,
-                        campaign_gift_option_id: {
-                          required: true,
-                          is_integer: true
-                        },
-                        donation_id: {
-                          required: true,
-                          is_integer: true
-                        })
+      campaign_gift_option_id: {
+        required: true,
+        is_integer: true
+      },
+      donation_id: {
+        required: true,
+        is_integer: true
+      })
 
-    donation = Donation.includes(:nonprofit).includes(:supporter).includes(:recurring_donation).includes(:campaign_gifts).where('id = ?', params[:donation_id]).first
+    donation = Donation.includes(:nonprofit).includes(:supporter).includes(:recurring_donation).includes(:campaign_gifts).where("id = ?", params[:donation_id]).first
     unless donation
       raise ParamValidation::ValidationError.new("#{params[:donation_id]} is not a valid donation id.", key: :donation_id)
     end
 
-    campaign_gift_option = CampaignGiftOption.includes(:campaign).where('id = ?', params[:campaign_gift_option_id]).first
+    campaign_gift_option = CampaignGiftOption.includes(:campaign).where("id = ?", params[:campaign_gift_option_id]).first
     unless campaign_gift_option
       raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} is not a valid campaign gift option", key: :campaign_gift_option_id)
     end
@@ -36,7 +36,7 @@ module CreateCampaignGift
       raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} is not for the same campaign as donation #{params[:donation_id]}", key: :campaign_gift_option_id)
     end
 
-    if !donation.recurring_donation.nil? && (!campaign_gift_option.amount_recurring.nil? && campaign_gift_option.amount_recurring > 0)
+    if !donation.recurring_donation.nil? && !campaign_gift_option.amount_recurring.nil? && campaign_gift_option.amount_recurring > 0
       # it's a recurring_donation. Is it enough? for the gift level?
       unless donation.recurring_donation.amount == campaign_gift_option.amount_recurring
         AdminFailedGiftJob.perform_later(donation, campaign_gift_option)
@@ -64,7 +64,7 @@ module CreateCampaignGift
   def self.validate_campaign_gift(cg)
     donation = cg.donation
     campaign_gift_option = cg.campaign_gift_option
-    if !donation.recurring_donation.nil? && (!campaign_gift_option.amount_recurring.nil? && campaign_gift_option.amount_recurring > 0)
+    if !donation.recurring_donation.nil? && !campaign_gift_option.amount_recurring.nil? && campaign_gift_option.amount_recurring > 0
       # it's a recurring_donation. Is it enough? for the gift level?
       unless donation.recurring_donation.amount == campaign_gift_option.amount_recurring
         raise ParamValidation::ValidationError.new("#{campaign_gift_option.id} gift options requires a recurring donation of at least #{campaign_gift_option.amount_recurring}", key: :campaign_gift_option_id)

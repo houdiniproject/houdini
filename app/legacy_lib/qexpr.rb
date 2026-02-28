@@ -11,8 +11,8 @@
 #  - composability and reusability of sql fragments
 #  - pretty printing of sql with formatting and color
 
-require 'hamster'
-require 'colorize'
+require "hamster"
+require "colorize"
 
 class Qexpr
   attr_accessor :tree
@@ -27,25 +27,24 @@ class Qexpr
 
   # Parse an qexpr object into a sql string expression
   def parse
-    expr = ''
     if @tree[:insert]
       expr = "#{@tree[:insert]} #{@tree[:values].blue}"
-      expr += "\nRETURNING ".bold.light_blue + (@tree[:returning] || ['id']).join(', ').blue
+      expr += "\nRETURNING ".bold.light_blue + (@tree[:returning] || ["id"]).join(", ").blue
       return expr
     end
 
     # Query-based expessions
     expr = @tree[:update] || @tree[:delete_from] || @tree[:select]
     if expr.nil? || expr.empty?
-      raise ArgumentError, 'Must have a select, update, or delete clause'
+      raise ArgumentError, "Must have a select, update, or delete clause"
     end
 
     if @tree[:from]
       expr += "\nFROM".bold.light_blue + @tree[:from].map do |f|
         f.is_a?(String) ? f : " (#{f[:sub_expr].parse}\n) AS #{f[:as]}"
-      end.join(', ').blue
+      end.join(", ").blue
     end
-    expr += @tree[:joins].join(' ') if @tree[:joins]
+    expr += @tree[:joins].join(" ") if @tree[:joins]
     expr += @tree[:where] if @tree[:where]
     expr += @tree[:group_by] if @tree[:group_by]
     expr += @tree[:having] if @tree[:having]
@@ -55,7 +54,7 @@ class Qexpr
 
     expr = "(#{expr}) AS #{@tree[:as]}" if @tree[:select] && @tree[:as]
     if @tree[:update] && @tree[:returning]
-      expr += "\nRETURNING ".bold.light_blue + @tree[:returning].join(', ').blue
+      expr += "\nRETURNING ".bold.light_blue + @tree[:returning].join(", ").blue
     end
     expr
   end
@@ -70,34 +69,34 @@ class Qexpr
     arr = arr.map { |h| h.sort.to_h } # Make sure all key/vals are ordered the same way
     keys = arr.first.keys
     keys = keys.concat(options[:common_data].keys) if options[:common_data]
-    keys = keys.map { |k| "\"#{k}\"" }.join(', ')
-    ts_columns = options[:no_timestamps] ? '' : 'created_at, updated_at, '
-    ts_values = options[:no_timestamps] ? '' : "#{Qexpr.now}, #{Qexpr.now}, "
+    keys = keys.map { |k| "\"#{k}\"" }.join(", ")
+    ts_columns = options[:no_timestamps] ? "" : "created_at, updated_at, "
+    ts_values = options[:no_timestamps] ? "" : "#{Qexpr.now}, #{Qexpr.now}, "
     common_vals = options[:common_data] ? options[:common_data].values.map { |v| Qexpr.quote(v) } : []
-    vals = arr.map { |h| '(' + ts_values + h.values.map { |v| Qexpr.quote(v) }.concat(common_vals).join(',') + ')' }.join(',')
+    vals = arr.map { |h| "(" + ts_values + h.values.map { |v| Qexpr.quote(v) }.concat(common_vals).join(",") + ")" }.join(",")
     Qexpr.new @tree
-      .put(:insert, 'INSERT INTO'.bold.light_blue + " #{table_name} (#{ts_columns} #{keys})".blue)
+      .put(:insert, "INSERT INTO".bold.light_blue + " #{table_name} (#{ts_columns} #{keys})".blue)
       .put(:values, "\nVALUES".bold.light_blue + " #{vals}".blue)
   end
 
   def update(table_name, settings, _os = {})
-    Qexpr.new @tree.put(:update, 'UPDATE'.bold.light_blue + " #{table_name}".blue + "\nSET".bold.light_blue + " #{settings.map { |key, val| "#{key}=#{Qexpr.quote(val)}" }.join(', ')}".blue)
+    Qexpr.new @tree.put(:update, "UPDATE".bold.light_blue + " #{table_name}".blue + "\nSET".bold.light_blue + " #{settings.map { |key, val| "#{key}=#{Qexpr.quote(val)}" }.join(", ")}".blue)
   end
 
   def delete_from(table_name)
-    Qexpr.new @tree.put(:delete_from, 'DELETE FROM'.bold.light_blue + " #{table_name}".blue)
+    Qexpr.new @tree.put(:delete_from, "DELETE FROM".bold.light_blue + " #{table_name}".blue)
   end
 
   # Create or append select columns
   def select(*cols)
     if @tree[:select]
-      Qexpr.new @tree.put(:select, @tree[:select] + ", #{cols.join(', ')}".blue)
+      Qexpr.new @tree.put(:select, @tree[:select] + ", #{cols.join(", ")}".blue)
     else
       cols = if cols.count < 4
-               " #{cols.join(', ')}"
-             else
-               "\n  #{cols.join("\n, ")}"
-             end
+        " #{cols.join(", ")}"
+      else
+        "\n  #{cols.join("\n, ")}"
+      end
       Qexpr.new @tree.put(:select, "\nSELECT".bold.light_blue + cols.to_s.blue)
     end
   end
@@ -107,7 +106,7 @@ class Qexpr
   end
 
   def select_distinct_on(cols_distinct, cols_select)
-    Qexpr.new @tree.put(:select, 'SELECT DISTINCT ON'.bold.light_blue + " (#{Array(cols_distinct).join(', ')})\n  #{Array(cols_select).join("\n, ")}".blue)
+    Qexpr.new @tree.put(:select, "SELECT DISTINCT ON".bold.light_blue + " (#{Array(cols_distinct).join(", ")})\n  #{Array(cols_select).join("\n, ")}".blue)
   end
 
   def from(expr, as = nil)
@@ -115,7 +114,7 @@ class Qexpr
   end
 
   def group_by(*cols)
-    Qexpr.new @tree.put(:group_by, "\nGROUP BY".bold.light_blue + " #{cols.join(', ')}".blue)
+    Qexpr.new @tree.put(:group_by, "\nGROUP BY".bold.light_blue + " #{cols.join(", ")}".blue)
   end
 
   def order_by(expr)
@@ -133,25 +132,25 @@ class Qexpr
   def join(table_name, on_expr, data = {})
     on_expr = Qexpr.interpolate_expr(on_expr, data)
     Qexpr.new @tree
-      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nJOIN".bold.light_blue + " #{table_name}\n  ".blue + 'ON'.bold.light_blue + " #{on_expr}".blue))
+      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nJOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
   end
 
   def inner_join(table_name, on_expr, data = {})
     on_expr = Qexpr.interpolate_expr(on_expr, data)
     Qexpr.new @tree
-      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nINNER JOIN".bold.light_blue + " #{table_name}\n  ".blue + 'ON'.bold.light_blue + " #{on_expr}".blue))
+      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nINNER JOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
   end
 
   def left_outer_join(table_name, on_expr, data = {})
     on_expr = Qexpr.interpolate_expr(on_expr, data)
     Qexpr.new @tree
-      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nLEFT OUTER JOIN".bold.light_blue + " #{table_name}\n  ".blue + 'ON'.bold.light_blue + " #{on_expr}".blue))
+      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nLEFT OUTER JOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
   end
 
   def join_lateral(join_name, select_statement, success_condition = true, data = {})
     select_statement = Qexpr.interpolate_expr(select_statement, data)
     Qexpr.new @tree
-      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\n JOIN LATERAL".bold.light_blue + " (#{select_statement})\n  #{join_name} ".blue + 'ON'.bold.light_blue + " #{success_condition}".blue))
+      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\n JOIN LATERAL".bold.light_blue + " (#{select_statement})\n  #{join_name} ".blue + "ON".bold.light_blue + " #{success_condition}".blue))
   end
 
   def as(name)
@@ -198,18 +197,18 @@ class Qexpr
     if val.is_a?(Integer) || (val.is_a?(String) && val =~ /^\$Q\$.+\$Q\$$/) # is a valid num or already quoted
       val
     elsif val.nil?
-      'NULL'
+      "NULL"
     elsif !!val == val # is a boolean
       val ? "'t'" : "'f'"
     else
-      '$Q$' + val.to_s + '$Q$'
+      "$Q$" + val.to_s + "$Q$"
     end
   end
 
   # An alias of PG.quote_ident, for convenience sake
   # Double-quotes sql identifiers
   def self.quote_ident(str)
-    str.split('.').map { |s| "\"#{s}\"" }.join('.')
+    str.split(".").map { |s| "\"#{s}\"" }.join(".")
   end
 
   # sql-quoted datetime value useful for created_at and updated_at columns
@@ -241,9 +240,9 @@ class Qexpr
   # interpolate the hash data into the expression
   def self.interpolate_expr(expr, data)
     expr.gsub(/\$\w+/) do |match|
-      val = data[match.gsub(/[ \$]*/, '').to_sym]
+      val = data[match.gsub(/[ \$]*/, "").to_sym]
       if val.is_a?(Array) || val.is_a?(Hamster::Vector)
-        val.to_a.map { |x| Qexpr.quote(x) }.join(', ')
+        val.to_a.map { |x| Qexpr.quote(x) }.join(", ")
       else
         Qexpr.quote val
       end
@@ -259,7 +258,7 @@ class Qexpr
     if expr.is_a?(Qexpr)
       Hamster::Hash[sub_expr: expr, as: as]
     else
-      " #{expr} #{as ? "AS #{as}" : ''}"
+      " #{expr} #{as ? "AS #{as}" : ""}"
     end
   end
 end

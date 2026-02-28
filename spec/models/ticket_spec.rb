@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Ticket, type: :model do
   let(:payment1) { force_create(:payment) }
@@ -12,26 +12,26 @@ RSpec.describe Ticket, type: :model do
   let(:ticket3) { force_create(:ticket, payment: payment1) }
   let(:ticket4) { force_create(:ticket, payment: payment2) }
 
-  before(:each) do
+  before do
     ticket1
     ticket2
     ticket3
     ticket4
   end
 
-  it 'has ticket1 getting ticket2 and ticket3 for related_tickets' do
+  it "has ticket1 getting ticket2 and ticket3 for related_tickets" do
     expect(ticket1.related_tickets).to contain_exactly(ticket2, ticket3)
   end
 
-  it 'has ticket2 getting ticket1 and ticket3 for related_tickets' do
+  it "has ticket2 getting ticket1 and ticket3 for related_tickets" do
     expect(ticket2.related_tickets).to contain_exactly(ticket1, ticket3)
   end
 
-  it 'has ticket3 getting ticket1 and ticket2 for related_tickets' do
+  it "has ticket3 getting ticket1 and ticket2 for related_tickets" do
     expect(ticket3.related_tickets).to contain_exactly(ticket1, ticket2)
   end
 
-  it 'has ticket4 getting no related tickets' do
+  it "has ticket4 getting no related tickets" do
     expect(ticket4.related_tickets).to be_empty
   end
 end

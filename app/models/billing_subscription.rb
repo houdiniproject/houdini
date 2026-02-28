@@ -16,7 +16,7 @@ class BillingSubscription < ApplicationRecord
   validates :billing_plan, presence: true
 
   def as_json(options = {})
-    h = super(options)
+    h = super
     h[:plan_name] = billing_plan.name
     h[:plan_amount] = billing_plan.amount / 100
     h

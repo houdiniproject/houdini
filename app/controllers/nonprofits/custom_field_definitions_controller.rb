@@ -10,9 +10,9 @@ module Nonprofits
 
     def index
       @custom_field_definitions = current_nonprofit
-                              .custom_field_definitions
-                              .order('id DESC')
-                              .not_deleted
+        .custom_field_definitions
+        .order("id DESC")
+        .not_deleted
     end
 
     def create
@@ -28,9 +28,8 @@ module Nonprofits
     private
 
     def custom_field_definition_params
-      params.require(:custom_field_definition).permit( :name)
+      params.require(:custom_field_definition).permit(:name)
     end
-
 
     def current_custom_field_definition
       current_nonprofit.custom_field_definitions.find(params[:id])

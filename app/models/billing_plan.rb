@@ -10,7 +10,7 @@ class BillingPlan < ApplicationRecord
   # :interval, #str ('monthly', 'annual')
   # :percentage_fee # 0.038
 
-  Names = ['Starter', 'Fundraising', 'Supporter Management'].freeze
+  Names = ["Starter", "Fundraising", "Supporter Management"].freeze
   DefaultAmounts = [0, 9900, 29_900].freeze # in pennies
 
   has_many :billing_subscriptions

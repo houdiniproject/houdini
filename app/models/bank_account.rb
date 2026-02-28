@@ -18,18 +18,18 @@ class BankAccount < ApplicationRecord
   validates :stripe_bank_account_id, presence: true, uniqueness: true
   validates :nonprofit, presence: true
   validates :email, presence: true, format: {with: Email::Regex}
-  validate  :nonprofit_must_be_vetted, on: :create
-  validate  :nonprofit_has_stripe_account
+  validate :nonprofit_must_be_vetted, on: :create
+  validate :nonprofit_has_stripe_account
 
   has_many :payouts
   belongs_to :nonprofit
 
   def nonprofit_must_be_vetted
-    errors.add(:nonprofit, 'must be vetted') unless nonprofit&.vetted
+    errors.add(:nonprofit, "must be vetted") unless nonprofit&.vetted
   end
 
   def nonprofit_has_stripe_account
-    errors.add(:nonprofit, 'must have a Stripe account id') if !nonprofit || nonprofit.stripe_account_id.blank?
+    errors.add(:nonprofit, "must have a Stripe account id") if !nonprofit || nonprofit.stripe_account_id.blank?
   end
 
   # Manually cause an instance to become invalid

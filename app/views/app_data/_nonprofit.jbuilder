@@ -5,13 +5,13 @@
 
 # described in app/javascript/legacy/app_data/Nonprofit.ts
 
-json.extract! nonprofit, :id, :name, #basics
-                :brand_color, :brand_font, :tagline, #brand
-                :zip_code, :state_code, :city,
-                :slug, :state_code_slug, :city_slug, #slugs
-                :no_anon #options
+json.extract! nonprofit, :id, :name, # basics
+  :brand_color, :brand_font, :tagline, # brand
+  :zip_code, :state_code, :city,
+  :slug, :state_code_slug, :city_slug, # slugs
+  :no_anon # options
 json.url nonprofit_path(nonprofit)
 json.logo do
-    json.normal rails_storage_proxy_url(nonprofit.logo_by_size(:normal))
-    json.small rails_storage_proxy_url(nonprofit.logo_by_size(:small))
+  json.normal rails_storage_proxy_url(nonprofit.logo_by_size(:normal))
+  json.small rails_storage_proxy_url(nonprofit.logo_by_size(:small))
 end

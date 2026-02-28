@@ -7,49 +7,49 @@
 # to get the StripeTestHelper for the session.
 # @see StripeMock
 StripeMockHelper = Class.new do
-	delegate_missing_to :StripeMock
+  delegate_missing_to :StripeMock
 
-	# Most StripeMock sessions only need a single test helper so you can get it here
-	# @return a Stripe test helper or nil if none is set
-	def default_helper
-		@default_helper if defined? @default_helper
-	end
+  # Most StripeMock sessions only need a single test helper so you can get it here
+  # @return a Stripe test helper or nil if none is set
+  def default_helper
+    @default_helper if defined? @default_helper
+  end
 
-	alias_method :stripe_helper, :default_helper
+  alias_method :stripe_helper, :default_helper
 
-	# sets up a StripeMock session and sets up StripeMock::default_helper
-	# note: Rspec is set up to autostop a StripeMock session when an example finishes
-	def start
-		return if default_helper
+  # sets up a StripeMock session and sets up StripeMock::default_helper
+  # note: Rspec is set up to autostop a StripeMock session when an example finishes
+  def start
+    return if default_helper
 
-		StripeMock.start
-		create_default_helper
-	end
+    StripeMock.start
+    create_default_helper
+  end
 
-	# stops a StripeMock session and clears StripeMock::default_helper
-	def stop
-		clear_default_helper
-		StripeMock.stop
-	end
+  # stops a StripeMock session and clears StripeMock::default_helper
+  def stop
+    clear_default_helper
+    StripeMock.stop
+  end
 
-	# wraps a block in a StripeMock session and sets up StripeMock::default_helper
-	def mock(&block)
-		start
+  # wraps a block in a StripeMock session and sets up StripeMock::default_helper
+  def mock(&block)
+    start
 
-		block.call
+    block.call
 
-		stop
-	end
+    stop
+  end
 
-	private
+  private
 
-	# Clears the default test helper for the current StripeMock session
-	def clear_default_helper
-		remove_instance_variable :@default_helper if defined? @default_helper
-	end
+  # Clears the default test helper for the current StripeMock session
+  def clear_default_helper
+    remove_instance_variable :@default_helper if defined? @default_helper
+  end
 
-	# Creates a default test helper for the current StripeMock session
-	def create_default_helper
-		@default_helper ||= StripeMock.create_test_helper  # rubocop:disable Naming/MemoizedInstanceVariableName
-	end
+  # Creates a default test helper for the current StripeMock session
+  def create_default_helper
+    @default_helper ||= StripeMock.create_test_helper  # rubocop:disable Naming/MemoizedInstanceVariableName
+  end
 end.new

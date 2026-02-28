@@ -2,32 +2,31 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StaticController, type: :controller do
-  describe '.ccs' do
-
-    describe 'local_tar_gz' do
-      before (:each) do
-        Houdini.ccs = Houdini::Ccs.build('local_tar_gz')
+  describe ".ccs" do
+    describe "local_tar_gz" do
+      before do
+        Houdini.ccs = Houdini::Ccs.build("local_tar_gz")
       end
 
-      it 'fails on git archive' do
+      it "fails on git archive" do
         expect(Kernel).to receive(:system).and_return(false)
-        get('ccs')
+        get("ccs")
         expect(response.status).to eq 500
       end
     end
 
-    describe 'github' do
-      before (:each) do
-        Houdini.ccs = Houdini::Ccs.build('github', account: 'account', repo: 'repo')
+    describe "github" do
+      before do
+        Houdini.ccs = Houdini::Ccs.build("github", account: "account", repo: "repo")
       end
 
-      it 'setup github' do
-        expect(File).to receive(:read).with("#{Rails.root}/CCS_HASH").and_return("hash\n")
-        get('ccs')
-        expect(response).to redirect_to 'https://github.com/account/repo/tree/hash'
+      it "setup github" do
+        expect(File).to receive(:read).with("#{Rails.root.join("CCS_HASH")}").and_return("hash\n")
+        get("ccs")
+        expect(response).to redirect_to "https://github.com/account/repo/tree/hash"
       end
     end
   end

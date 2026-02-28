@@ -6,7 +6,7 @@
 module UpdateActivities
   def self.for_supporter_notes(supporter_note)
     user_email = supporter_note.user.email
-    supporter_note.activities.update_all(json_data: { content: supporter_note.content, user_email: user_email }.to_json, 
+    supporter_note.activities.update_all(json_data: {content: supporter_note.content, user_email: user_email}.to_json,
       updated_at: DateTime.now)
   end
 end

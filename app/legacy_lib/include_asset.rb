@@ -16,6 +16,6 @@ module IncludeAsset
   private
 
   def self.asset_version
-    ENV['ASSET_VERSION']
+    ENV["ASSET_VERSION"]
   end
 end

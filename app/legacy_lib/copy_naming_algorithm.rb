@@ -5,7 +5,7 @@
 class CopyNamingAlgorithm
   DEFAULT_MAX_LENGTH = 255
   DEFAULT_MAX_COPIES = 255
-  DEFAULT_SEPARATOR_BEFORE_COPY_NUMBER = '_'
+  DEFAULT_SEPARATOR_BEFORE_COPY_NUMBER = "_"
 
   def copy_addition
     raise NotImplementedError
@@ -33,7 +33,7 @@ class CopyNamingAlgorithm
 
   def create_copy_name(name_to_copy)
     # remove copy addition and number
-    base_name = name_to_copy.gsub(/#{Regexp.quote(copy_addition)}(#{Regexp.quote(separator_before_copy_number)}\d+)?\z/, '')
+    base_name = name_to_copy.gsub(/#{Regexp.quote(copy_addition)}(#{Regexp.quote(separator_before_copy_number)}\d+)?\z/, "")
     name_entities_to_check_against = get_already_used_name_entities(base_name).collect { |entity| get_name_for_entity(entity) }.to_a
     (0..max_copies - 1).each do |copy_num|
       name_to_test = generate_name(base_name, copy_num)

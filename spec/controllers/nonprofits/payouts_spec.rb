@@ -2,22 +2,22 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
-require 'controllers/support/shared_user_context'
+require "rails_helper"
+require "controllers/support/shared_user_context"
 
 describe Nonprofits::PayoutsController, type: :controller do
   include_context :shared_user_context
-  describe 'rejects unauthenticated users' do
-    describe 'create' do
+  describe "rejects unauthenticated users" do
+    describe "create" do
       include_context :open_to_np_admin, :post, :create, nonprofit_id: :__our_np
     end
 
-    describe 'index' do
+    describe "index" do
       include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, without_json_view: true
     end
 
-    describe 'show' do
-      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1'
+    describe "show" do
+      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: "1"
     end
   end
 end

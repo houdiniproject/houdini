@@ -2,46 +2,51 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+require "rails_helper"
 
 describe InsertSourceToken do
-  describe '.create_record' do
+  describe ".create_record" do
     let(:event) { force_create(:event, end_datetime: Time.now + 1.day) }
-    describe 'param validation' do
-      it 'validates tokenizable' do
+
+    describe "param validation" do
+      it "validates tokenizable" do
         expect { InsertSourceToken.create_record(nil) }.to(raise_error do |error|
           expect(error).to be_a ParamValidation::ValidationError
-          expect_validation_errors(error.data, [{ key: :tokenizable, name: :required }])
+          expect_validation_errors(error.data, [{key: :tokenizable, name: :required}])
         end)
       end
 
-      it 'validates params' do
-        expect { InsertSourceToken.create_record(nil, event: '', expiration_time: 'j', max_uses: 'j') }.to(raise_error do |error|
+      it "validates params" do
+        expect { InsertSourceToken.create_record(nil, event: "", expiration_time: "j", max_uses: "j") }.to(raise_error do |error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [
-                                     { key: :tokenizable, name: :required },
-                                     { key: :event, name: :is_a },
-                                     { key: :expiration_time, name: :is_integer },
-                                     { key: :expiration_time, name: :min },
-                                     { key: :max_uses, name: :is_integer },
-                                     { key: :max_uses, name: :min }
-                                   ])
+            {key: :tokenizable, name: :required},
+            {key: :event, name: :is_a},
+            {key: :expiration_time, name: :is_integer},
+            {key: :expiration_time, name: :min},
+            {key: :max_uses, name: :is_integer},
+            {key: :max_uses, name: :min}
+          ])
         end)
       end
     end
-    describe 'handles default' do
-      it 'without event' do
+
+    describe "handles default" do
+      it "without event" do
         Timecop.freeze(2025, 4, 5) do
           ouruuid = nil
 
           tokenizable = Card.create!
-          expect(SecureRandom).to receive(:uuid).and_wrap_original { |m| ouruuid = m.call; ouruuid }
+          expect(SecureRandom).to receive(:uuid).and_wrap_original { |m|
+            ouruuid = m.call
+            ouruuid
+          }
 
           result = InsertSourceToken.create_record(tokenizable)
 
           expected = {
             tokenizable_id: tokenizable.id,
-            tokenizable_type: 'Card',
+            tokenizable_type: "Card",
             token: ouruuid,
             expiration: Time.now.since(20.minutes),
             created_at: Time.now,
@@ -57,17 +62,15 @@ describe InsertSourceToken do
         end
       end
 
-      it 'with event' do
+      it "with event" do
         Timecop.freeze(2025, 4, 5) do
-          ouruuid = nil
-
           tokenizable = Card.create!
 
           result = InsertSourceToken.create_record(tokenizable, event: event)
 
           expected = {
             tokenizable_id: tokenizable.id,
-            tokenizable_type: 'Card',
+            tokenizable_type: "Card",
             expiration: Time.now + 1.day + 20.days,
             created_at: Time.now,
             updated_at: Time.now,
@@ -76,51 +79,47 @@ describe InsertSourceToken do
             event_id: event.id
           }.with_indifferent_access
 
-          expect(result.attributes.except('token')).to eq expected
+          expect(result.attributes.except("token")).to eq expected
 
-          expect(SourceToken.last.attributes.except('token')).to eq expected
+          expect(SourceToken.last.attributes.except("token")).to eq expected
 
           expect(result[:token]).to be_a String
         end
       end
     end
-    describe 'handles passed in data' do
-      it 'without event' do
-        Timecop.freeze(2025, 4, 5) do
-          ouruuid = nil
 
+    describe "handles passed in data" do
+      it "without event" do
+        Timecop.freeze(2025, 4, 5) do
           tokenizable = Card.create!
 
           result = InsertSourceToken.create_record(tokenizable, max_uses: 50, expiration_time: 3600)
 
-          expected = { tokenizable_id: tokenizable.id,
-                       tokenizable_type: 'Card',
-                       expiration: Time.now.since(1.hour),
-                       created_at: Time.now,
-                       updated_at: Time.now,
-                       total_uses: 0,
-                       max_uses: 50,
-                       event_id: nil }.with_indifferent_access
+          expected = {tokenizable_id: tokenizable.id,
+                      tokenizable_type: "Card",
+                      expiration: Time.now.since(1.hour),
+                      created_at: Time.now,
+                      updated_at: Time.now,
+                      total_uses: 0,
+                      max_uses: 50,
+                      event_id: nil}.with_indifferent_access
 
           expect(result.attributes.with_indifferent_access.except(:token)).to eq expected
 
-         
-          expect(SourceToken.last.attributes.except('token')).to eq expected
+          expect(SourceToken.last.attributes.except("token")).to eq expected
           expect(result.token).to be_a String
         end
       end
 
-      it 'with event' do
+      it "with event" do
         Timecop.freeze(2025, 4, 5) do
-          ouruuid = nil
-
           tokenizable = Card.create!
 
           result = InsertSourceToken.create_record(tokenizable, max_uses: 50, expiration_time: 3600, event: event)
 
           expected = {
             tokenizable_id: tokenizable.id,
-            tokenizable_type: 'Card',
+            tokenizable_type: "Card",
             expiration: Time.now.since(1.day).since(1.hour),
             created_at: Time.now,
             updated_at: Time.now,
@@ -130,7 +129,7 @@ describe InsertSourceToken do
           }.with_indifferent_access
 
           expect(result.attributes.with_indifferent_access.except(:token)).to eq expected
-          expect(SourceToken.last.attributes.except('token')).to eq expected
+          expect(SourceToken.last.attributes.except("token")).to eq expected
           expect(result.token).to be_a String
         end
       end

@@ -5,7 +5,7 @@
 module Campaigns
   class CampaignGiftOptionsController < ApplicationController
     include Controllers::Campaign::Current
-  include Controllers::Campaign::Authorization
+    include Controllers::Campaign::Authorization
 
     before_action :authenticate_campaign_editor!, only: %i[create destroy update update_order report]
 
@@ -19,29 +19,29 @@ module Campaigns
 
     def index
       @gift_options = current_campaign.campaign_gift_options.order('"order", amount_recurring, amount_one_time')
-      render json: { data: @gift_options }
+      render json: {data: @gift_options}
     end
 
     def show
-      render json: { data: current_campaign.campaign_gift_options.find(params[:id]) }
+      render json: {data: current_campaign.campaign_gift_options.find(params[:id])}
     end
 
     def create
       campaign = current_campaign
       json_saved CreateCampaignGiftOption.create(campaign, campaign_gift_option_params),
-                 'Gift option successfully created!'
+        "Gift option successfully created!"
     end
 
     def update
       @campaign = current_campaign
       gift_option = @campaign.campaign_gift_options.find params[:id]
-      json_saved UpdateCampaignGiftOption.update(gift_option, campaign_gift_option_params), 'Successfully updated'
+      json_saved UpdateCampaignGiftOption.update(gift_option, campaign_gift_option_params), "Successfully updated"
     end
 
     # put /nonprofits/:nonprofit_id/campaigns/:campaign_id/campaign_gift_options/update_order
     # Pass in {data: [{id: 1, order: 1}]}
     def update_order
-      updated_gift_options = UpdateOrder.with_data('campaign_gift_options', update_order_params)
+      updated_gift_options = UpdateOrder.with_data("campaign_gift_options", update_order_params)
       render json: updated_gift_options
     end
 

@@ -17,12 +17,12 @@ class SettingsController < ApplicationController
     end
 
     @user = if current_role?(:super_admin) && params[:user_id]
-              User.find_by_id(params[:user_id])
-            elsif current_role?(:super_admin) && params[:user_email]
-              User.find_by_email(params[:user_email])
-            else
-              current_user
-            end
+      User.find_by_id(params[:user_id])
+    elsif current_role?(:super_admin) && params[:user_email]
+      User.find_by_email(params[:user_email])
+    else
+      current_user
+    end
 
     @profile = @user.profile
 

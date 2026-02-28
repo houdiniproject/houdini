@@ -6,9 +6,9 @@
 Wisper.clear if Rails.env.development?
 
 Rails.application.config.houdini.listeners.push(
-    NonprofitMailerListener,
-    CreditCardPaymentListener,
-    SepaPaymentListener,
-    TicketMailingListener,
-    ObjectEventListener
+  NonprofitMailerListener,
+  CreditCardPaymentListener,
+  SepaPaymentListener,
+  TicketMailingListener,
+  ObjectEventListener
 )

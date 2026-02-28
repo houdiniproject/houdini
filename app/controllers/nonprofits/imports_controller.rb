@@ -5,7 +5,7 @@
 module Nonprofits
   class ImportsController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
 
     before_action :authenticate_nonprofit_user!
     # post /nonprofits/:nonprofit_id/imports

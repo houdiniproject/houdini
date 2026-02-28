@@ -23,33 +23,33 @@ class Payout < ApplicationRecord
   # :nonprofit_id, :nonprofit
 
   belongs_to :nonprofit
-  has_one    :bank_account, through: :nonprofit
-  has_many   :payment_payouts
-  has_many   :payments, through: :payment_payouts
+  has_one :bank_account, through: :nonprofit
+  has_many :payment_payouts
+  has_many :payments, through: :payment_payouts
 
   validates :stripe_transfer_id, presence: true, uniqueness: true
   validates :nonprofit, presence: true
   validates :bank_account, presence: true
   validates :email, presence: true
-  validates :net_amount, presence: true, numericality: { greater_than: 0 }
-  validate  :nonprofit_must_be_vetted, on: :create
-  validate  :nonprofit_must_have_identity_verified, on: :create
-  validate  :bank_account_must_be_confirmed, on: :create
+  validates :net_amount, presence: true, numericality: {greater_than: 0}
+  validate :nonprofit_must_be_vetted, on: :create
+  validate :nonprofit_must_have_identity_verified, on: :create
+  validate :bank_account_must_be_confirmed, on: :create
 
-  scope :pending, -> { where(status: 'pending') }
-  scope :paid,    -> { where(status: %w[paid succeeded]) }
+  scope :pending, -> { where(status: "pending") }
+  scope :paid, -> { where(status: %w[paid succeeded]) }
 
   def bank_account_must_be_confirmed
     if bank_account&.pending_verification
-      errors.add(:bank_account, 'must be confirmed via email')
+      errors.add(:bank_account, "must be confirmed via email")
     end
   end
 
   def nonprofit_must_have_identity_verified
-    errors.add(:nonprofit, 'must be verified') unless nonprofit && nonprofit.verification_status == 'verified'
+    errors.add(:nonprofit, "must be verified") unless nonprofit && nonprofit.verification_status == "verified"
   end
 
   def nonprofit_must_be_vetted
-    errors.add(:nonprofit, 'must be vetted') unless nonprofit&.vetted
+    errors.add(:nonprofit, "must be vetted") unless nonprofit&.vetted
   end
 end

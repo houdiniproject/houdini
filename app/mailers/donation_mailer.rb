@@ -8,20 +8,20 @@ class DonationMailer < BaseMailer
   def donor_payment_notification(donation_id, locale = I18n.locale)
     @donation = Donation.find(donation_id)
     @nonprofit = @donation.nonprofit
-    if @donation.campaign && ActionView::Base.full_sanitizer.sanitize(@donation.campaign.receipt_message).present?
-      @thank_you_note = @donation.campaign.receipt_message
+    @thank_you_note = if @donation.campaign && ActionView::Base.full_sanitizer.sanitize(@donation.campaign.receipt_message).present?
+      @donation.campaign.receipt_message
     else
-      @thank_you_note = Format::Interpolate.with_hash(@nonprofit.thank_you_note, 'NAME' => @donation.supporter.name)
+      Format::Interpolate.with_hash(@nonprofit.thank_you_note, "NAME" => @donation.supporter.name)
     end
     @charge = @donation.charges.last
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
     from = Format::Name.email_from_np(@nonprofit.name)
     I18n.with_locale(locale) do
       mail(
         to: @donation.supporter.email,
         from: from,
         reply_to: reply_to,
-        subject: I18n.t('mailer.donations.donor_direct_debit_notification.subject', nonprofit_name: @nonprofit.name)
+        subject: I18n.t("mailer.donations.donor_direct_debit_notification.subject", nonprofit_name: @nonprofit.name)
       )
     end
   end
@@ -30,20 +30,20 @@ class DonationMailer < BaseMailer
     @donation = Donation.find(donation_id)
     @nonprofit = @donation.nonprofit
 
-    if @donation.campaign && ActionView::Base.full_sanitizer.sanitize(@donation.campaign.receipt_message).present?
-      @thank_you_note = @donation.campaign.receipt_message
+    @thank_you_note = if @donation.campaign && ActionView::Base.full_sanitizer.sanitize(@donation.campaign.receipt_message).present?
+      @donation.campaign.receipt_message
     else
-      @thank_you_note = Format::Interpolate.with_hash(@nonprofit.thank_you_note, 'NAME' => @donation.supporter.name)
+      Format::Interpolate.with_hash(@nonprofit.thank_you_note, "NAME" => @donation.supporter.name)
     end
 
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
     from = Format::Name.email_from_np(@nonprofit.name)
     I18n.with_locale(locale) do
       mail(
         to: @donation.supporter.email,
         from: from,
         reply_to: reply_to,
-        subject: I18n.t('mailer.donations.donor_direct_debit_notification.subject', nonprofit_name: @nonprofit.name)
+        subject: I18n.t("mailer.donations.donor_direct_debit_notification.subject", nonprofit_name: @nonprofit.name)
       )
     end
   end
@@ -53,7 +53,7 @@ class DonationMailer < BaseMailer
     @donation = Donation.find(donation_id)
     @charge = @donation.charges.last
     @nonprofit = @donation.nonprofit
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? 'notify_campaigns' : 'notify_payments')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? "notify_campaigns" : "notify_payments")
     if user_id
       em = User.find(user_id).email
       # return unless @emails.include?(em)
@@ -66,7 +66,7 @@ class DonationMailer < BaseMailer
     @donation = Donation.find(donation_id)
     @nonprofit = @donation.nonprofit
     @charge = @donation.charges.last
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? 'notify_campaigns' : 'notify_payments')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? "notify_campaigns" : "notify_payments")
     mail(to: @emails, subject: "Recurring donation payment failure for #{@donation.supporter.name || @donation.supporter.email}")
   end
 
@@ -74,7 +74,7 @@ class DonationMailer < BaseMailer
     @donation = Donation.find(donation_id)
     @nonprofit = @donation.nonprofit
     @charge = @donation.charges.last
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
     from = Format::Name.email_from_np(@nonprofit.name)
     mail(to: @donation.supporter.email, from: from, reply_to: reply_to, subject: "Donation payment failure for #{@nonprofit.name}")
   end
@@ -83,14 +83,14 @@ class DonationMailer < BaseMailer
     @donation = Donation.find(donation_id)
     @nonprofit = @donation.nonprofit
     @charge = @donation.charges.last
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? 'notify_campaigns' : 'notify_payments')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? "notify_campaigns" : "notify_payments")
     mail(to: @emails, subject: "Recurring donation cancelled for #{@donation.supporter.name || @donation.supporter.email}")
-   end
+  end
 
   def nonprofit_recurring_donation_change_amount(donation_id, previous_amount = nil)
     @donation = RecurringDonation.find(donation_id).donation
     @nonprofit = @donation.nonprofit
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_recurring_donations')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_recurring_donations")
     @previous_amount = previous_amount
     mail(to: @emails, subject: "Recurring donation amount changed for #{@donation.supporter.name || @donation.supporter.email}")
   end
@@ -98,11 +98,9 @@ class DonationMailer < BaseMailer
   def donor_recurring_donation_change_amount(donation_id, previous_amount = nil)
     @donation = RecurringDonation.find(donation_id).donation
     @nonprofit = @donation.nonprofit
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
-    if @nonprofit.miscellaneous_np_info && ActionView::Base.full_sanitizer.sanitize(@nonprofit.miscellaneous_np_info.change_amount_message).present?
-      @thank_you_note = @nonprofit.miscellaneous_np_info.change_amount_message
-    else
-      @thank_you_note = nil
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
+    @thank_you_note = if @nonprofit.miscellaneous_np_info && ActionView::Base.full_sanitizer.sanitize(@nonprofit.miscellaneous_np_info.change_amount_message).present?
+      @nonprofit.miscellaneous_np_info.change_amount_message
     end
     from = Format::Name.email_from_np(@nonprofit.name)
     @previous_amount = previous_amount
@@ -112,7 +110,7 @@ class DonationMailer < BaseMailer
   def nonprofit_recurring_donation_change_amount(donation_id, previous_amount = nil)
     @donation = RecurringDonation.find(donation_id).donation
     @nonprofit = @donation.nonprofit
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_recurring_donations')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_recurring_donations")
     @previous_amount = previous_amount
     mail(to: @emails, subject: "Recurring donation amount changed for #{@donation.supporter.name || @donation.supporter.email}")
   end
@@ -120,11 +118,9 @@ class DonationMailer < BaseMailer
   def donor_recurring_donation_change_amount(donation_id, previous_amount = nil)
     @donation = RecurringDonation.find(donation_id).donation
     @nonprofit = @donation.nonprofit
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
-    if @nonprofit.miscellaneous_np_info && ActionView::Base.full_sanitizer.sanitize(@nonprofit.miscellaneous_np_info.change_amount_message).present?
-      @thank_you_note = @nonprofit.miscellaneous_np_info.change_amount_message
-    else
-      @thank_you_note = nil
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
+    @thank_you_note = if @nonprofit.miscellaneous_np_info && ActionView::Base.full_sanitizer.sanitize(@nonprofit.miscellaneous_np_info.change_amount_message).present?
+      @nonprofit.miscellaneous_np_info.change_amount_message
     end
     from = Format::Name.email_from_np(@nonprofit.name)
     @previous_amount = previous_amount

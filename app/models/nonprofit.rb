@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class Nonprofit < ApplicationRecord
   attr_accessor :register_np_only, :user_id, :user
-  Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
+  Categories = ["Public Benefit", "Human Services", "Education", "Civic Duty", "Human Rights", "Animals", "Environment", "Health", "Arts, Culture, Humanities", "International", "Children", "Religion", "LGBTQ", "Women's Rights", "Disaster Relief", "Veterans"].freeze
 
   include Image::AttachmentExtensions
 
@@ -72,9 +72,9 @@ class Nonprofit < ApplicationRecord
     end
   end
   has_many :tickets, through: :events
-  has_many :roles,        as: :host, dependent: :destroy
+  has_many :roles, as: :host, dependent: :destroy
   has_many :users, through: :roles
-  has_many :admins, -> { where('name = ?', :nonprofit_admin) }, through: :roles, class_name: 'User', autosave: true, source: :user do
+  has_many :admins, -> { where("name = ?", :nonprofit_admin) }, through: :roles, class_name: "User", autosave: true, source: :user do
     def build_admin(**kwargs)
       build(kwargs.merge({name: :nonprofit_admin}))
     end
@@ -82,52 +82,50 @@ class Nonprofit < ApplicationRecord
   has_many :custom_field_definitions, dependent: :destroy
   has_many :tag_definitions, dependent: :destroy
 
-  has_many :activities,   as: :host, dependent: :destroy
+  has_many :activities, as: :host, dependent: :destroy
   has_many :imports
   has_many :email_settings
 
-  has_one :bank_account, -> { where('COALESCE(deleted, false) = false') },
-          dependent: :destroy
+  has_one :bank_account, -> { where("COALESCE(deleted, false) = false") },
+    dependent: :destroy
   has_one :billing_subscription, dependent: :destroy
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
- 
+
   validates_associated :admins, on: :create
   validates :name, presence: true
   validates :city, presence: true
   validates :state_code, presence: true
-  validates_format_of :email,  with: Email::Regex, allow_nil: true
-  validates_presence_of :slug
-  validates_uniqueness_of :slug, scope: %i[city_slug state_code_slug]
-  validates :website, url: { schemes: ['http', 'https'], public_suffix: true, no_local: true }, allow_nil: true
+  validates :email, format: {with: Email::Regex, allow_nil: true}
+  validates :slug, presence: true
+  validates :slug, uniqueness: {scope: %i[city_slug state_code_slug]}
+  validates :website, url: {schemes: ["http", "https"], public_suffix: true, no_local: true}, allow_nil: true
 
-  validates_presence_of :user_id, on: :create, unless: -> {register_np_only}
-  validate :user_is_valid, on: :create, unless: -> {register_np_only}
-  validate :user_registerable_as_admin, on: :create, unless: -> {register_np_only}
+  validates :user_id, presence: {on: :create, unless: -> { register_np_only }}
+  validate :user_is_valid, on: :create, unless: -> { register_np_only }
+  validate :user_registerable_as_admin, on: :create, unless: -> { register_np_only }
   validate :timezone_is_valid
   validate :state_is_valid
 
   scope :vetted, -> { where(vetted: true) }
-  scope :identity_verified, -> { where(verification_status: 'verified') }
+  scope :identity_verified, -> { where(verification_status: "verified") }
   scope :published, -> { where(published: true) }
 
   has_one_attached :main_image
   has_one_attached :background_image
   has_one_attached :logo
- 
+
   # way too wordy
   has_one_attached_with_sizes(:logo, {small: 30, normal: 100, large: 180})
-  has_one_attached_with_sizes(:background_image, {normal: [1000,600]})
+  has_one_attached_with_sizes(:background_image, {normal: [1000, 600]})
   has_one_attached_with_sizes(:main_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
 
-
-  has_one_attached_with_default(:logo, Houdini.defaults.image.profile, 
+  has_one_attached_with_default(:logo, Houdini.defaults.image.profile,
     filename: "logo_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
-  has_one_attached_with_default(:background_image, Houdini.defaults.image.nonprofit, 
-      filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.nonprofit).extname}")
-  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile, 
-      filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
-
+  has_one_attached_with_default(:background_image, Houdini.defaults.image.nonprofit,
+    filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.nonprofit).extname}")
+  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile,
+    filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
 
   before_validation(on: :create) do
     set_slugs
@@ -137,17 +135,17 @@ class Nonprofit < ApplicationRecord
     self
   end
 
-  after_create :build_admin_role, unless: -> {register_np_only}
+  after_create :build_admin_role, unless: -> { register_np_only }
 
   # Register (create) a nonprofit with an initial admin
   def self.register(user, params)
     np = create ConstructNonprofit.construct(user, params)
-    role = Role.create(user: user, name: 'nonprofit_admin', host: np) if np.valid?
+    Role.create(user: user, name: "nonprofit_admin", host: np) if np.valid?
     np
   end
 
   def nonprofit_personnel_emails
-    roles.nonprofit_personnel.joins(:user).pluck('users.email')
+    roles.nonprofit_personnel.joins(:user).pluck("users.email")
   end
 
   def total_recurring
@@ -155,13 +153,13 @@ class Nonprofit < ApplicationRecord
   end
 
   def as_json(options = {})
-    h = super(options)
+    h = super
     h[:url] = url
     h
   end
 
   def state_is_valid
-    errors.add(:state_code, 'must be a US two-letter state code') unless ISO3166::Country[:US].subdivisions.has_key? state_code&.upcase
+    errors.add(:state_code, "must be a US two-letter state code") unless ISO3166::Country[:US].subdivisions.has_key? state_code&.upcase
   end
 
   def url
@@ -180,18 +178,16 @@ class Nonprofit < ApplicationRecord
     end
     self
   end
- 
+
   def correct_nonunique_slug
-    begin
-        slug = SlugNonprofitNamingAlgorithm.new(self.state_code_slug, self.city_slug).create_copy_name(self.slug)
-        self.slug = slug
-    rescue UnableToCreateNameCopyError
-      errors.add(:slug, "could not be created.")
-    end
+    slug = SlugNonprofitNamingAlgorithm.new(state_code_slug, city_slug).create_copy_name(self.slug)
+    self.slug = slug
+  rescue UnableToCreateNameCopyError
+    errors.add(:slug, "could not be created.")
   end
 
   def set_user
-    if (user_id && User.where(id: user_id).any?)
+    if user_id && User.where(id: user_id).any?
       @user = User.find(user_id)
     end
     self
@@ -202,12 +198,12 @@ class Nonprofit < ApplicationRecord
   end
 
   def total_raised
-    QueryPayments.get_payout_totals(QueryPayments.ids_for_payout(id))['net_amount']
+    QueryPayments.get_payout_totals(QueryPayments.ids_for_payout(id))["net_amount"]
   end
 
   def can_make_payouts
     vetted &&
-      verification_status == 'verified' &&
+      verification_status == "verified" &&
       bank_account &&
       !bank_account.pending_verification
   end
@@ -219,22 +215,23 @@ class Nonprofit < ApplicationRecord
   concerning :JBuilder do
     include Model::Jbuilder
 
-    def to_builder(*expand) 
+    def to_builder(*expand)
       init_builder(*expand) do |json|
-        json.(self, :id, :name)
+        json.call(self, :id, :name)
       end
     end
   end
 
-private 
-  def build_admin_role 
-    role = user.roles.build(host: self, name: 'nonprofit_admin')
+  private
+
+  def build_admin_role
+    role = user.roles.build(host: self, name: "nonprofit_admin")
     role.save!
   end
 
   def add_billing_subscription
     billing_plan = BillingPlan.find(Houdini.default_bp)
-    b_sub = build_billing_subscription(billing_plan: billing_plan, status: 'active')
+    build_billing_subscription(billing_plan: billing_plan, status: "active")
   end
 
   def add_scheme_to_website
@@ -244,10 +241,10 @@ private
       host = uri && uri.host
       scheme = uri && uri.scheme
 
-      valid_scheme = host && scheme
-      valid_website = website && website.include?('.')
+      host && scheme
+      valid_website = website && website.include?(".")
 
-      self.website = 'http://' + website if scheme.blank? && valid_website
+      self.website = "http://" + website if scheme.blank? && valid_website
     rescue URI::InvalidURIError => e
       e
     end
@@ -265,11 +262,7 @@ private
 
   def timezone_is_valid
     timezone.blank? or
-      ActiveSupport::TimeZone.all.map{ |t| t.tzinfo.name }.include?(timezone) or
-      errors.add(:timezone, 'is not a valid timezone')
+      ActiveSupport::TimeZone.all.map { |t| t.tzinfo.name }.include?(timezone) or
+      errors.add(:timezone, "is not a valid timezone")
   end
 end
-
-
-
-

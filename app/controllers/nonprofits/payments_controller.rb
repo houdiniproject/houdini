@@ -5,7 +5,7 @@
 module Nonprofits
   class PaymentsController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
 
     before_action :authenticate_nonprofit_user!
 
@@ -29,7 +29,7 @@ module Nonprofits
         @nonprofit = current_nonprofit
         @user = current_user_id
         ExportPayments.initiate_export(@nonprofit.id, params, @user)
-      rescue StandardError => e
+      rescue => e
         e
       end
       if e.nil?
@@ -56,7 +56,7 @@ module Nonprofits
       @payment = current_nonprofit.payments.find(params[:id])
       if @payment.offsite_payment.nil?
         render json: {}, status: :unprocessable_entity
-        return # You may only destroy offline payments
+        nil # You may only destroy offline payments
       else
         @payment.donation.destroy if @payment.donation.present?
         @payment.tickets.destroy_all if @payment.tickets.present?

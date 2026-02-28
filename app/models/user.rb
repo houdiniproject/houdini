@@ -29,13 +29,13 @@ class User < ApplicationRecord
   attr_accessor :offsite_donation_id, :current_password
 
   validates :email,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            format: { with: Email::Regex }
+    presence: true,
+    uniqueness: {case_sensitive: false},
+    format: {with: Email::Regex}
 
   has_many :donations, through: :profile
-  has_many :roles,     dependent: :destroy
-  has_one  :profile,   dependent: :destroy
+  has_many :roles, dependent: :destroy
+  has_one :profile, dependent: :destroy
   has_many :imports
   has_many :email_settings
 
@@ -61,10 +61,10 @@ class User < ApplicationRecord
     u = User.create!(params)
     u.send_confirmation_instructions
     u
-   end
+  end
 
   def self.find_or_create_with_email(em)
-    user = where('lower(email) = ?', em.downcase).first
+    user = where("lower(email) = ?", em.downcase).first
     return user if user.present?
 
     User.create!(email: em, auto_generated: true)
@@ -78,8 +78,8 @@ class User < ApplicationRecord
   # https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview
   def self.new_with_session(params, session)
     super.tap do |user|
-      if data = session['devise.facebook_data'] && session['devise.facebook_data']['extra']['raw_info']
-        user.email = data['email'] if user.email.blank?
+      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
+        user.email = data["email"] if user.email.blank?
       end
     end
   end

@@ -10,11 +10,10 @@ FactoryBot.define do
     sequence(:slug) { |i| "slug_#{i}" }
   end
 
-  factory :fv_poverty_fighting_campaign, class: 'Campaign' do
-    name { "Fighting Poverty 2021"}
-    goal_amount { 10000}
-    
-    
+  factory :fv_poverty_fighting_campaign, class: "Campaign" do
+    name { "Fighting Poverty 2021" }
+    goal_amount { 10000 }
+
     factory :fv_poverty_fighting_campaign_with_nonprofit_and_profile do
       nonprofit { create(:fv_poverty) }
       profile

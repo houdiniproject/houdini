@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'timespan'
+require "timespan"
 
 class RecurringDonation < ApplicationRecord
   # :amount, # int (cents)
@@ -20,10 +20,10 @@ class RecurringDonation < ApplicationRecord
   # :nonprofit_id, :nonprofit,
   # :supporter_id #used because things are messed up in the datamodel
 
-  scope :active,   -> { where(active: true) }
+  scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: [false, nil]) }
-  scope :monthly,  -> { where(time_unit: 'month', interval: 1) }
-  scope :annual,   -> { where(time_unit: 'year', interval: 1) }
+  scope :monthly, -> { where(time_unit: "month", interval: 1) }
+  scope :annual, -> { where(time_unit: "year", interval: 1) }
 
   belongs_to :donation
   belongs_to :nonprofit
@@ -32,12 +32,12 @@ class RecurringDonation < ApplicationRecord
   has_one :supporter, through: :donation
   has_one :recurrence
 
-  validates :paydate, numericality: { less_than: 29 }, allow_blank: true
+  validates :paydate, numericality: {less_than: 29}, allow_blank: true
   validates :donation_id, presence: true
   validates :nonprofit_id, presence: true
   validates :start_date, presence: true
-  validates :interval, presence: true, numericality: { greater_than: 0 }
-  validates :time_unit, presence: true, inclusion: { in: Timespan::Units }
+  validates :interval, presence: true, numericality: {greater_than: 0}
+  validates :time_unit, presence: true, inclusion: {in: Timespan::Units}
   validates_associated :donation
 
   delegate :designation, :dedication, to: :donation
@@ -51,6 +51,6 @@ class RecurringDonation < ApplicationRecord
   end
 
   def total_given
-    return charges.find_all(&:paid?).sum(&:amount) if charges
+    charges.find_all(&:paid?).sum(&:amount) if charges
   end
 end

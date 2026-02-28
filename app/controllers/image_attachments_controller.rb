@@ -9,7 +9,7 @@ class ImageAttachmentsController < ApplicationController
     # http://editor.froala.com/server-integrations/php-image-upload
     @image = ImageAttachment.new(clean_params_create)
     if @image.save
-      render json: { link: url_for(@image.file) }
+      render json: {link: url_for(@image.file)}
     else
       render json: @image.errors.full_messages, status: :unprocessable_entity
     end
@@ -26,6 +26,7 @@ class ImageAttachmentsController < ApplicationController
   end
 
   private
+
   def clean_params_create
     params.require(:file)
   end

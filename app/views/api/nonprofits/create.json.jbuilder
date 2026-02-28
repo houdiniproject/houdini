@@ -15,6 +15,6 @@ json.website @nonprofit.website
 json.phone @nonprofit.phone
 
 json.urls do
-    json.plain_url nonprofit_url(@nonprofit)
-    json.slug_url nonprofit_slug_url(@nonprofit)
+  json.plain_url nonprofit_url(@nonprofit)
+  json.slug_url nonprofit_slug_url(@nonprofit)
 end

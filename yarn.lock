@@ -9228,10 +9228,10 @@ ignore@^5.1.1, ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
 
-immutable@3.7.5:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.5.tgz#557d03e5c2adb979f4cdee49454434c09c3610e4"
-  integrity sha1-VX0D5cKtuXn0ze5JRUQ0wJw2EOQ=
+immutable@3.8.3:
+  version "3.8.3"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.3.tgz#0a8d2494a94d4b2d4f0e99986e74dd25d1e9a859"
+  integrity sha512-AUY/VyX0E5XlibOmWt10uabJzam1zlYjwiEgQSDc5+UIkFNaF9WM0JxXKaNMGf+F/ffUF+7kRKXM9A7C0xXqMg==
 
 import-cwd@^2.0.0:
   version "2.1.0"

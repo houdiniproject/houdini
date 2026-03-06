@@ -126,7 +126,7 @@
     "hoist-non-react-statics": "^3.3.0",
     "i18n-js": "^3.0.3",
     "iban": "0.0.8",
-    "immutable": "3.7.5",
+    "immutable": "3.8.3",
     "jquery": "3.5.0",
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.21",

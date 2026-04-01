@@ -3,7 +3,7 @@ module Nonprofits
   class SupportersController < ApplicationController
     include Controllers::NonprofitHelper
 
-    before_action :authenticate_nonprofit_user!, except: [:new, :create]
+    before_action :authenticate_nonprofit_user!, except: [:create]
 
     before_action :validate_allowed!, only: [:create]
     rescue_from ::TempBlockError, with: :handle_temp_block_error
@@ -19,7 +19,7 @@ module Nonprofits
         end
 
         format.csv do
-          file_date = Date.today.to_fs(:mdy)
+          file_date = Time.zone.today.to_fs(:mdy)
           supporters = QuerySupporters.for_export(params[:nonprofit_id], params)
           send_data(Format::Csv.from_vectors(supporters), filename: "supporters-#{file_date}.csv")
         end
@@ -53,11 +53,13 @@ module Nonprofits
     end
 
     def email_address
-      render json: Supporter.find(params[:id]).email
+      supporter = current_nonprofit.supporters.find(params[:id])
+      render json: supporter.email
     end
 
     def full_contact
-      fc = FullContactInfo.where("supporter_id= ?", params[:id]).first
+      supporter = current_nonprofit.supporters.find(params[:id])
+      fc = supporter.full_contact_infos.first
       if fc
         render json: {full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id)}
       else
@@ -66,7 +68,8 @@ module Nonprofits
     end
 
     def info_card
-      render json: QuerySupporters.for_info_card(params[:id])
+      supporter = current_nonprofit.supporters.find(params[:id])
+      render json: QuerySupporters.for_info_card(supporter.id)
     end
 
     # post /nonprofits/:nonprofit_id/supporters
@@ -82,7 +85,7 @@ module Nonprofits
 
     def bulk_delete
       supporter_ids = if params[:selecting_all]
-        QuerySupporters.full_filter_expr(current_nonprofit.id, params[:query]).select("supporters.id").execute.map { |h| h["id"] }
+        QuerySupporters.full_filter_expr(current_nonprofit.id, params[:query]).select("supporters.id").execute.map { |h| h["id"] } # rubocop:disable Rails/Pluck
       else
         params[:supporter_ids].map(&:to_i)
       end
@@ -92,7 +95,8 @@ module Nonprofits
     # get /nonprofits/:nonprofit_id/supporters/merge_data
     # returns the info required to merge two supporters
     def merge_data
-      render json: QuerySupporters.merge_data(params[:ids])
+      supporter_ids = current_nonprofit.supporters.where(id: params[:ids]).pluck(:id)
+      render json: QuerySupporters.merge_data(supporter_ids)
     end
 
     # post /nonprofits/:nonprofit_id/supporters/merge

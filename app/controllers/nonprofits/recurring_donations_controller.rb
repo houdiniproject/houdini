@@ -58,8 +58,8 @@ module Nonprofits
     end
 
     def destroy
-      UpdateRecurringDonations.cancel(params[:id], current_user.email)
-      json_saved current_recurring_donation
+      UpdateRecurringDonations.cancel(current_recurring_donation.id, current_user.email)
+      json_saved current_recurring_donation.reload
     end
 
     def update

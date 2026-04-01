@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby ENV["CUSTOM_RUBY_VERSION"] || "3.3.8" # heroku needs a specific ruby version in the Gemfile
+ruby ENV["CUSTOM_RUBY_VERSION"] || "3.3.10" # heroku needs a specific ruby version in the Gemfile
 
 gem "rake"
 gem "rails", "~> 7.1.5.1"
@@ -127,11 +127,6 @@ gem "terser"
 
 gem "config", "~> 2.0"
 gem "dry-validation" # used only for config validation
-
-group :production do
-  gem "rails-autoscale-web"
-  gem "tunemygc"
-end
 
 group :production, :staging do
   gem "hiredis", "~> 0.6.0"

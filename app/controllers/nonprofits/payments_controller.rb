@@ -43,7 +43,7 @@ module Nonprofits
 
     def update
       @payment = current_nonprofit.payments.find(params[:id])
-      @payment.update_attributes(params[:payment])
+      @payment.update(params[:payment])
       json_saved @payment
     end
 
@@ -64,7 +64,7 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/payments/:id/resend_donor_receipt
     def resend_donor_receipt
-      payment = Payment.find(params[:id])
+      payment = current_nonprofit.payments.find(params[:id])
       if payment.kind == "Donation" || payment.kind == "RecurringDonation"
         JobQueue.queue(JobTypes::DonorPaymentNotificationJob, payment.donation.id, payment.id)
       elsif payment.kind == "Ticket"
@@ -78,7 +78,7 @@ module Nonprofits
     # post /nonprofits/:nonprofit_id/payments/:id/resend_admin_receipt
     # pass user_id of the admin to send to
     def resend_admin_receipt
-      payment = Payment.find(params[:id])
+      payment = current_nonprofit.payments.find(params[:id])
       if payment.kind == "Donation" || payment.kind == "RecurringDonation"
         JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, payment.donation.id, payment.id, current_user.id)
       elsif payment.kind == "Ticket"

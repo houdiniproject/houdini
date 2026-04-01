@@ -47,4 +47,54 @@ describe Nonprofits::SupportersController, type: :controller do
       include_context :open_to_all, :post, :create, nonprofit_id: :__our_np
     end
   end
+
+  describe "insecure direct object reference protection" do
+    let(:other_np_supporter) { create(:supporter, nonprofit: other_nonprofit) }
+
+    describe "email_address" do
+      it "prevents access to supporter belonging to another nonprofit" do
+        sign_in user_as_np_admin
+        expect do
+          get :email_address, params: {nonprofit_id: nonprofit.id,
+                                       id: other_np_supporter.id}
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    describe "full_contact" do
+      it "prevents access to supporter belonging to another nonprofit" do
+        sign_in user_as_np_admin
+        expect do
+          get :full_contact, params: {nonprofit_id: nonprofit.id,
+                                      id: other_np_supporter.id}
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    describe "info_card" do
+      it "prevents access to supporter belonging to another nonprofit" do
+        sign_in user_as_np_admin
+        expect do
+          get :info_card, params: {nonprofit_id: nonprofit.id,
+                                   id: other_np_supporter.id}
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    describe "merge_data" do
+      it "filters out supporters belonging to another nonprofit" do
+        our_supporter = create(:supporter, nonprofit: nonprofit)
+        sign_in user_as_np_admin
+
+        get :merge_data, params: {nonprofit_id: nonprofit.id,
+                                  ids: [our_supporter.id, other_np_supporter.id]}
+
+        expect(response).to have_http_status(:ok)
+        response_body = JSON.parse(response.body)
+        returned_ids = response_body.map { |s| s["id"] }
+        expect(returned_ids).to include(our_supporter.id)
+        expect(returned_ids).not_to include(other_np_supporter.id)
+      end
+    end
+  end
 end

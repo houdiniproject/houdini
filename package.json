@@ -158,7 +158,7 @@
     "superagent": "^8",
     "swr": "^1.0.0",
     "universal-cookie": "^4.0.4",
-    "uuid": "2.0.2",
+    "uuid": "14.0.0",
     "validator": "^9.4.1",
     "vdom-thunk": "3.0.0",
     "view-script": "0.3.6",

@@ -267,7 +267,8 @@ GEM
     hashie (4.0.0)
     hiredis (0.6.3)
     htmlentities (4.3.4)
-    httparty (0.21.0)
+    httparty (0.24.0)
+      csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     i18n (1.14.7)
@@ -351,7 +352,8 @@ GEM
       i18n (>= 0.6.4, <= 2)
     msgpack (1.8.0)
     multi_json (1.15.0)
-    multi_xml (0.6.0)
+    multi_xml (0.9.1)
+      bigdecimal (>= 3.1, < 5)
     mutex_m (0.3.0)
     net-imap (0.5.14)
       date

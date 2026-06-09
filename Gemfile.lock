@@ -364,7 +364,7 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    nio4r (2.7.0)
+    nio4r (2.7.5)
     nokogiri (1.19.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -405,7 +405,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (6.6.1)
+    puma (7.2.1)
       nio4r (~> 2.0)
     rabl (0.17.0)
       activesupport (>= 2.3.14)
@@ -683,7 +683,7 @@ DEPENDENCIES
   protected_attributes_continued
   pry
   pry-byebug
-  puma (~> 6.0)
+  puma (~> 7.2)
   qx!
   rabl
   rack (~> 2.2.23)

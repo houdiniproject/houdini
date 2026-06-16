@@ -17,7 +17,7 @@ gem "rabl"
 
 gem "jbuilder"
 
-gem "puma", "~> 6.0"
+gem "puma", "~> 7.2"
 
 gem "kaminari"
 

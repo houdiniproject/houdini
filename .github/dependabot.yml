@@ -23,6 +23,9 @@ updates:
       - dependency-name: sprockets # Sprockets 4.0 stops allowing us to add a proc to the config.assets.precompile array, which we currently use
         versions:
           - ">=4"
+      - dependency-name: minitest # minitest 6 has incompatibilities with Rails, especially old ones. We need to lock that below 6.
+        versions:
+          - ">= 6"
     groups:
       development-dependencies-minor:
         dependency-type: development

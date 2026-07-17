@@ -89,6 +89,8 @@ gem "csv" # needed on Ruby 3.4
 
 gem "maintenance_tasks" # for running useful maintenance scripts that aren't part of a migration
 
+gem "minitest", "< 6" # minitest 6 has some incompatibilities with Rails especially old ones. Let's lock to under 6
+
 group :development, :ci, :test do
   gem "dumpcar"
   gem "standard"

@@ -624,7 +624,7 @@ GEM
     yaaf (3.0.2)
       activemodel (>= 5.2)
       activerecord (>= 5.2)
-    yard (0.9.42)
+    yard (0.9.44)
     zeitwerk (2.7.3)
 
 PLATFORMS

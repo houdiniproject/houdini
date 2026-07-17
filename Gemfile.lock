@@ -680,6 +680,7 @@ DEPENDENCIES
   lograge
   maintenance_tasks
   mini_magick
+  minitest (< 6)
   param_validation!
   pg (~> 1.5.9)
   premailer-rails

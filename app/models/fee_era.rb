@@ -105,7 +105,7 @@ class FeeEra < ApplicationRecord
     application_fee = opts[:application_fee]
     charge = opts[:charge]
     refund = opts[:refund]
-    stripe_fee_to_reserve = refund_stripe_fee? ? 0 : calculate_stripe_fee(amount: charge.amount, source: charge.source)
+    stripe_fee_to_reserve = refund_stripe_fee? ? 0 : calculate_stripe_fee(amount: charge.amount, source: ChargeCard.of(charge))
     max_fee_to_refund = application_fee.amount - stripe_fee_to_reserve
     refundable_fee_left = max_fee_to_refund - application_fee.amount_refunded
     if refundable_fee_left <= 0

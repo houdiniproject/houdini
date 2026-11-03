@@ -176,4 +176,22 @@ RSpec.describe FeeEra, type: :model do
       end
     end
   end
+
+  describe "#calculate_application_fee_refund" do
+    subject(:fee_era) { create(:fee_era_with_structures) }
+
+    let(:application_fee) { Stripe::ApplicationFee.construct_from({id: "fee_1", amount: 600, amount_refunded: 0}) }
+    let(:refund) { Stripe::Refund.construct_from({charge: "ch_1", amount: 10000}) }
+    let(:source_charge) {
+      Stripe::Charge.construct_from({id: "ch_1", amount: 10000, refunded: true, source: amex_card})
+    }
+    let(:payment_intent_charge) {
+      Stripe::Charge.construct_from({id: "ch_1", amount: 10000, refunded: true, source: nil, payment_method_details: {type: "card", card: {brand: "amex", country: "UK", wallet: {type: "apple_pay"}}}})
+    }
+
+    it "refunds the same fee for a PaymentIntent charge as for a charge with the same card as its source" do
+      expected = fee_era.calculate_application_fee_refund(charge: source_charge, refund: refund, application_fee: application_fee)
+      expect(fee_era.calculate_application_fee_refund(charge: payment_intent_charge, refund: refund, application_fee: application_fee)).to eq expected
+    end
+  end
 end

@@ -16,7 +16,7 @@ module Nonprofits
     end
 
     def create
-      json_saved current_nonprofit.tag_masters.create(current_nonprofit, tag_master_params)
+      json_saved current_nonprofit.tag_masters.create(tag_master_params)
     end
 
     def destroy

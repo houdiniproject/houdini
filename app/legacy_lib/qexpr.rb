@@ -229,7 +229,7 @@ class Qexpr
   # An alias of PG.quote_ident, for convenience sake
   # Double-quotes sql identifiers
   def self.quote_ident(str)
-    str.split(".").map { |s| "\"#{s}\"" }.join(".")
+    str.split(".").map { |s| "\"#{s.gsub('"', '""')}\"" }.join(".")
   end
 
   # sql-quoted datetime value useful for created_at and updated_at columns

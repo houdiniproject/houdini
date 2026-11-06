@@ -501,7 +501,7 @@ class Qx
     if expr.is_a?(Qx)
       Qx.parse(expr.tree)
     else
-      expr.to_s.split(".").map { |s| (s == "*") ? s : "\"#{s}\"" }.join(".")
+      expr.to_s.split(".").map { |s| (s == "*") ? s : "\"#{s.gsub('"', '""')}\"" }.join(".")
     end
   end
 

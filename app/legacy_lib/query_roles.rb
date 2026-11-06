@@ -4,6 +4,7 @@ module QueryRoles
     expr = Qx.select("COUNT(roles)").from(:roles)
       .where("name IN ($names)", names: Array(role_names))
       .and_where(user_id: user_id)
+      .and_where("(roles.name NOT IN ('super_admin', 'super_associate') OR roles.host_id IS NULL)") # super roles are only global
     expr = expr.and_where(host_id: host_id) if host_id
     expr.execute.first["count"] > 0
   end

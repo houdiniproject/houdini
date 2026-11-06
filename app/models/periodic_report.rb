@@ -47,7 +47,7 @@ class PeriodicReport < ApplicationRecord
 
   def users_authorized_to_have_report?
     users.each do |user|
-      unless nonprofit.users.include?(user) || user.roles&.pluck(:name)&.include?("super_admin")
+      unless nonprofit.users.include?(user) || user.roles&.where(name: "super_admin", host_id: nil)&.exists?
         errors.add(:users, "must be a user of the nonprofit or a super admin")
       end
     end

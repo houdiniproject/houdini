@@ -29,7 +29,7 @@ module QueryUsers
   # Return an array of email address strings for all users with role of 'super_admin'
   def self.super_admin_emails
     Qx.select("users.email").from("users")
-      .join("roles", "roles.user_id=users.id AND roles.name='super_admin'")
+      .join("roles", "roles.user_id=users.id AND roles.name='super_admin' AND roles.host_id IS NULL")
       .ex.map { |h| h["email"] }
   end
 end

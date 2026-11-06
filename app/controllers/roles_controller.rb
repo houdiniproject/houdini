@@ -5,7 +5,12 @@ class RolesController < ApplicationController
   before_action :authenticate_nonprofit_admin!
 
   def create
-    role = Role.create_for_nonprofit(params[:role][:name].to_sym, params[:role][:email], FetchNonprofit.with_params(params))
+    role_name = params[:role][:name].to_s.to_sym
+    unless Role::NonprofitGrantableNames.include?(role_name)
+      return render json: ["Role must be one of #{Role::NonprofitGrantableNames.join(", ")}"], status: :unprocessable_entity
+    end
+
+    role = Role.create_for_nonprofit(role_name, params[:role][:email], FetchNonprofit.with_params(params))
     json_saved role, "User successfully added!"
   end
 

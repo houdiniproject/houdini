@@ -63,11 +63,13 @@ if ENV["AIRBRAKE_PROJECT_ID"] && ENV["AIRBRAKE_API_KEY"]
   # 	config.ignore << "SIGTERM"
   # end
 
+  # RoutingError and UnknownFormat are 404s and bad formats, mostly from bots probing URLs
   ignore_exceptions = [ActionDispatch::RemoteIp::IpSpoofAttackError, Encoding::CompatibilityError,
-    EOFError, [SignalException, lambda { |e| e.signo == Signal.list["TERM"] }]]
+    EOFError, [SignalException, lambda { |e| e.signo == Signal.list["TERM"] }],
+    ActionController::RoutingError, ActionController::UnknownFormat]
   Airbrake.add_filter do |notice|
     ignore_exceptions.each do |type|
-      if type.class == Array
+      if type.is_a?(Array)
         notice.ignore! if notice.stash[:exception].is_a?(type[0]) && type[1].call(notice.stash[:exception])
       elsif notice.stash[:exception].is_a?(type)
         notice.ignore!

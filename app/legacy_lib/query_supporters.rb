@@ -98,10 +98,6 @@ module QuerySupporters
       ) AS last_contribution",
       "payments.sum AS total_raised"
     ]
-    if query[:select]
-      select += query[:select].split(",")
-    end
-
     supps = full_filter_expr(np_id, query)
       .select(*select)
       .paginate(query[:page].to_i, 30)
@@ -120,10 +116,6 @@ module QuerySupporters
       "to_char(payments.max_date, 'MM/DD/YY') AS last_contribution",
       "payments.sum AS total_raised"
     ]
-    if query[:select]
-      select += query[:select].split(",")
-    end
-
     supps = full_filter_expr(np_id, query)
       .select(*select)
       .paginate(query[:page].to_i, query[:page_length].to_i)

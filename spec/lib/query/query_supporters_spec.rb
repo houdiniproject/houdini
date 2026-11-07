@@ -190,6 +190,15 @@ describe QuerySupporters do
       expect(result[:data][1]["tags"]).to eq nil
     end
 
+    it "ignores a select param" do
+      supporter1
+      supporter2
+      result = QuerySupporters.full_search(np.id, {select: "1 AS injected FROM supporters --"})
+
+      expect(result[:data].count).to eq 2
+      expect(result[:data].first).not_to have_key("injected")
+    end
+
     context 'when searching by "at least" contributed' do
       it "finds the supporter who raised exactly what was being looked for" do
         result = QuerySupporters.full_search(np.id, {total_raised_greater_than_or_equal: "22.22"})

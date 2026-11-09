@@ -79,7 +79,7 @@ class Event < ApplicationRecord
   scope :past, -> { where("end_datetime < ?", Date.today).published }
   scope :unpublished, -> { where.not(published: true) }
 
-  validates :slug, uniqueness: {scope: :nonprofit_id, message: "You already have a campaign with that name."}
+  validates :slug, uniqueness: {scope: :nonprofit_id, message: "You already have an event with that name."}
 
   before_validation(on: :create) do
     unless slug

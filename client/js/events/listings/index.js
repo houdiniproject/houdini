@@ -16,27 +16,31 @@ module.exports = pathPrefix => {
   const init = _ => {
     return {
       active:      get('active')
-    , past:        get('past') 
-    , unpublished: get('unpublished') 
-    , deleted:     get('deleted') 
+    , past:        get('past')
+    , unpublished: get('unpublished')
+    , deleted:     get('deleted')
     }
   }
 
   const listings = (key, state) => {
     const resp$ = state[key]
-    const sectionForEventType = content =>
-      h('section.u-marginBottom--30', [
-        h('h5.u-centered.u-marginBottom--20', upperFirst(key) + ' Events')
-      , h(`div.fundraiser--${key}`, content)
+    const sectionForEventType = (content, count) =>
+      h('section.u-marginBottom--20.u-marginTop--30', [
+        h('h4.u-marginBottom--0.u-paddingX--20', `${count} ${upperFirst(key)} Events`)
+      , h(`div`, content)
       ])
-    if(!resp$()) 
-      return sectionForEventType([h('p.u-padding--15', 'Loading...')])
-    if(!resp$().body.length) 
-      return sectionForEventType([h('p.u-padding--15', `No ${key} events`)])
-    return sectionForEventType(resp$().body.map(listing));
+
+    if(!resp$())
+      return sectionForEventType([h(`p.u-padding--15.fundraiser--${key}`, 'Loading...')], 0)
+
+    const numberElems = resp$().body.length
+    if(!numberElems)
+      return sectionForEventType([h(`p.u-padding--15.fundraiser--${key}`, `No ${key} events`)], 0)
+
+    return sectionForEventType(resp$().body.map(item => listing(item, key)), numberElems);
   }
 
-  const view = state => 
+  const view = state =>
     h('div', [
       listings('active', state)
     , listings('past', state)

@@ -36,6 +36,7 @@ class User < ApplicationRecord
   scope :nonprofit_admins, -> { includes(:roles).where("roles.name = 'nonprofit_admin'").references(:roles) }
   scope :nonprofit_associates, -> { includes(:roles).where("roles.name = 'nonprofit_associate'").references(:roles) }
   scope :nonprofit_personnel, -> { includes(:roles).where("roles.name = 'nonprofit_admin' OR roles.name='nonprofit_associate' ").references(:roles) }
+  scope :super_admins, -> { includes(:roles).where(roles: {name: "super_admin", host_id: nil}) }
 
   validates :email,
     presence: true,

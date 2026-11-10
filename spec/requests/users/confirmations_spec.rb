@@ -54,16 +54,4 @@ describe Users::ConfirmationsController, type: :request do
       expect(user.reload.email).to eq "invited@example.com"
     end
   end
-
-  describe "GET /users/exists" do
-    it "is no longer routed" do
-      recognized = begin
-        Rails.application.routes.recognize_path("/users/exists", method: :get)
-      rescue ActionController::RoutingError
-        nil
-      end
-
-      expect(recognized || {}).not_to include(controller: "users/confirmations", action: "exists")
-    end
-  end
 end

@@ -370,7 +370,7 @@ UNION DISTINCT
           cfms = Qx.select("name", "id").from(:custom_field_masters).where(nonprofit_id: np_id).and_where("id IN ($ids)", ids: ids).ex
           cfms.compact.map do |cfm|
             table_alias = "cfjs_#{cfm["id"].to_i}"
-            table_alias_quot = "\"#{table_alias}\""
+            table_alias_quot = PG::Connection.quote_ident(table_alias)
             field_join_subq = Qx.select("STRING_AGG(value, ',') as value", "supporter_id")
               .from("custom_field_joins")
               .join("custom_field_masters", "custom_field_masters.id=custom_field_joins.custom_field_master_id")
@@ -447,7 +447,7 @@ UNION DISTINCT
         cfms = Qx.select("name", "id").from(:custom_field_masters).where(nonprofit_id: np_id).and_where("id IN ($ids)", ids: ids).ex
         cfms.compact.map do |cfm|
           table_alias = "cfjs_#{cfm["id"].to_i}"
-          table_alias_quot = "\"#{table_alias}\""
+          table_alias_quot = PG::Connection.quote_ident(table_alias)
           field_join_subq = Qx.select("STRING_AGG(value, ',') as value", "supporter_id")
             .from("custom_field_joins")
             .join("custom_field_masters", "custom_field_masters.id=custom_field_joins.custom_field_master_id")

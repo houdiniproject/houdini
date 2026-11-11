@@ -33,4 +33,24 @@ describe QueryRoles do
       expect(QueryRoles.is_nonprofit_user?(user.id, nonprofit.id)).to be_truthy
     end
   end
+
+  describe "user_has_role?" do
+    it "counts a global super admin" do
+      create(:role, user: user, name: :super_admin)
+
+      expect(QueryRoles.user_has_role?(user.id, [:super_admin])).to be true
+    end
+
+    it "ignores a super admin role attached to a nonprofit" do
+      build(:role, user: user, name: :super_admin, host: nonprofit).save!(validate: false)
+
+      expect(QueryRoles.user_has_role?(user.id, [:super_admin])).to be false
+    end
+
+    it "finds nonprofit roles by host" do
+      nonprofit_admin_role
+
+      expect(QueryRoles.user_has_role?(user.id, [:nonprofit_admin], nonprofit.id)).to be true
+    end
+  end
 end

@@ -89,4 +89,24 @@ describe "Qx and Qexpr value quoting" do
       end
     end
   end
+
+  describe "identifier quoting" do
+    tricky_names = ["plain", "Employer's name", 'say "hi"', '"', 'x" FROM pg_class --', "$Q$"]
+
+    tricky_names.each do |name|
+      it "Qx.quote_ident keeps #{name.inspect} as one column name" do
+        expect(ActiveRecord::Base.connection.select_one("SELECT 1 AS #{Qx.quote_ident(name)}").keys).to eq [name]
+      end
+
+      it "Qexpr.quote_ident keeps #{name.inspect} as one column name" do
+        expect(ActiveRecord::Base.connection.select_one("SELECT 1 AS #{Qexpr.quote_ident(name)}").keys).to eq [name]
+      end
+    end
+
+    it "still splits table.column" do
+      expect(Qx.quote_ident("supporters.name")).to eq '"supporters"."name"'
+      expect(Qexpr.quote_ident("supporters.name")).to eq '"supporters"."name"'
+      expect(Qx.quote_ident("supporters.*")).to eq '"supporters".*'
+    end
+  end
 end

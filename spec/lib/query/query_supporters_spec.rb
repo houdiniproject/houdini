@@ -126,6 +126,25 @@ describe QuerySupporters do
     end
   end
 
+  describe ".for_export_enumerable with custom fields" do
+    ['Employer', "Employer's name", 'say "hi"', 'x" FROM pg_class --', "Dept.Name"].each do |field_name|
+      it "exports a custom field named #{field_name.inspect} as one column" do
+        cfm = force_create(:custom_field_master, nonprofit: np, name: field_name)
+        force_create(:custom_field_join, custom_field_master: cfm, supporter: supporter1, value: "Acme")
+
+        rows = QuerySupporters.for_export_enumerable(np.id, {export_custom_fields: cfm.id.to_s}).to_a
+
+        header = rows.first
+        without_field = QuerySupporters.for_export_enumerable(np.id, {}).to_a.first
+        acme_row = rows.drop(1).find { |row| row.include?("Acme") }
+        # exactly one extra column, holding the value (the export title-cases header names)
+        expect(header.size).to eq without_field.size + 1
+        expect(acme_row.size).to eq header.size
+        expect(acme_row.count("Acme")).to eq 1
+      end
+    end
+  end
+
   describe ".full_search" do
     let(:tag_master1) { create(:tag_master_base, nonprofit: supporter1.nonprofit) }
     let(:tag_master2) { create(:tag_master_base, nonprofit: supporter1.nonprofit) }
@@ -169,6 +188,15 @@ describe QuerySupporters do
       result = QuerySupporters.full_search(np.id, {})
 
       expect(result[:data][1]["tags"]).to eq nil
+    end
+
+    it "ignores a select param" do
+      supporter1
+      supporter2
+      result = QuerySupporters.full_search(np.id, {select: "1 AS injected FROM supporters --"})
+
+      expect(result[:data].count).to eq 2
+      expect(result[:data].first).not_to have_key("injected")
     end
 
     context 'when searching by "at least" contributed' do

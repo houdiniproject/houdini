@@ -9,6 +9,10 @@ class Role < ApplicationRecord
     :event_editor          # //
   ]
 
+  # The roles a nonprofit admin can grant to someone on their own nonprofit
+  NonprofitGrantableNames = [:nonprofit_admin, :nonprofit_associate]
+  SuperNames = [:super_admin, :super_associate]
+
   attr_accessible \
     :name,
     :user_id, :user,
@@ -27,6 +31,8 @@ class Role < ApplicationRecord
   validates :user, presence: true
   validates :name, inclusion: {in: Names}
   validates :host, presence: true, unless: [:super_admin?, :super_associate?]
+  validates :host, absence: true, if: [:super_admin?]
+  validates :host, absence: true, if: [:super_associate?]
 
   def name
     super.to_sym
@@ -41,6 +47,8 @@ class Role < ApplicationRecord
   end
 
   def self.create_for_nonprofit(role_name, email, nonprofit)
+    raise ArgumentError, "#{role_name.inspect} can't be granted on a nonprofit" unless NonprofitGrantableNames.include?(role_name&.to_sym)
+
     user = User.find_or_create_with_email(email, nonprofit.require_two_factor?)
     role = Role.create(user: user, name: role_name, host: nonprofit)
     return role unless role.valid?

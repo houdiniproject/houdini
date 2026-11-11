@@ -98,10 +98,6 @@ module QuerySupporters
       ) AS last_contribution",
       "payments.sum AS total_raised"
     ]
-    if query[:select]
-      select += query[:select].split(",")
-    end
-
     supps = full_filter_expr(np_id, query)
       .select(*select)
       .paginate(query[:page].to_i, 30)
@@ -120,10 +116,6 @@ module QuerySupporters
       "to_char(payments.max_date, 'MM/DD/YY') AS last_contribution",
       "payments.sum AS total_raised"
     ]
-    if query[:select]
-      select += query[:select].split(",")
-    end
-
     supps = full_filter_expr(np_id, query)
       .select(*select)
       .paginate(query[:page].to_i, query[:page_length].to_i)
@@ -377,8 +369,8 @@ UNION DISTINCT
         if ids.any?
           cfms = Qx.select("name", "id").from(:custom_field_masters).where(nonprofit_id: np_id).and_where("id IN ($ids)", ids: ids).ex
           cfms.compact.map do |cfm|
-            table_alias = "cfjs_#{cfm["name"].delete("$")}"
-            table_alias_quot = "\"#{table_alias}\""
+            table_alias = "cfjs_#{cfm["id"].to_i}"
+            table_alias_quot = PG::Connection.quote_ident(table_alias)
             field_join_subq = Qx.select("STRING_AGG(value, ',') as value", "supporter_id")
               .from("custom_field_joins")
               .join("custom_field_masters", "custom_field_masters.id=custom_field_joins.custom_field_master_id")
@@ -386,7 +378,7 @@ UNION DISTINCT
               .group_by(:supporter_id)
               .as(table_alias)
             expr.add_left_join(field_join_subq, "#{table_alias_quot}.supporter_id=supporters.id")
-            selects = selects.concat(["#{table_alias_quot}.value AS \"#{cfm["name"]}\""])
+            selects = selects.concat(["#{table_alias_quot}.value AS #{ActiveRecord::Base.connection.quote_column_name(cfm["name"])}"])
           end
         end
       end
@@ -454,8 +446,8 @@ UNION DISTINCT
       if ids.any?
         cfms = Qx.select("name", "id").from(:custom_field_masters).where(nonprofit_id: np_id).and_where("id IN ($ids)", ids: ids).ex
         cfms.compact.map do |cfm|
-          table_alias = "cfjs_#{cfm["name"].delete("$")}"
-          table_alias_quot = "\"#{table_alias}\""
+          table_alias = "cfjs_#{cfm["id"].to_i}"
+          table_alias_quot = PG::Connection.quote_ident(table_alias)
           field_join_subq = Qx.select("STRING_AGG(value, ',') as value", "supporter_id")
             .from("custom_field_joins")
             .join("custom_field_masters", "custom_field_masters.id=custom_field_joins.custom_field_master_id")
@@ -463,7 +455,7 @@ UNION DISTINCT
             .group_by(:supporter_id)
             .as(table_alias)
           expr.add_left_join(field_join_subq, "#{table_alias_quot}.supporter_id=supporters.id")
-          selects = selects.concat(["#{table_alias_quot}.value AS \"#{cfm["name"]}\""])
+          selects = selects.concat(["#{table_alias_quot}.value AS #{ActiveRecord::Base.connection.quote_column_name(cfm["name"])}"])
         end
       end
     end

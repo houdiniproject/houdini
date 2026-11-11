@@ -33,7 +33,7 @@ RSpec.shared_context :general_shared_user_context do
   }
 
   let(:super_admin) {
-    __create(:super_admin, other_nonprofit)
+    __create(:super_admin, nil) # super roles are global
   }
 
   let(:user_with_profile) {

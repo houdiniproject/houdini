@@ -1,4 +1,5 @@
 require "active_record"
+require "pg"
 require "colorize"
 
 class Qx
@@ -501,7 +502,7 @@ class Qx
     if expr.is_a?(Qx)
       Qx.parse(expr.tree)
     else
-      expr.to_s.split(".").map { |s| (s == "*") ? s : "\"#{s}\"" }.join(".")
+      expr.to_s.split(".").map { |s| (s == "*") ? s : PG::Connection.quote_ident(s) }.join(".")
     end
   end
 

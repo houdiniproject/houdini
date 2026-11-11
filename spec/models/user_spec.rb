@@ -38,6 +38,21 @@ RSpec.describe User, type: :model do
     it { expect(user_as_nonprofit_associate.administered_nonprofit).to be_present }
   end
 
+  describe ".super_admins" do
+    let(:nonprofit) { create(:nonprofit_base) }
+    let!(:super_admin) { create(:user).tap { |u| create(:role, user: u, name: :super_admin) } }
+    let!(:hosted_super_admin) { create(:user).tap { |u| build(:role, user: u, name: :super_admin, host: nonprofit).save!(validate: false) } }
+    let!(:user_as_nonprofit_admin) { create(:user_as_nonprofit_admin) }
+
+    it "returns only users with a global super_admin role" do
+      expect(User.super_admins).to contain_exactly(super_admin)
+    end
+
+    it "gives QueryUsers.super_admin_emails their email addresses" do
+      expect(QueryUsers.super_admin_emails).to eq [super_admin.email]
+    end
+  end
+
   describe ".send_reset_password_instructions" do
     context "with a valid email address" do
       context "when the user hasn't requested a reset password token before" do
